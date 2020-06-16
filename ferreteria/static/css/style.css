@@ -1,0 +1,43 @@
+.aaa:hover{ 
+    font-size: 20px;
+    background: white;
+}
+
+
+.movimiento{
+    transition: all 2s;
+    animation-duration: 3s;
+    position: relative;
+    animation: recorrer 5s infinite;
+    
+}
+
+@keyframes recorrer{
+    0%   { left: 0px; }
+    25%  { left: 500px; }
+    40% { left:  0px;}
+    50%  { right: 500px; }
+    75%  { left: 0px; }
+    100% { left: 0px; }
+ 
+}
+
+.pagocarro{
+    box-shadow: -2px 16px 15px 1px rgba(0,0,0,0.75);
+}
+
+.giro{
+    animation-name: giro;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    
+}
+@keyframes giro{
+    from{
+        transform: rotateZ(0deg);
+    }
+    to{
+        transform: rotateZ(360deg);
+    }
+}

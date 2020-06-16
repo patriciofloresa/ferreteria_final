@@ -1,0 +1,7 @@
+cd,django==2.2.10
+django-extensions
+pygraphviz #graficar con python
+django-debug-toolbar #ver el rendimiento de las consulta SQL y la carga de procesamiento al interior del servidor
+django-allauth==0.41.0
+django-widget-tweaks==1.4.8
+transbank-sdk

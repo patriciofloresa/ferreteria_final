@@ -1,0 +1,107 @@
+{% extends 'base/base.html' %}
+
+{% load i18n %}
+{% load static %} 
+{% load widget_tweaks %}
+{% block llenar %}
+
+  <form class="form-group col-md-10" id="signup_form" method="POST" action="{% url 'user:agregar_usuarios' %}">
+    {% csrf_token %}
+  
+    <div class="form-group row col-lg-12">
+      <!-- {{form.as_p}}  -->
+      <br>
+      <hr>
+      <div class="col-md-4">
+        <label for="">Nombre</label>
+        {% render_field form.first_name type="text" maxlength="150" class="form-control form-control-user" placeholder="Felipe"  %}
+      </div>
+      <br>
+      <div class="col-md-4">
+        <label for="">Apellidos</label>
+        {% render_field form.last_name type="text" maxlength="150" class="form-control form-control-user" placeholder="Perez Muñoz"  %}
+      </div>
+      <br>
+      <div class="col-md-4">
+        <label for="">Correo Electrónico</label>
+        {% render_field form.email type="email" maxlength="150" class="form-control form-control-user" placeholder="example@ventas.cl"  %}
+      </div>
+      <br>
+      <hr>
+      <div class="col-md-4">
+        <label for="">Identificacion</label>
+        {% render_field form.rut type="text" maxlength="10" class="form-control form-control-user" placeholder="12345678-9"  %}
+      </div>
+      <br>
+      <div class="col-md-4">
+        <label for="">Celular</label>
+        {% render_field form.celular type="number" maxlength="9" class="form-control form-control-user" placeholder="912345678"  %}
+      </div>
+      <br>
+      <div class="col-md-4">
+        <label for="">Tipo de Usuario o Rol</label>
+        {% render_field form.cargo type="text" maxlength="20" class="form-control form-control-user" placeholder="ventas"  %}
+      </div>
+      <br>
+      <hr>
+      <div class="col-md-4">
+        <label for="">Dirección</label>
+        {% render_field form.direccion type="text" maxlength="150" class="form-control form-control-user" placeholder="Camino el parque 1215"  %}
+      </div>
+      <br>
+      <div class="col-md-4">
+        <label for="">Contraseña</label>
+        {% render_field form.password1 type="password" maxlength="150" class="form-control form-control-user" placeholder="***********"  %}
+      </div>
+      <br>
+      <div class="col-md-4">
+        <label for="">Confirme Contraseña</label>
+        {% render_field form.password2 type="password" maxlength="150" class="form-control form-control-user" placeholder="***********"  %}
+      </div>
+      <br>
+      <hr>
+      <div class="col-md-3">
+        <label for="">¿Es miembro del staff?</label>
+        {% render_field form.is_staff type="checkbox" %}
+      </div>
+      <br>
+      <div class="col-md-3">
+        <label for="">¿Será Administrador?</label>
+        {% render_field form.is_superuser type="checkbox" %}
+      </div>
+      <br>      
+    </div>
+    <hr>  
+    <div class="row col-md-4">
+      <button href="{% url 'user:agregar_usuarios' %}" class="btn btn-primary btn-user" type="submit">Registrar Empleado</button>
+    </div>   
+
+    {% if form.errors %}
+      {% for error_campo in form %}
+        {% for error in error_campo.errors %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+          <strong>{{ error|escape }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+          <strong>{{ error|escape }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+ </form>
+
+{% endblock llenar %}

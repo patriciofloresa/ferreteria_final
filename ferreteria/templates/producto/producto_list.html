@@ -1,0 +1,94 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+Lista
+{% endblock title %}
+
+
+{% block llenar %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"></div>
+    <h1 class="h3 mb-2 text-gray-800">Listado de Productos</h1>
+    <div class="row">
+        <div class="col-4 mr-10">
+            <a class="aaa" class="dropdown-item" href="{% url 'prod:producto_new' %}"><i class="far fa-calendar-plus">
+                    Nuevo Producto</i></a>
+        </div>
+    </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            {% if not product %}
+            <div class="alert alert-info"> No Hay Productos</div>
+            {% else %}
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Nombre</th>  
+                            <th>Categoria</th>
+                            <th>Tipo_Producto</th>
+                            <th>Id_proveedor</th>
+                            <th>Stock</th>
+                            <th>Precio</th>
+                            <th>Descripcion</th>
+                            <th>Marca</th>
+                            <th>Color</th>
+                            <th>Imagen</th>
+                            <th>Fecha_Creada</th>
+                            <th>Fecha_Modificada</th>
+                            <th class="all">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in product %}
+                        <tr>
+                            <td>{{ item.codigo }}</td>
+                            <td>{{ item.Nombre }}</td>
+                            <td>{{ item.Categoria }}</td>
+                            <td>{{ item.TipoProducto }}</td>
+                            <td>{{ item.id_proveedor }}</td>
+                            <td>{{ item.Stock }}</td>
+                            <td>{{ item.precio }}</td>
+                            <td>{{ item.descripcion }}</td>
+                            <td>{{ item.marca }}</td>
+                            <td>{{ item.color}}</td>
+                            <td>{{ item.imagen }}</td>
+                            <td>{{ item.fc|date:"d/m/Y H:i:s" }}</td>
+                            <td>{{ item.fm|date:"d/m/Y H:i:s" }}</td>
+                            <td>
+                                <a href="{% url 'prod:Producto_edit' item.pk %}" class="btn btn-warning btn-circle"
+                                    role="button"><i class="far fa-edit"></i></a>
+                                <a href="{% url 'prod:Producto_delete' item.pk %}" class="btn btn-warning btn-danger"
+                                    role="button"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="col-4 container" >
+                    <form  action="{% url 'prod:productodeletetodo' %}" method="POST">{% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="far fa-trash-alt"></i>
+                            <span>Limpiar Todo</span>
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock llenar %}
+
+{% block js_page %}
+       
+
+{% endblock js_page %}

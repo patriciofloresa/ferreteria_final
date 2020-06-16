@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titulo %} Inicio {% endblock titulo %}
+{% block cuerpo %}
+
+{% include 'includes/header.html' %}
+
+<div class="row mt-5 detalle "  >
+    <div class="col-6 ">
+        <img  src="{{object.imagen.url}}" width="500" height="500" class="mx-auto d-block ">
+    </div>
+    <div class="col-5 bg-white "  >
+        <h1 class="font-weight-bold" >{{object.Nombre }}</h1>
+        <p>
+            <h4 class="font-weight-normal" style="text-decoration:underline;">Precio Producto</h4>
+            ${{object.precio}}
+        </p>
+        <p >
+            <h4 class="font-weight-normal" style="text-decoration:underline;">Marca</h4>
+            {{object.Marca}}
+        </p>
+        <p>
+            <h4 class="font-weight-normal" style="text-decoration:underline;">Descripcion</h4>
+            {{object.descripcion}}
+        </p>
+        <p>
+            <h4 class="font-weight-normal" style="text-decoration:underline;">Stock</h4>
+            {{object.Stock}}
+        </p>
+        <p>
+            <h4 class="font-weight-normal" style="text-decoration:underline;">Color</h4>
+            {{object.color}}
+        </p>
+        <div class="row">
+            <form class="ml-3" action="/prod/añadircarrito/{{object.pk}}/" method="post"> {% csrf_token %}
+                    <label  for="">cantidad</label>
+                    <input type="number" name="cantidad" value="1" >   
+                    <button class="btn btn-warning" type="submit">Añadir carrito</button>
+                    <i class="fas fa-shopping-cart fa-3x text-warning"></i>
+            </form>
+          
+        
+        </div>
+        
+    </div>
+</div>
+
+
+
+
+
+
+{% include 'includes/footer.html' %}
+{% endblock cuerpo %}

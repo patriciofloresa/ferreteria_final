@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}
+
+
+{% block llenar %}
+<form method="POST" class="form-inline">
+    {% csrf_token %}
+    <div class="col-xl-8 col-md-8 mb-8">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body ">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Nuevo producto</div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="row mt-1">
+                        <div class="col-4">
+                            <label class="text-dark font-weight-bold">Nombre</label>
+                            {{ form.Nombre }}
+                        </div>
+                        <div class="col-4">
+                            <label class="text-dark font-weight-bold">Codigo</label>
+                            {{ form.codigo }}
+                        </div>
+                        <div class="col-4">
+                            <label class="text-dark font-weight-bold">Categoria</label>
+                            {{ form.Categoria}}
+                        </div>
+                        <!--  {{form.as_p}} -->
+                    </div>
+                    <div class="row mt-1">
+
+                        <div class="col-12">
+                            <label class="text-dark font-weight-bold">Tipo Producto</label>
+                            {{ form.TipoProducto }}
+                        </div>
+
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-6">
+                            <label class="text-dark font-weight-bold">Id_Proveedor</label>
+                            {{ form.id_proveedor }}
+                        </div>
+                        <div class="col-6">
+                            <label class="text-dark font-weight-bold">Precio</label>
+                            {{ form.precio}}
+                        </div>
+                        <!--  {{form.as_p}} -->
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-6 text-center">
+                            <label class="text-dark font-weight-bold ">Stock</label>
+                            {{ form.Stock }}
+                        </div>
+                        <div class="col-6">
+                            <label class="text-dark font-weight-bold">Imagen </label>
+                            {{ form.imagen }}
+                        </div>
+                        <!--  {{form.as_p}} -->
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-4">
+                            <label class="text-dark font-weight-bold">Marca</label>
+                            {{ form.marca}}
+                        </div>
+                        <div class="col-4">
+                            <label class="text-dark font-weight-bold">Descripcion</label>
+                            {{ form.descripcion}}
+                        </div>
+                        <div class="col-4">
+                            <label class="text-dark font-weight-bold">Color</label>
+                            {{ form.color}}
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success ml-2  mt-3"><span
+                                    class="fa fa-save"></span>Guardar</button>
+                            <a href="{% url 'prod:producto_list' %}" class="btn btn-danger mt-3"><span
+                                    class="fa fa-undo"></span>Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</form>
+{% endblock llenar %}

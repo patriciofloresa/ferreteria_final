@@ -1,0 +1,22 @@
+# Python
+*.pyc
+*.pyo
+__pycache__
+
+# Django #
+*.log
+*.pot
+*.pyc
+media
+
+# Environments
+.env
+.venv
+env/
+
+# Visual Studio Code #
+.vscode/*
+!.vscode/settings.json
+
+# local #
+ferreteria/ferreteria/sett/local.py

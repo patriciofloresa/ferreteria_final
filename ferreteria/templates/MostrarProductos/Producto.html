@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titulo %} Inicio {% endblock titulo %}
+{% block cuerpo %}
+
+{% include 'includes/header.html' %}
+
+
+<div class="mt-5 detalle">
+   
+    <div class="row m-auto p-1 " >
+        {% for p in object_list  %}
+        <div class="col" >
+            <div class="card " style="width: 18rem;"  >
+                <img src="{{p.imagen.url}}" class="card-img-top" alt="imagen">
+                <div class="card-body bg-dark">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="card-title text-white text-center">{{p.Nombre}}</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-white">Precio</h6>
+                            <p class="card-text text-white">{{p.precio}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <h6 class="text-white">Stock</h6>
+                        </div>
+                        <div class="col-5">
+                            <p class="card-text text-white ">{{p.Stock}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-8">
+                        <div class="col-12 mt-3">
+                            <a href="{% url 'Detalle_Producto' p.pk %}" class="btn btn-primary">Ver Detalle</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            Tienes el carrito vacio
+        {% endfor %}
+    </div>
+    
+</div>
+
+</div>
+
+
+{% include 'includes/footer.html' %}
+{% endblock cuerpo %}

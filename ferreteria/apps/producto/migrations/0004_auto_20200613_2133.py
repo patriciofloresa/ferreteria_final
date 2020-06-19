@@ -7,23 +7,26 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('producto', '0003_marca'),
+        ("producto", "0003_marca"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='producto',
-            name='Marca',
-        ),
+        migrations.RemoveField(model_name="producto", name="Marca",),
         migrations.AddField(
-            model_name='producto',
-            name='marca',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='producto.Marca'),
+            model_name="producto",
+            name="marca",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="producto.Marca",
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='marca',
-            name='name',
-            field=models.CharField(default='Marca', max_length=30, verbose_name='Nombre'),
+            model_name="marca",
+            name="name",
+            field=models.CharField(
+                default="Marca", max_length=30, verbose_name="Nombre"
+            ),
         ),
     ]

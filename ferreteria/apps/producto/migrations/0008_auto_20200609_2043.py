@@ -7,18 +7,22 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('producto', '0007_auto_20200608_0141'),
+        ("producto", "0007_auto_20200608_0141"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='carritoproducto',
-            name='cantidad',
+            model_name="carritoproducto",
+            name="cantidad",
             field=models.IntegerField(max_length=30),
         ),
         migrations.AlterField(
-            model_name='carritoproducto',
-            name='carrito',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='detalles', to='producto.Carrito'),
+            model_name="carritoproducto",
+            name="carrito",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="detalles",
+                to="producto.Carrito",
+            ),
         ),
     ]

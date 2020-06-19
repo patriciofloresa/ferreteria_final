@@ -1,59 +1,49 @@
-from apps.producto.models import Categoria,Producto
-from django.views.generic import ListView,DetailView
+from apps.producto.models import Categoria, Producto
+from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
 
 
 class ListaCategorias(ListView):
     model = Categoria
-    template_name = 'inicio.html'
+    template_name = "inicio.html"
 
     def get_context_data(self, **kwargs):
         # context = super(ListarRubros, self).get_context_data(**kwargs)
         context = {}
-        context_object_name = 'cat'
-        context_object_name='prod'
-        prod=Producto.objects.all()
-        context['prod']=prod
+        context_object_name = "cat"
+        context_object_name = "prod"
+        prod = Producto.objects.all()
+        context["prod"] = prod
         cat = Categoria.objects.all()
         print("inicio")
-        context['cat'] = cat
+        context["cat"] = cat
         return context
-
-    
-
 
 
 class ListarCategorias(ListView):
-    model=Producto
-    template_name="MostrarProductos/Producto.html"
+    model = Producto
+    template_name = "MostrarProductos/Producto.html"
     # context_object_name='cat'
 
     def get_queryset(self):
-        cate=Producto.objects.filter(Categoria=self.kwargs['pk'])
+        cate = Producto.objects.filter(Categoria=self.kwargs["pk"])
         return cate
-    
+
     def get_context_data(self, **kwargs):
         context = super(ListarCategorias, self).get_context_data(**kwargs)
-        context_object_name ='cat'
-        categoryall=Categoria.objects.all()
-        context['cat']=categoryall
+        context_object_name = "cat"
+        categoryall = Categoria.objects.all()
+        context["cat"] = categoryall
         return context
 
 
 class DetailViewProducto(DetailView):
-    model=Producto
-    template_name="MostrarProductos/detalleproducto.html"
+    model = Producto
+    template_name = "MostrarProductos/detalleproducto.html"
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super(DetailViewProducto, self).get_context_data(**kwargs)
-        context_object_name ='cat'
-        categoryall=Categoria.objects.all()
-        context['cat']=categoryall
+        context_object_name = "cat"
+        categoryall = Categoria.objects.all()
+        context["cat"] = categoryall
         return context
-
-
-
-
-
-
-        

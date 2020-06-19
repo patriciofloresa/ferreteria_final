@@ -20,80 +20,76 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1we22r&9=7slbef=(q@-tcoy=zx2hms^6+j9hbyi3#je$5_%)q'
+SECRET_KEY = "1we22r&9=7slbef=(q@-tcoy=zx2hms^6+j9hbyi3#je$5_%)q"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'] #activa la configuración global
+ALLOWED_HOSTS = ["*"]  # activa la configuración global
 
 SITE_ID = 1
 
 # Application definition
 
 INSTALLED_APPS = [
-
-    'django.contrib.admin',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
-    'django.contrib.auth',
-    'django.contrib.sites',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'sslserver',
-    'widget_tweaks',
-    'django_extensions',
-   	'debug_toolbar', #Permite analizar el rendimiento de las consultas SQL 
-    #apps
+    "django.contrib.admin",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.facebook",
+    "django.contrib.auth",
+    "django.contrib.sites",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "sslserver",
+    "widget_tweaks",
+    "django_extensions",
+    "debug_toolbar",  # Permite analizar el rendimiento de las consultas SQL
+    # apps
     #'apps.bases', #Se hereda un Modelo para mostrar en otro modelo.
-    'apps.proveedor',
-    'apps.users',
-    'apps.producto',
-    'apps.cmp',
-
-
+    "apps.proveedor",
+    "apps.users",
+    "apps.producto",
+    "apps.cmp",
 ]
 
-#django_toolbar
+# django_toolbar
 INTERNAL_IPS = [
-	# ...
-	'127.0.0.1',
-	# ...
+    # ...
+    "127.0.0.1",
+    # ...
 ]
 
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
-    #django_toolbar
-	'debug_toolbar.middleware.DebugToolbarMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # django_toolbar
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 
-ROOT_URLCONF = 'ferreteria.urls'
+ROOT_URLCONF = "ferreteria.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": ["templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
@@ -101,27 +97,26 @@ TEMPLATES = [
 
 
 AUTHENTICATION_BACKENDS = (
-	"django.contrib.auth.backends.ModelBackend",
-	"allauth.account.auth_backends.AuthenticationBackend",
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 
-WSGI_APPLICATION = 'ferreteria.wsgi.application'
+WSGI_APPLICATION = "ferreteria.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'orcl',
-        'USER':'i2',
-        'PASSWORD':'i2',
-        'HOST': 'localhost',
-        'PORT':'1521',
+    "default": {
+        "ENGINE": "django.db.backends.oracle",
+        "NAME": "orcl",
+        "USER": "i2",
+        "PASSWORD": "i2",
+        "HOST": "localhost",
+        "PORT": "1521",
     }
 }
 
@@ -131,26 +126,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = "es"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -162,50 +151,50 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
-#directorio de donde van a estar alojados los archivos estaticos y donde buscarlos
-STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
+STATIC_URL = "/static/"
+# directorio de donde van a estar alojados los archivos estaticos y donde buscarlos
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+MEDIA_URL = "/media/"
 
-#Fecha estandar pa
-LOGIN_REDIRECT_URL = 'redirect' #Una vez inicie sesión redirigira a la pestaña de home
+# Fecha estandar pa
+LOGIN_REDIRECT_URL = "redirect"  # Una vez inicie sesión redirigira a la pestaña de home
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
 FILTERS_DISABLE_HELP_TEXT = True
 
-#No existe un campo de username
-#ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# No existe un campo de username
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 
 
-ACCOUNT_LOGOUT_REDIRECT_URL ='account_login'
+ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
 
 
-#Incluye modelos abstractos del usuario
-AUTH_USER_MODEL = 'users.User'
+# Incluye modelos abstractos del usuario
+AUTH_USER_MODEL = "users.User"
 
 ACCOUNT_FORMS = {
-    'signup': 'apps.users.forms.CoreSignupForm',
-    'signup2': 'apps.users.forms.RegistrarEmpleado',
+    "signup": "apps.users.forms.CoreSignupForm",
+    "signup2": "apps.users.forms.RegistrarEmpleado",
 }
 
-#Facebook y Google
-#Social Account Settings
+# Facebook y Google
+# Social Account Settings
 
-#Habilitamos el servicio de correos para reestablecer la contraseña
+# Habilitamos el servicio de correos para reestablecer la contraseña
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'ferreteria2020u@gmail.com'
-EMAIL_HOST_PASSWORD = 'ferreteria1784*'
+EMAIL_HOST_USER = "ferreteria2020u@gmail.com"
+EMAIL_HOST_PASSWORD = "ferreteria1784*"
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'Ferreteria <ferreteria2020u@gmail.com>'
+DEFAULT_FROM_EMAIL = "Ferreteria <ferreteria2020u@gmail.com>"
 
 # Habilitarr el app access: https://myaccount.google.com/lesssecureapps?pli=1

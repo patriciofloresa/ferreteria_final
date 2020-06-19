@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('producto', '0004_carrito_carritoproducto'),
+        ("producto", "0004_carrito_carritoproducto"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='tipoproducto',
-            name='Descripcion',
-            field=models.CharField(help_text='Descripcion de la categoria', max_length=100),
+            model_name="tipoproducto",
+            name="Descripcion",
+            field=models.CharField(
+                help_text="Descripcion de la categoria", max_length=100
+            ),
         ),
     ]

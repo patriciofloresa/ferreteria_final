@@ -10,33 +10,44 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('producto', '0001_initial'),
+        ("producto", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='producto',
-            name='id_proveedor',
-            field=models.ForeignKey(limit_choices_to={'cargo': 'Proveedor'}, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="producto",
+            name="id_proveedor",
+            field=models.ForeignKey(
+                limit_choices_to={"cargo": "Proveedor"},
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='carritoproducto',
-            name='carrito',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='detalles', to='producto.Carrito'),
+            model_name="carritoproducto",
+            name="carrito",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="detalles",
+                to="producto.Carrito",
+            ),
         ),
         migrations.AddField(
-            model_name='carritoproducto',
-            name='producto',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='producto.Producto'),
+            model_name="carritoproducto",
+            name="producto",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="producto.Producto"
+            ),
         ),
         migrations.AddField(
-            model_name='carrito',
-            name='usuario',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="carrito",
+            name="usuario",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='tipoproducto',
-            unique_together={('categoria', 'Nombre')},
+            name="tipoproducto", unique_together={("categoria", "Nombre")},
         ),
     ]

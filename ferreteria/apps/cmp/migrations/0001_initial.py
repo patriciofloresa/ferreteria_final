@@ -7,24 +7,29 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='OrdenCompra',
+            name="OrdenCompra",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('fc', models.DateTimeField(auto_now_add=True)),
-                ('fm', models.DateTimeField(auto_now=True)),
-                ('comuna', models.CharField(help_text='comuna', max_length=40)),
-                ('direccion', models.CharField(help_text='direccion', max_length=40)),
-                ('precio', models.IntegerField()),
-                ('estado', models.CharField(blank=True, max_length=30, null=True)),
-                ('ciudad', models.CharField(max_length=40, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("fc", models.DateTimeField(auto_now_add=True)),
+                ("fm", models.DateTimeField(auto_now=True)),
+                ("comuna", models.CharField(help_text="comuna", max_length=40)),
+                ("direccion", models.CharField(help_text="direccion", max_length=40)),
+                ("precio", models.IntegerField()),
+                ("estado", models.CharField(blank=True, max_length=30, null=True)),
+                ("ciudad", models.CharField(max_length=40, null=True)),
             ],
-            options={
-                'abstract': False,
-            },
+            options={"abstract": False,},
         ),
     ]

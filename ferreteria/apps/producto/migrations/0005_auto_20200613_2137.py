@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('producto', '0004_auto_20200613_2133'),
+        ("producto", "0004_auto_20200613_2133"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='tipoproducto',
-            name='Um',
-            field=models.CharField(choices=[('0', 'Kilogramos'), ('1', 'Litros'), ('2', 'Unidades')], max_length=1, verbose_name='unidad de medida'),
+            model_name="tipoproducto",
+            name="Um",
+            field=models.CharField(
+                choices=[("0", "Kilogramos"), ("1", "Litros"), ("2", "Unidades")],
+                max_length=1,
+                verbose_name="unidad de medida",
+            ),
         ),
     ]

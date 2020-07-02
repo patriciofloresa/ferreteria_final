@@ -1,0 +1,130 @@
+{% extends 'base/base.html' %}
+
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% block llenar %}
+
+<form class="p-4" role="form" method="POST" action="{% url 'user:agregar_usuarios' %}" class="form-inline">
+  {% csrf_token %}
+  <div class="card border-left-primary shadow h-100 py-2">
+    <div class="card-header" style="font-size: 30px;">Agregar Usuarios</div>
+    <div class="card-body ">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Nombre</label>
+            {% render_field form.first_name type="text" maxlength="150" class="form-control form-control-user" placeholder="Felipe"  %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Apellidos</label>
+            {% render_field form.last_name type="text" maxlength="150" class="form-control form-control-user" placeholder="Perez Muñoz"  %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Correo Electrónico</label>
+            {% render_field form.email type="email" maxlength="150" class="form-control form-control-user" placeholder="example@ventas.cl"  %}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Run/Rut</label>
+            {% render_field form.rut type="text" maxlength="10" class="form-control form-control-user" placeholder="12345678-9"  %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Celular</label>
+            {% render_field form.celular type="number" maxlength="9" class="form-control form-control-user" placeholder="912345678"  %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Tipo de Usuario o Rol</label>
+            {% render_field form.cargo type="text" maxlength="20" class="form-control form-control-user" placeholder="ventas"  %}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Dirección</label>
+            {% render_field form.direccion type="text" maxlength="150" class="form-control form-control-user" placeholder="Camino el parque 1215"  %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Contraseña</label>
+            {% render_field form.password1 type="password" maxlength="150" class="form-control form-control-user" placeholder="***********"  %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Confirme Contraseña</label>
+            {% render_field form.password2 type="password" maxlength="150" class="form-control form-control-user" placeholder="***********"  %}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">¿Es miembro del staff?</label>
+            {% render_field form.is_staff type="checkbox" %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">¿Será Administrador?</label>
+            {% render_field form.is_superuser type="checkbox" %}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <button href="{% url 'user:agregar_usuarios' %}" class="btn btn-primary btn-user" type="submit">Registrar
+              Empleado</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+    {% if form.errors %}
+      {% for error_campo in form %}
+        {% for error in error_campo.errors %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+          <strong>{{ error|escape }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+          <strong>{{ error|escape }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div> -->
+{% endfor %}
+    {% endif %}
+
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+ </form>
+
+</div> 
+
+{% endblock llenar %}

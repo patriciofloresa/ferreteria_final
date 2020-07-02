@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+
+
+{% block llenar %}
+<form class="p-4" role="form" method="POST" class="form-inline">
+  {% csrf_token %}
+  <div class="card border-left-success shadow h-100 py-2">
+    <div class="card-header" style="font-size: 30px;">Nueva Categoria</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-dark font-weight-bold" for="id_nombre">Nombre</label>
+            <input type="text" name="Nombre" maxlength="50" class="form-control" required id="id_nombre"
+              placeholder="Nombre Categoria" value="">
+          </div>
+        </div>
+        <div class="col-md-3 " style="margin-top: 30px;">
+          <div class="form-group">
+            <button type="submit" class="btn btn-success "><span class="fa fa-save"></span>Guardar</button>
+            <a href="{% url 'prod:categoria_list' %}" class="btn btn-danger"><span
+                class="fa fa-undo"></span>Cancelar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock llenar %}

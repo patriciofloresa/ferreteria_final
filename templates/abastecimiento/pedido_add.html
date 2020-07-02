@@ -1,0 +1,284 @@
+        {% extends 'base/base_backend.html' %}
+{% load i18n %}
+{% load static %}
+{% load socialaccount %}
+{% load widget_tweaks %}
+
+{% block title %}
+    {{ title_page }}
+{% endblock title %}
+
+{% block links_css_by_page %}
+{% endblock %}
+
+{% block links_js_by_page %}
+{% endblock %}
+
+{% block body %}
+        <!-- Page Heading -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"></div>
+        <h1 class="h3 mb-2 text-gray-800">{{ main_title_content }}</h1>
+        <div class="card shadow mb-4">
+            <form id="formulario" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% include 'base/partial/div_errores_presentados_en_formulario.html' %}
+                <div class="card-header">
+                    <h2>{{ subtitle_table }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="id_numero">Numero</label>
+                                {{ form.numero }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="id_tipo_documento">Tipo Doc.</label>
+                                {{ form.tipo_documento }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="id_fecha">Fecha</label>
+                                {{ form.fecha }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="id_tipo_pago">Forma pago</label>
+                                {{ form.tipo_pago }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="id_proveedor">Proveedor</label>
+                                {{ form.proveedor }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row border_div">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="id_producto">Producto</label>
+                                {{ form.producto }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="id_cantidad">Cantidad</label>
+                                {{ form.cantidad }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="id_precio">Precio</label>
+                                {{ form.precio }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-outline-info align-middle" href="#" id="btn_agregar">
+                                <i class="fas fa-plus"></i> Agregar</a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group table-responsive">
+                            <table class="table table-bordered tableSpin" id="table_items">
+                                <thead>
+                                <tr class="">
+                                    <th width="5%" class="table-bordered text-center">#</th>
+                                    <th width="40%" class="table-bordered text-center">Producto</th>
+                                    <th width="10%" class="table-bordered text-center">Cantidad</th>
+                                    <th width="10%" class="table-bordered text-center">Precio</th>
+                                    <th width="15%" class="table-bordered text-center">SUBTOTAL</th>
+                                    <th width="10%" class="table-bordered text-center">Accion</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody-seleccionados">
+                                    {% for detalle in pedido.detalles.all %}
+                                    <tr id="fila-{{ forloop.counter }}">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="producto_name-{{ detalle.pk }}" value="{{ detalle.producto.codigo }} | {{ detalle.producto.Nombre }}" disabled>
+                                                <input type="hidden" id="producto_id-{{ detalle.pk }}" name="producto[]" value="{{ detalle.producto.pk }}">
+                                                <input type="hidden" id="producto_id-__prefix__" name="detalle_id[]" value="{{ detalle.pk }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control text-right" id="cantidad-{{ detalle.pk }}" name="cantidad[]" value="{{ detalle.cantidad }}" disabled>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control text-right" id="precio-{{ detalle.pk }}" name="precio[]" value="{{ detalle.precio }}" disabled>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control text-right" id="subtotal-{{ detalle.pk }}" name="subtotal[]" value="{{ detalle.total }}" disabled>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <a href="#" title="Eliminar"
+                                                   class="btn btn-outline-danger btn-sm btn-eliminar-item"
+                                                   data-eliminar_item="{{ detalle.pk }}" data-subtotal_item="{{ detalle.total }}"
+                                                   data-fila="{{ forloop.counter }}"
+                                                >
+                                                    <i class="fas fa-trash position-left"></i> &nbsp;
+                                                </a>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <input type="hidden" id="id_total_items" name="total_items" value="0">
+                                <div id="items_eliminados"></div>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row hide" id="empty-form">
+                        <table>
+                            <tr class="row_anadido" id="fila-__contador__">
+                                <td>
+                                    <div class="form-group">
+                                        <span class="badge" name="__prefix__-contador">__contador__</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="producto_name-__prefix__" value="__productoName__" disabled>
+                                        <input type="hidden" id="producto_id-__prefix__" name="producto[]" value="__productoId__">
+                                        <input type="hidden" id="producto_id-__prefix__" name="detalle_id[]" value="">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control text-right" id="cantidad-__prefix__" name="cantidad[]" value="__cantidadItem__" disabled>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control text-right" id="precio-__prefix__" name="precio[]" value="__precioItem__" disabled>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control text-right" id="subtotal-__prefix__" name="subtotal[]" value="__subtotalItem__" disabled>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <a href="#" title="Eliminar"
+                                           class="btn btn-outline-danger btn-sm btn-eliminar-item"
+                                           data-btn_eliminar_item="" data-subtotal_item="__subtotalItem__"
+                                           data-fila="__contador__"
+                                        >
+                                            <i class="fas fa-trash position-left"></i> &nbsp;
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="id_total" class="offset-8 col-sm-2 col-form-label">Total</label>
+                        <div class="col-sm-2">
+                            {{ form.total }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary float-right"><i class="fa fa-save"></i> Guardar
+                    </button>
+                    <input action="action" class="btn btn-outline-secondary float-left" type="button" value="Cancelar"
+                           onclick="history.go(-1);"/>
+                </div>
+            </form>
+        </div>
+
+{% endblock %}
+
+{% block js_page %}
+    <script>
+        var $divContenedorDetalles = $("#tbody-seleccionados");
+        var $totalForms = $("#id_total_items");
+        var $templateFormEmpty = $("#empty-form").find("tbody").html();
+
+        $(document).ready(function () {
+
+            $("#formulario").on('click', '#btn_agregar', function (e) {
+                e.preventDefault();
+                let productoId = $("#id_producto").val();
+                let productoDesc = $("#id_producto option:selected").text();
+                let cantidad = $("#id_cantidad").val();
+                let precio = $("#id_precio").val();
+                let subtotal = parseFloat(cantidad) * parseFloat(precio);
+                rellenarTemplate($divContenedorDetalles, $totalForms, $templateFormEmpty, productoId, productoDesc, cantidad, precio, subtotal);
+                actualizarTotal(subtotal);
+                limpiarFormularioAdicion();
+            });
+
+            $("#formulario").on('click', '.btn-eliminar-item', function (e) {
+                e.preventDefault();
+                let nroFila = $(this).data('fila');
+                let subTotal = $(this).data('subtotal_item');
+                let idItem = $(this).data('eliminar_item');
+                $('#fila-' + nroFila).addClass('bloqueado');
+                if(item != undefined){
+                    subTotal = subTotal.replace(",", ".");
+                    eliminarRegistroProducto(idItem);
+                }else{
+                    $(this).closest('tr').hide();
+                }
+                let monto = parseFloat(subTotal) * -1;
+                actualizarTotal(monto);
+                $(this).addClass('hide');
+            });
+
+        });
+
+        function limpiarFormularioAdicion() {
+            $('#id_producto').prop('selectedIndex', 0);
+            $('#id_cantidad').val('');
+            $('#id_precio').val('');
+        }
+
+        function rellenarTemplate($divContenedorDetalles, $totalForms, $templateFormEmpty, productoId, productoDesc, cantidad, precio, subtotal) {
+            var cantidadItems = $divContenedorDetalles.children().length;
+            var compiled = $templateFormEmpty.replace(/__contador__/g, cantidadItems + 1);
+            compiled = compiled.replace(/__prefix__/g, cantidadItems);
+            compiled = compiled.replace(/__productoName__/g, productoDesc);
+            compiled = compiled.replace(/__productoId__/g, productoId);
+            compiled = compiled.replace(/__cantidadItem__/g, cantidad);
+            compiled = compiled.replace(/__precioItem__/g, precio);
+            compiled = compiled.replace(/__subtotalItem__/g, subtotal);
+            $divContenedorDetalles.append(compiled);
+            $totalForms.val(cantidad + 1);
+        }
+
+        function actualizarTotal(subTotal) {
+            let total = $("#id_total").val();
+            let totalCalculado = parseFloat(total) + subTotal;
+            $("#id_total").val(totalCalculado);
+        }
+
+        function eliminarRegistroProducto(item) {
+            let html = "<input type='hidden' value='" + item + "' name='eliminar_item[]' >";
+            $("#items_eliminados").append(html);
+        }
+
+    </script>
+
+{% endblock js_page %}

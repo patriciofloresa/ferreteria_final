@@ -1,0 +1,199 @@
+{% extends 'base/base_backend.html' %}
+{% load i18n %}
+{% load static %}
+{% load socialaccount %}
+{% load widget_tweaks %}
+
+{% block title %}
+    {{ title_page }}
+{% endblock title %}
+
+{% block links_css_by_page %}
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block links_js_by_page %}
+    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+
+    <!-- Page Heading -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"></div>
+    <h1 class="h3 mb-2 text-gray-800">{{ main_title_content }}</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <h2>{{ subtitle_table }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+            <table id="myTableList" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Número</th>
+                    <th>Tipo</th>
+                    <th>Fecha</th>
+                    <th>Proveedor</th>
+                    <th>Usuario</th>
+                    <th>Tipo pago</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js_page %}
+    <script>
+    $(function () {
+        $("#myTableList").DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "destroy": true,
+            "responsive": true,
+            "autoWidth": false,
+            "deferRender": true,
+            "ajax": {
+                url: window.location.pathname,
+                type: 'POST',
+                data: {
+                    'action': 'searchdata'
+                },
+                dataSrc: ""
+            },
+            "order": [[ 1, "desc" ]],
+            "columns": [
+                { "data": "id" },
+                { "data": "numero" },
+                { "data": "tipo_documento" },
+                { "data": "fecha" },
+                { "data": "proveedor_name" },
+                { "data": "usuario_name" },
+                { "data": "tipo_pago" },
+                { "data": "total" },
+                { "data": "estado" },
+                { "data": "estado" }
+            ],
+            "columnDefs": [
+                {
+                    "targets": [-1],  //ultima fila coloca los iconos
+                    "class": "text-center",
+                    "orderable": false,
+                    render: function (data, type, row) {
+                        var buttons ='';
+                        if (row.estado == 'PENDIENTE'){
+                            buttons += `<a href="#" rel="recepcionar" data-codigo="` + row.id + `" class="btn btn-outline-dark btn-sm" title="Recepcionar"><i class="fa fa-download"></i></a> `;
+                        }else if(row.estado == 'ACEPTADO'){
+                            buttons += `<a href="#" rel="enviar_pedido" data-codigo="` + row.id + `" class="btn btn-outline-dark btn-sm" title="Enviar"><i class="fa fa-share"></i></a> `;
+                        }
+                        buttons += `<a href="/home/abastecimiento/pedido/ver/` + row.id +`/" class="btn btn-outline-dark btn-sm" title="Ver detalle"><i class="fa fa-eye"></i></a> `;
+
+                        return buttons
+                    }
+                }
+            ],
+            "initComplete": function (settings, json) {
+                // alert("tabla cargada");
+            }
+
+        });
+
+        $('#myTableList tbody')
+        .on('click', 'a[rel="recepcionar"]', function () {
+            let id= $(this).data("codigo");
+            console.log(id);
+            Swal.fire({
+              title: 'Desea recepcionar el pedido ' + id +' ?',
+              text: "Se recepciono el pedido",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#c2c2c2',
+              confirmButtonText: 'Si, recepcionar!'
+            }).then((result) => {
+              if (result.value) {
+                recibirPedido(id);
+              }
+            })
+        })
+        .on('click', 'a[rel="enviar_pedido"]', function () {
+            let id= $(this).data("codigo");
+            console.log(id);
+            Swal.fire({
+              title: 'Desea enviar el pedido ' + id +' ?',
+              text: "Se enviara el pedido",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#c2c2c2',
+              confirmButtonText: 'Si, enviar!'
+            }).then((result) => {
+              if (result.value) {
+                enviarPedido(id);
+              }
+            })
+        });
+
+        function recibirPedido(id) {
+             $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: {
+                    'action': 'recepcionar',
+                    'id': id
+                },
+                dataType: 'json',
+            }).done(function (data) {
+                Swal.fire(
+                  'Recepcionado!',
+                  'Tu pedido ha sido recepcionado.',
+                  'success'
+                );
+                $('#myTableList').DataTable().ajax.reload();
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                //alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+        }
+
+        function enviarPedido(id) {
+             $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: {
+                    'action': 'enviar_pedido',
+                    'id': id
+                },
+                dataType: 'json',
+            }).done(function (data) {
+                Swal.fire(
+                  'Enviado!',
+                  'Tu pedido ha sido enviado.',
+                  'success'
+                );
+                $('#myTableList').DataTable().ajax.reload();
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                //alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+        }
+
+    });
+    </script>
+
+{% endblock js_page %}

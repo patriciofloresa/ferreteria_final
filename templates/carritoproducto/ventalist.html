@@ -1,0 +1,119 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+Lista
+{% endblock title %}
+
+
+{% block llenar %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"></div>
+    <h1 class="h3 mb-2 text-gray-800">Listado de Ventas</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div>
+                    <a class="btn btn-primary" href="{% url 'cmp:ventanew' %}"><i class="far fas fa-plus"></i> Añafir
+                        venta</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 orde-5">
+            <div class="form group">
+                <a class="aaa btn btn-dark" style="color:white;" class="dropdown-item" target="reportes"
+                    href="{% url 'cmp:ventas_print_all' %}"><i class="fas fa-print">
+                        Reporte de ventas</i></a>
+            </div>
+        </div>
+
+    </div>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            {% if not ven %}
+            <div class="alert alert-info"> No Hay Ventas</div>
+            {% else %}
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Usuario</th>
+                            <th>carrito</th>
+                            <th>Precio</th>
+                            <th>Estado</th>
+                            <th>Fecha_Creada</th>
+                            <th>Fecha_Modificada</th>
+                            <th class="all">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in ven %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.carrito.usuario }}</td>
+                            <td>{{ item.carrito }}</td>
+                            <td>{{ item.precio }}</td>
+                            <td>{{ item.carrito.estatus}}</td>
+                            <td>{{ item.fc|date:"d/m/Y H:i:s" }}</td>
+                            <td>{{ item.fm }}</td>
+                            <td>
+                                <!-- <a href="{% url 'prod:categoria_edit' item.id%}" class="btn btn-warning btn-circle" -->
+                                <button onclick="abrir_modal_venta('{% url 'cmp:detailventa' item.pk %}')"
+                                    class="btn btn-warning btn-circle" role="button"><i
+                                        class="fas fa-print"></i></button>
+                                <!-- <a href="{% url 'prod:categoria_Delete' item.id %}" class="btn btn-warning btn-danger" -->
+                                <a  href="{% url 'cmp:ventadelete' item.pk %}" id="botoneliminar" class="btn btn-warning btn-danger"
+                                    role="button"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="col-4 container">
+                    <form action="{% url 'cmp:ventadeleteall' %}" method="POST">{% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="far fa-trash-alt"></i>
+                            <span>Limpiar Todo</span>
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edicion" role="dialog">
+
+</div>
+
+{% endblock llenar %}
+
+{% block js_page %}
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    function abrir_modal_venta(url) {
+        $('#edicion').load(url, function () {
+            $(this).modal('show');
+        })
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#botoneliminar").click(function () {
+            Swal.fire(
+                'The Internet?',
+                'That thing is still around?',
+                'question'
+            )
+        })
+    })
+</script>
+
+{% endblock js_page %}

@@ -1,0 +1,136 @@
+{% load i18n %}
+{% load static %}
+{% load socialaccount %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- PLANTILLA BASE DEL BACKEND -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{% block title %} {% endblock title %}</title>
+
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'vendor/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+
+</head>
+
+
+<body id="page-top">
+
+{% block body %}
+
+    {% block content %}
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+        <!-- Sidebar -->
+        {% include 'base/partial/sidebar.html' %}
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+        <!-- Topbar -->
+        {% include 'base/partial/topbar.html' %}
+        <!-- End of Topbar -->
+
+    {% endblock content %}
+
+    {% if messages %}
+        <div class="form-group">
+            <br>
+            <div class="col-md-12">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ message|safe }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    {% block llenar %}
+
+    {% endblock llenar %}
+
+    <!-- Logout Modal-->
+    {% include 'base/partial/logout_modal.html' %}
+
+    <div class="modal fade" id="popup"></div>
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+    <script src="{% static 'vendor/sweetalert2/sweetalert2.all.min.js' %}"></script>
+
+    <!-- jquery-confirm -->
+    <!--
+  <link rel="stylesheet" href="{% static 'vendor/jquery-confirm/jquery-confirm.min.css' %}">
+  <script src="{% static 'vendor/jquery-confirm/jquery-confirm.min.js' %}"></script> -->
+
+
+    {% block js_page %}
+
+    {% endblock js_page %}
+
+{% endblock body %}
+
+
+</body>
+
+{% if is_paginated %}
+
+<div class="pagination col-lg-1">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}"> &laquo;</a>
+    {% endif %}
+
+    {% for i in paginator.page_range %}
+        <li {% if page_obj.number == i %} class="active" {% endif %}>
+            <a href="?page={{i}}">{{ i }}</a>
+        
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}"> &raquo;</a>
+    {% endif %}
+</div>
+
+
+{% endif %}
+
+
+    
+</html>

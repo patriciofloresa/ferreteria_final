@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+
+
+{% block llenar %}
+<form class="p-4" role="form" method="POST" class="form-inline">
+    {% csrf_token %}
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-header" style="font-size: 30px;">Nuevo Tipo Producto</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="text-dark font-weight-bold" for="id_categoria">Categoria</label>
+                            {{ form.categoria }}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="text-dark font-weight-bold" for="id_nombre">Nombre</label>
+                            {{ form.Nombre }}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="text-dark font-weight-bold" for="id_Descripcion">Descripcion</label>
+                            {{ form.Descripcion }}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="text-dark font-weight-bold" for="id_unidadmedida">Unidad de Medida</label>
+                            {{ form.Um }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success "><span
+                                class="fa fa-save"></span>Guardar</button>
+                                 <a href="{% url 'prod:tipoproducto_list' %}" class="btn btn-danger"><span
+                                class="fa fa-undo"></span>Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</form>
+{% endblock llenar %}

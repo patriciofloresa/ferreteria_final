@@ -1,0 +1,98 @@
+{% extends 'base/base.html' %}
+
+
+{% block llenar %}
+<form class="p-4" role="form" method="POST" class="form-inline">
+    {% csrf_token %}
+    <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-header" style="font-size: 30px;">Nuevo Producto</div>
+        <div class="card-body ">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_nombre">Nombre</label>
+                        {{ form.Nombre }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_codigo">Codigo</label>
+                        {{ form.codigo }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_categoria">Categoria</label>
+                        {{ form.Categoria }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_tipoproducto">Tipo Producto</label>
+                        {{ form.TipoProducto }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_proveedor">Proveedor</label>
+                        {{ form.id_proveedor }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_precio">Precio</label>
+                        {{ form.precio }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_imagen">Imagen</label>
+                        {{ form.imagen }}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_stock">Stock</label>
+                        {{ form.stock }}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_marca">Marca</label>
+                        {{ form.marca }}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_color">Color</label>
+                        {{ form.color }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold" for="id_descripcion">Descripcion</label>
+                        {{form.descripcion}}
+                    </div>
+                </div>
+                <div class="col-md-4 " style="margin-top: 30px;">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success"><span class="fa fa-save"></span>Guardar</button>
+                        <a href="{% url 'prod:producto_list' %}" class="btn btn-danger "><span class="fa fa-undo"></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+</form>
+
+
+{% endblock llenar %}

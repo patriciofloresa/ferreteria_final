@@ -1,0 +1,39 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">
+            </h2>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="card border-left-dark shadow h-100 py-2">
+                <div class="card-header" style="font-size: 30px;">Detalle de Venta</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <h2 style="text-decoration: underline;">id</h2>
+                                <h3>{{ ventadetalle }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <h2>Estado</h2>
+                                <h3>{{ ventadetalle.carrito.estatus }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cacelar</button>
+            <button class="btn btn-primary " type="submit">Confirmar</button>
+        </div>
+    </div>
+</div>

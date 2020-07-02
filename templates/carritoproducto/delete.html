@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+
+{% block llenar %}
+<form class="p-4" role="form" method="POST" class="form-inline">
+  {% csrf_token %}
+  <div class="card border-left-danger shadow h-100 py-2">
+    <div class="card-header text-dark font-weight-bold" style="font-size: 30px;">¿ELIMINAR CARRITO {{ venta.carrito }} ? </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <button type="submit"  class="btn btn-danger">  <i  class="far fa-question-circle"></i>Si, Eliminar</button>
+            <a href="{% url 'cmp:venta_list' %}" class="btn btn-success "><span class="fa fa-undo"></span>Cancelar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock llenar %}
+
+
+{% block js_page %}
+<!-- <script type="text/javascript">
+    $(document).ready(function () {
+        $("#botoneliminar").click(function () {
+            Swal.fire({
+              icon: 'success',
+              title: 'Se ha eliminado correctamente',
+              showConfirmButton: false,
+              timer: 1500
+            })
+        })
+    })
+</script> -->
+{% endblock js_page %}

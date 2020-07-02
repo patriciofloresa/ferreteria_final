@@ -1,0 +1,227 @@
+{% extends 'base/base_backend.html' %}
+{% load i18n %}
+{% load static %}
+{% load socialaccount %}
+{% load widget_tweaks %}
+
+{% block title %}
+    {{ title_page }}
+{% endblock title %}
+
+{% block links_css_by_page %}
+{% endblock %}
+
+{% block links_js_by_page %}
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"></div>
+        <h1 class="h3 mb-2 text-gray-800">{{ main_title_content }}</h1>
+        <div class="row">
+            <!-- dashboard -->
+            <!-- Monto total de ventas -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Monto total de ventas
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ monto_total_ventas }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- cant_total_ventas -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Cantidad total de ventas
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ cant_total_ventas }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Precio maximmo
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ precio_maximo }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-arrow-alt-circle-up fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Precio minimo
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ precio_minimo }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-arrow-alt-circle-down fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+
+        <div class="row">
+
+            <!-- Area Chart -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Evolucion de ventas mensual</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="myAreaChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Tipo productos</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-pie pt-4 pb-2">
+                            <canvas id="myPieChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-center small">
+                            <span class="mr-2">
+                              <i class="fas fa-circle text-primary"></i> Pinturas
+                            </span>
+                            <span class="mr-2">
+                              <i class="fas fa-circle text-success"></i> Martillos
+                            </span>
+                            <span class="mr-2">
+                              <i class="fas fa-circle text-info"></i> Otros
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!--  bar -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Tipo de productos</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="myBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- End dashboard -->
+    </div>
+
+    </div>
+{% endblock %}
+
+{% block js_page %}
+    <script>
+        let evolucionVentas = JSON.parse('{{ evolucion_ventas|safe }}');
+        //console.log(evolucionVentas['06']);
+        //var dataEvolucionVentas = [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000];
+        var dataEvolucionVentasMensual = [
+            evolucionVentas['01'], evolucionVentas['02'], evolucionVentas['03'], evolucionVentas['04'],
+            evolucionVentas['05'], evolucionVentas['06'], evolucionVentas['07'], evolucionVentas['08'],
+            evolucionVentas['09'], evolucionVentas['10'], evolucionVentas['11'], evolucionVentas['12']
+        ];
+
+        let itemsCategoria = JSON.parse('{{ cant_item_x_categorias|safe }}');
+        var categoriaNombres = [];
+        var categoriaValor = [];
+        var categoriaValorMaximo = 0;
+
+        for(var indice in itemsCategoria) {
+           // console.log(indice, itemsCategoria[indice]);
+           categoriaNombres.push(indice);
+           categoriaValor.push(itemsCategoria[indice]);
+           if (categoriaValorMaximo < itemsCategoria[indice]){
+                categoriaValorMaximo = itemsCategoria[indice];
+           }
+        }
+
+    </script>
+
+    <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+    <script src="{% static 'js/demo/chart-bar-demo.js' %}"></script>
+
+{% endblock %}

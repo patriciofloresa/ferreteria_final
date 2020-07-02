@@ -1,0 +1,51 @@
+{% extends 'base/base_backend.html' %}
+{% load i18n %}
+{% load static %}
+{% load socialaccount %}
+{% load widget_tweaks %}
+
+{% block title %}
+    {{ title_page }}
+{% endblock title %}
+
+{% block links_css_by_page %}
+{% endblock %}
+
+{% block links_js_by_page %}
+{% endblock %}
+
+{% block body %}
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"></div>
+        <h1 class="h3 mb-2 text-gray-800">{{ main_title_content }}</h1>
+        <div class="card shadow mb-4">
+            <form id="formulario"  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include 'base/partial/div_errores_presentados_en_formulario.html' %}
+            <div class="card-header">
+                <h2>{{ subtitle_table }}</h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">¿Desea eliminar el registro?</h4>
+                    <hr>
+                    <p>Pedido: {{ object.numero }}</p>
+                </div>
+            </div>
+            <div class="card-footer">
+               <button type="submit" class="btn btn-primary float-right"><i class="fa fa-trash"></i> Eliminar</button>
+               <input action="action" class="btn btn-outline-secondary float-left" type="button" value="Cancelar" onclick="history.go(-1);" />
+            </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block js_page %}
+
+
+{% endblock %}

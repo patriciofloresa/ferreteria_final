@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+
+
+{% block llenar %}
+
+<form class="p-4" role="form" method="POST" class="form-inline">{% csrf_token %}
+  <div class="card border-left-warning shadow h-100 py-2">
+    <div class="card-header" style="font-size: 30px;">Editar Tipo Producto</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-dark font-weight-bold"> Categoria</label>
+            {{ form.categoria}}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-dark font-weight-bold">Nombre</label>
+            {{ form.Nombre}}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-dark font-weight-bold">Descripcion</label>
+            {{ form.Descripcion}}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-dark font-weight-bold">Unidad de Medida</label>
+            {{ form.Um}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <button type="submit" class="btn btn-warning mt-3 mr-1 "><span class="fa fa-save"></span>Editar</button>
+            <a href="{% url 'prod:tipoproducto_list' %}" class="btn btn-danger mt-3 "><span class="fa fa-undo"></span>Cancelar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock llenar %}

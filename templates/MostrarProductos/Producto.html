@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titulo %} Inicio {% endblock titulo %}
+{% block cuerpo %}
+
+{% include 'includes/header.html' %}
+
+
+<div class="mt-5 detalle">
+   
+    <div class="row m-auto p-1 " >
+        {% for p in object_list  %}
+        <div class="col" >              
+            <div class="card " style="width: 18rem;"  >
+                {% if p.imagen %}
+                <img src="{{p.imagen.url}}" class="card-img-top" alt="imagen">
+                {% else %}
+               <img src="{% static 'img/1.png' %}" class="card-img-top" height="290"  alt="Sin imagen">
+                {% endif %}
+                <div class="card-body bg-dark">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="card-title text-white text-center">{{p.Nombre}}</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-white">Precio</h6>
+                            <p class="card-text text-white">{{p.precio}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <h6 class="text-white">Stock</h6>
+                        </div>
+                        <div class="col-5">
+                            <p class="card-text text-white ">{{p.stock}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-8">
+                        <div class="col-12 mt-3">
+                            <a href="{% url 'Detalle_Producto' p.pk %}" class="btn btn-primary">Ver Detalle</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class=" col-12 ">
+                    <h1 class="container text-dark font-italic"> <strong>No hay ninguna categoria con este producto</strong></h1>
+                    <span><img src="{% static 'img/3.jpg' %}"alt="No hay categoria"></span>
+                </div>
+            </div>
+        </div>
+        
+        {% endfor %}
+    </div>
+    
+</div>
+
+</div>
+
+
+{% include 'includes/footer.html' %}
+{% endblock cuerpo %}

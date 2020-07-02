@@ -1,0 +1,129 @@
+<ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'dashboard' %}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-toolbox"></i>
+        </div>
+        <div class="sidebar-brand-text mx-2"><span>  Administracion Ferme </span></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+
+
+    <h4>{#{perms.foobar}#}</h4>
+
+
+    {% for group in request.user.groups.all %}
+        {% if group.name == 'admin' %}
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/admin">
+                    <i class="fas fa-database"></i>
+                    <span>Base de Datos</span></a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+
+
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'inicio' %}">
+            <i class="fas fa-store-alt"></i>
+            <span>Tienda</span></a>
+    </li>
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        <span>Opciones de Menu</span>
+    </div>
+
+    <!-- Nav Item - Menu administrar usuarios-->
+    <li class="nav-item {{ CLASS_MENU_ABASTECIMIENTO }}">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseAbastecimiento"
+           aria-expanded="true"
+           aria-controls="collapseAbastecimiento">
+            <i class="fas fa-fw fa fa-book"></i>
+            <span>Abastecimiento</span>
+        </a>
+        <div id="collapseAbastecimiento" class="collapse {{ CLASS_SUBMENU_PEDIDOS }}"
+             aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{ CLASS_SUBMENU_PEDIDOS_LIST }}"
+                   href="{% url 'abastecimiento:pedido_list' %}">Pedidos</a>
+                <a class="collapse-item {{ CLASS_SUBMENU_PEDIDOS_PEND_LIST }}"
+                   href="{% url 'abastecimiento:pedido_list_pendientes' %}">Pedidos Pendientes</a>
+            </div>
+        </div>
+    </li>
+    <!-- Nav Item - Menu administrar usuarios-->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+           aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="far fa-address-card"></i>
+            <span>Administrar de Usuarios</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+             data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'user:agregar_usuarios' %}">Agregar</a>
+                <a class="collapse-item" href="{% url 'user:admin_usuarios' %}">Administrar</a>
+            </div>  
+        </div>
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="far fa-list-alt"></i>
+            <span>Catalogos</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+
+                <a class="collapse-item" href="{% url 'prod:categoria_list' %}">Categorias</a>
+
+                <a class="collapse-item" href="{% url 'prod:tipoproducto_list' %}">Tipo Producto</a>
+
+                <a class="collapse-item" href="{% url 'prod:producto_list' %}"> Producto</a>
+
+                <a class="collapse-item" href="{% url 'prod:marca_list' %}"> Marca</a>
+
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+           aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span>Ventas y Reportes</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="#">Facturas</a>
+                <a class="collapse-item" href="{% url 'cmp:venta_list' %}">Ventas</a>
+                <a class="collapse-item" href="#">Reporte de Ventas</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>

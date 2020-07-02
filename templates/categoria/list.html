@@ -1,0 +1,73 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+Lista
+{% endblock title %}
+
+
+{% block llenar %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"></div>
+    <h1 class="h3 mb-2 text-gray-800">Listado de Categorias</h1>
+    <div class="row">
+        <div class="col-4">
+            <a class="btn btn-primary" href="{% url 'prod:categoria_new' %}"><i class="far fas fa-plus"></i> Nueva Categoria</a>
+        </div>
+    </div>
+
+
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            {% if not categoria %}
+            <div class="alert alert-info"> No Hay Categorias</div>
+            {% else %}
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Fecha_Creada</th>
+                            <th>Fecha_Modificada</th>
+                            <th class="all">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in categoria %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.Nombre }}</td>
+                            <td>{{ item.fc|date:"d/m/Y H:i:s" }}</td>
+                            <td>{{ item.fm }}</td>
+                            <td>
+                                <a href="{% url 'prod:categoria_edit' item.id%}" class="btn btn-warning btn-circle"
+                                    role="button"><i class="far fa-edit"></i></a>
+                                <a href="{% url 'prod:categoria_Delete' item.id %}" class="btn btn-warning btn-danger"
+                                    role="button"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="col-4 container" >
+                    <form  action="{% url 'prod:deletetodocategoria' %}" method="POST">{% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="far fa-trash-alt"></i>
+                            <span>Limpiar Todo</span>
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock llenar %}

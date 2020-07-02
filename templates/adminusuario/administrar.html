@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+
+{% load i18n %}
+{% load static %} 
+{% load widget_tweaks %}
+
+{% block llenar %}
+<div class="col-lg-12">
+    <div class="card-header py-3">
+        {% if not usuarios %}
+        <div class="alert alert-info"> No Hay Usuarios</div>
+        {% else %}
+        <h5 class="font-weight-bold">Usuarios Actualmente Registrados</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="10">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>  
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th>Run/Rut</th>
+                        <th>Direccion</th>
+                        <th>¿Está Activo?</th>
+                        <th>¿Staff?</th>
+                        <th>¿Administrador?</th>
+                        <th class="all">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in usuarios %}
+                    <tr>
+                        
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.rut }}</td>
+                        <td>{{ user.direccion  }}</td>
+                        <td>{{ user.is_active }}</td>
+                        <td>{{ user.is_staff }}</td>
+                        <td>{{ user.is_superuser }}</td>
+                        <td>
+                            <a href="#" class="btn btn-warning btn-circle"
+                                role="button"><i class="far fa-edit"></i></a>
+                            <a href="#" class="btn btn-warning btn-danger"
+                                role="button"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+    
+</div>
+
+</div>
+{% endblock llenar %}

@@ -41,7 +41,7 @@
             <h4 class="font-weight-normal" style="text-decoration:underline;">Color</h4>
             {{object.Nombre}}
         </p>
-        {% if user.is.authenticated %}
+        {% if request.user.is_authenticated %}
         <div class="row">
             <form class="ml-3" action="/prod/añadircarrito/{{object.pk}}/" method="post"> {% csrf_token %}
                     <label  for="">cantidad</label>

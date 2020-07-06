@@ -18,15 +18,38 @@ from django.db import models
 
 
 class venta(ClaseModelo):
+    LISTA_TIPOS_DOCUMENTOS = (
+        ('BOLETA', 'Boleta'),
+        ('FACTURA', 'Factura'),
+    )
+    LISTA_TIPOS_DESPACHO = (
+        ('DOMICILIO', 'Domicilio'),
+        ('TIENDA', 'Recojo en tienda'),
+    )
+    LISTA_ESTADOS = (
+        ('BORRADOR', 'BORRADOR'),
+        ('PENDIENTE', 'Pendiente'),
+        ('PAGADO', 'Pagado'),
+    )
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, null=True)
-    # compras=models.ForeignKey(CarritoProducto,on_delete=models.CASCADE,help_text="Detalle de compras")
-    comuna = models.CharField(max_length=40, blank=False, help_text="comuna")
-    direccion = models.CharField(max_length=40, blank=False, help_text="direccion")
-    precio = models.IntegerField(blank=False)
-    estado = models.CharField(max_length=30, null=True, blank=True)
-    ciudad = models.CharField(max_length=40, blank=False, null=True)
+    direccion = models.CharField('Dirección', max_length=250, blank=True, null=True, help_text="direccion")
+    ciudad = models.CharField('Ciudad', max_length=100, blank=True, null=True)
+    comuna = models.CharField('Comuna', max_length=100, blank=True, null=True, help_text="comuna")
+    tipo_documento = models.CharField('Tipo documento', max_length=15, null=True, blank=False, default='BOLETA',
+                                      choices=LISTA_TIPOS_DOCUMENTOS)
+    tipo_despacho = models.CharField('Estado', max_length=15, null=True, blank=False, default='TIENDA',
+                                     choices=LISTA_TIPOS_DESPACHO)
+    cli_nombres = models.CharField('Nombres', max_length=250, blank=True, null=True)
+    cli_apellidos = models.CharField('Apellidos', max_length=250, blank=True, null=True)
+    cli_rut = models.CharField('Rut', max_length=250, blank=True, null=True)
+    cli_empresa = models.CharField('Empresa', max_length=250, blank=True, null=True)
+    precio = models.IntegerField('Precio', blank=False, default=0)  # costo total de la venta
+    estado = models.CharField('Estado', max_length=30, blank=False, default='BORRADOR', choices=LISTA_ESTADOS)
 
-    # def get_total_stock(self):
-    #     return self.cantidad - self.
     def __str__(self):
         return "{}".format(self.id)
+
+    def actualiza_stock(self):
+        for item in self.carrito.detalles.all():
+            item.producto.actualizarStock(item.cantidad*-1)
+            item.producto.save()

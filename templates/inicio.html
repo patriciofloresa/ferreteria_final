@@ -47,7 +47,7 @@
     {% if not prod  %}
     <h1>No ahy productos Disponibles.</h1>
     {% else %}
-    <div class="row">
+    <div class="col-lg-12">
         <div class="centro ">
             <!-- Three columns of text below the carousel -->
             <div class="row">
@@ -74,6 +74,28 @@
         </div>
     </div>
     {% endif %}
+
+    {% if is_paginated %}
+
+    <div class="pagination col-lg-1">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}"> &laquo;</a>
+        {% endif %}
+    
+        {% for i in paginator.page_range %}
+            <li {% if page_obj.number == i %} class="active" {% endif %}>
+                <a href="?page={{i}}">{{ i }}</a>
+            
+        {% endfor %}
+    
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"> &raquo;</a>
+        {% endif %}
+    </div>
+    
+    
+    {% endif %}
+
 
  {% include 'includes/footer.html' %}
  {% endblock cuerpo %}

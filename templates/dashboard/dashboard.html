@@ -18,6 +18,12 @@
 {% block body %}
     <!-- Begin Page Content -->
     <div class="container-fluid">
+        <div>
+            <span>
+                <a href="#"><button class="btn btn-primary"><i class="fas fa-print"></i>Generar Reporte</button></a> 
+            </span>
+        </div>
+        
 
         <!-- Page Heading -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"></div>
@@ -101,7 +107,110 @@
                 </div>
             </div>
         </div>
+        <h1 class="h3 mb-2 text-gray-800">{{ title }}</h1>
+        <div class="row">
+            <!-- dashboard -->
+        
+            <!-- Usuarios -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Clientes
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{cantidad_cliente}}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Proveedores -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Proveedores
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ cantidad_proveedor }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-truck fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Empleados
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ cantidad_empleado }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Vendedor
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ cantidad_vendedor }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fas fa-cash-register fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- dashboard -->
+        
+            <!-- Usuarios -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Administrador
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{cantidad_administrador}}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
         <!-- Content Row -->
 
         <div class="row">
@@ -133,7 +242,7 @@
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Tipo productos</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Productos mas vendidos</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -148,13 +257,7 @@
                         </div>
                         <div class="mt-4 text-center small">
                             <span class="mr-2">
-                              <i class="fas fa-circle text-primary"></i> Pinturas
-                            </span>
-                            <span class="mr-2">
-                              <i class="fas fa-circle text-success"></i> Martillos
-                            </span>
-                            <span class="mr-2">
-                              <i class="fas fa-circle text-info"></i> Otros
+                              <i class="fas fa-circle text-primary">{{ producto_mas_vendidos }}</i> 
                             </span>
                         </div>
                     </div>
@@ -169,7 +272,7 @@
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Tipo de productos</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Top 3 Categorías</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -204,19 +307,21 @@
             evolucionVentas['09'], evolucionVentas['10'], evolucionVentas['11'], evolucionVentas['12']
         ];
 
-        let itemsCategoria = JSON.parse('{{ cant_item_x_categorias|safe }}');
+        let dataitemsCategoria = JSON.parse('{{ cant_item_x_categorias|safe }}');
         var categoriaNombres = [];
         var categoriaValor = [];
         var categoriaValorMaximo = 0;
 
-        for(var indice in itemsCategoria) {
+        for(var indice in dataitemsCategoria) {
            // console.log(indice, itemsCategoria[indice]);
            categoriaNombres.push(indice);
-           categoriaValor.push(itemsCategoria[indice]);
-           if (categoriaValorMaximo < itemsCategoria[indice]){
-                categoriaValorMaximo = itemsCategoria[indice];
+           categoriaValor.push(dataitemsCategoria[indice]);
+           if (categoriaValorMaximo < dataitemsCategoria[indice]){
+                categoriaValorMaximo = dataitemsCategoria[indice];
            }
         }
+
+        //Producto mas vendidos
 
     </script>
 

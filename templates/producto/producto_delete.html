@@ -1,5 +1,11 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+Eliminar Producto
+{% endblock title %}
 
 
+{% block llenar %}
 <form class="p-4" role="form" method="POST" class="form-inline">
   {% csrf_token %}
   <div class="card border-left-danger shadow h-100 py-2">
@@ -16,3 +22,4 @@
     </div>
   </div>
 </form>
+{% endblock llenar %}

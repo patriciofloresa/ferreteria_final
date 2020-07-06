@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     "debug_toolbar",  # Permite analizar el rendimiento de las consultas SQL
     # apps
     # 'apps.bases',  # Se hereda un Modelo para mostrar en otro modelo.
-    "apps.proveedor",
     "apps.users",
     "apps.producto",
     "apps.cmp",
@@ -97,6 +96,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 
 AUTHENTICATION_BACKENDS = (

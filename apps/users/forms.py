@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group, User
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
-
+from django.forms import ModelForm
 from .models import *
 
 
@@ -49,7 +49,6 @@ class CoreSignupForm(SignupForm):
 
 
 class RegistrarEmpleado(UserCreationForm):
-    direccion = forms.CharField(max_length=50, label='Direccion')
 
     class Meta:
         model = User
@@ -60,21 +59,40 @@ class RegistrarEmpleado(UserCreationForm):
             'celular',
             'email',
             'cargo',
-            'direccion',
             'password1',
+            'password2',
             'is_staff',
-            'is_superuser',
-            ]
-        labels = {
+            'is_active',
+        ]
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({"class": "form-control"})
 
-            'rut': 'rut',
-            'first_name':'nombre',
-            'last_name':'apellido',
-            'celular':  'celular contacto',
-            'email':    'correo',
-            'cargo':    'cargo',
-            'direccion':'direccion',
-            'password1':'Contraseña',
-            'is_staff': 'es empleado ?',
-            'is_superuser':'será administrador?'
-        }
+class EditarEmpleado(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = [
+            'rut',
+            'first_name',
+            'last_name',
+            'celular',
+            'email',
+            'cargo',
+            'is_staff',
+            'is_active'
+        ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+              
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({"class": "form-control"})
+
+    
+            
+    
+    
+        
+    

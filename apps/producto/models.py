@@ -4,7 +4,23 @@ from apps.users.models import User
 # from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
-
+import json
+import requests
+ 
+class Mindicador:
+ 
+    def __init__(self, indicador, year):
+        self.indicador = indicador
+        self.year = year
+    
+    def InfoApi(self):
+        # En este caso hacemos la solicitud para el caso de consulta de un indicador en un año determinado
+        url = f'https://mindicador.cl/api/{uf}/{2020}'
+        response = requests.get(url)
+        data = json.loads(response.text.encode("utf-8"))
+        # Para que el json se vea ordenado, retornar pretty_json
+        pretty_json = json.dumps(data, indent=2)
+        return data
 
 # Creamos la clase categoria
 class Categoria(ClaseModelo):
@@ -74,7 +90,7 @@ class Producto(ClaseModelo):
     stock = models.IntegerField()
     id_proveedor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                                      limit_choices_to={"cargo": "Proveedor"}, )
-    imagen = models.ImageField(null=True, blank=True)
+    imagen = models.ImageField(upload_to="ferreteria",  null=True, blank=True)
     Categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     TipoProducto = models.ForeignKey(TipoProducto, on_delete=models.CASCADE)
 
@@ -109,6 +125,7 @@ class Carrito(models.Model):
         ("pendiente", "Pendiente"),
     ]
     estatus = models.CharField(max_length=59, choices=ESTATUS, default="open",)
+    monto_total = models.FloatField('Monto total', default=0)
 
     def get_total(self):
         total = 0

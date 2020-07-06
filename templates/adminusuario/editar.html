@@ -1,0 +1,110 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}    
+{% block llenar %}
+
+
+<form class="p-4" role="form" method="POST" class="form-inline">{% csrf_token %}
+    <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-header" style="font-size: 30px;">Editar usuario</div>
+        <div class="card-body ">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold">Nombre</label>
+                       {{form.first_name}}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold">Apellidos</label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold">Correo Electrónico</label>
+                        {{form.email}}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold">Run/Rut</label>
+                        {{form.rut}}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold">Celular</label>
+                       {{form.celular}}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold">Tipo de Usuario o Rol</label>
+                        {{form.cargo}}
+                    </div>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold">¿Es miembro del staff?</label>
+                        {{form.is_staff}}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-dark font-weight-bold">¿Está Activo?</label>
+                        {{form.is_active}}
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-warning mt-3 mr-1  "><span
+                            class="fa fa-save"></span>Editar</button>
+                    </a>
+                    <a href="{% url 'user:admin_usuarios' %}" class="btn btn-danger mt-3 "><span
+                        class="fa fa-undo"></span> Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</form> 
+
+{% if form.errors %}
+    <div class="row">
+      <div class="col-md-12">
+         <div class="alert alert-danger msj-error">
+            <button type="button" class="close msj-close" data-dismiss="alert">×</button>
+            <ul>
+                {% for field, error in form.errors.items %}
+                    <li><strong>{{ field|upper }}:</strong> {{ error|striptags }}</li>
+                {% endfor %}
+            </ul>
+         </div>
+      </div>
+    </div>
+    <div class="d-none">{{ form.errors }}</div>
+{% endif %}
+{% if form.non_field_errors %}
+    <div class="row">
+      <div class="col-md-12">
+         <div class="alert alert-danger msj-error">
+            <button type="button" class="close msj-close" data-dismiss="alert">×</button>
+            <ul>
+                <li>{{ form.non_field_errors }}</li>
+            </ul>
+         </div>
+      </div>
+    </div>
+{% endif %}
+
+{% endblock llenar %}   

@@ -36,22 +36,34 @@
 </head>
 
 <body>
+
     {% block cuerpo %}
 
     {% endblock cuerpo %}
-        
+    
     <script src="/static/js_cli/jquery-3.5.0.min.js"></script>
     <script src="/static/js_cli/bootstrap.min.js"></script>
     <script src="{% static 'vendor/sweetalert2/sweetalert2.all.min.js' %}"></script>
-    {% block messages %}
-        {% if messages %}
-            {% for message in messages %}
-                <script>
-                    Swal.fire("Su compra se ha realizado con exito")
-                </script>
-            {% endfor %}
-        {% endif %}
+
+
+    {% block custom_js %}
     {% endblock %}
+
+    <script>
+        {% if messages %}
+            let mensaje_mostrar = '';
+            {% for message in messages %}
+                 mensaje_mostrar += "{{ message|safe }}" + "\n";
+            {% endfor %}
+            Swal.fire(mensaje_mostrar);
+        {% endif %}
+    </script>
+
+   
+
+    {% block body %}
+    {% endblock %}
+    </div>
         
 </body>
 

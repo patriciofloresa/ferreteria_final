@@ -2,38 +2,106 @@
     <div class="modal-content">
         <div class="modal-header">
             <h2 class="modal-title">
+                Detalle de Venta
             </h2>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-            <div class="card border-left-dark shadow h-100 py-2">
-                <div class="card-header" style="font-size: 30px;">Detalle de Venta</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <h2 style="text-decoration: underline;">id</h2>
-                                <h3>{{ ventadetalle }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <h2>Estado</h2>
-                                <h3>{{ ventadetalle.carrito.estatus }}</h3>
-                            </div>
-                        </div>
+            <div class="row">
+                 <div class="col-md-6 mb-3">
+                    <label for="firstName">ID:</label>
+                    <input type="text" class="form-control" value="{{ ventadetalle.id }}" readonly>
+                  </div>
+                 <div class="col-md-6 mb-3">
+                    <label for="firstName">Fecha:</label>
+                    <input type="text" class="form-control"  value="{{ ventadetalle.fc|date:"d/m/Y H:i:s" }}" readonly>
+                  </div>
+            </div>
+            <div class="row">
+                 <div class="col-md-6 mb-3">
+                    <label for="firstName">Tipo documento:</label>
+                    <input type="text" class="form-control" value="{{ ventadetalle.tipo_documento }}" readonly>
+                  </div>
+                 <div class="col-md-6 mb-3">
+                    <label for="firstName">Tipo despacho:</label>
+                    <input type="text" class="form-control"  value="{{ ventadetalle.tipo_despacho }}" readonly>
+                  </div>
+            </div>
+            <div class="row">
+                 <div class="col-md-4 mb-3">
+                    <label for="firstName">RUT:</label>
+                    <input type="text" class="form-control" value="{{ ventadetalle.cli_rut }}" readonly>
+                  </div>
+                 {% if ventadetalle.tipo_documento == "BOLETA" %}
+                 <div class="col-md-4 mb-3">
+                    <label for="firstName">Apellidos:</label>
+                    <input type="text" class="form-control"  value="{{ ventadetalle.cli_apellidos }}" readonly>
+                 </div>
+                 <div class="col-md-4 mb-3">
+                    <label for="firstName">Nombres:</label>
+                    <input type="text" class="form-control"  value="{{ ventadetalle.cli_nombres }}" readonly>
+                 </div>
+                 {% else %}
+                     <div class="col-md-4 mb-3">
+                        <label for="firstName">Razon social:</label>
+                        <input type="text" class="form-control"  value="{{ ventadetalle.cli_nombres }}" readonly>
+                     </div>
+                     <div class="col-md-4 mb-3">
+                        <label for="firstName">Empresa:</label>
+                        <input type="text" class="form-control"  value="{{ ventadetalle.cli_empresa }}" readonly>
+                     </div>
+                 {% endif %}
+            </div>
+            {% if ventadetalle.tipo_despacho == 'DOMICILIO' %}
+            <div class="row">
+                 <div class="col-md-12 mb-3">
+                    <label for="firstName">Direccion:</label>
+                    <input type="text" class="form-control" value="{{ ventadetalle.direccion }}" readonly>
+                  </div>
+                 <div class="col-md-6 mb-3">
+                    <label for="firstName">Ciudad:</label>
+                    <input type="text" class="form-control"  value="{{ ventadetalle.ciudad }}" readonly>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="firstName">Comuna:</label>
+                    <input type="text" class="form-control"  value="{{ ventadetalle.comuna }}" readonly>
+                  </div>
+            </div>
+            {% endif %}
+            <div class="row table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <th>#</th>
+                        <th>Articulo</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Monto</th>
+                    </thead>
+                    <tbody>
+                        {% for item in ventadetalle.carrito.detalles.all %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ item.producto }}</td>
+                            <td>{{ item.cantidad }}</td>
+                            <td>{{ item.producto.precio }}</td>
+                            <td>{{ item.get_precio_parcial }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-4 offset-8">
+                    <div class="form-group">
+                        <b>TOTAL :</b> <span class="text-right">{{ ventadetalle.precio }}</span>
                     </div>
                 </div>
-            </div>  
-            
+            </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-danger" type="button" data-dismiss="modal">Cacelar</button>
-            <button class="btn btn-primary " type="submit">Confirmar</button>
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Regresar</button>
         </div>
     </div>
 </div>

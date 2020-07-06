@@ -59,24 +59,27 @@
         <table class="table">
             <thead>
               <tr>
+                  <th>id</th>                  
                   <th>Usuarios</th>
-                  <th>id</th>
-                  <th>carrito</th>
+                  <th>Tipo Documento</th>
+                  <th>Despacho</th>
+                  <th>Cliente</th>
                   <th>Estado</th>
                   <th>Fecha Creacion</th>
-                  <th>Fecha Modificada </th>
                   <th>Total</th>
+                  
               </tr>
             </thead>
             <tbody>
               {% for item in obj %}
               <tr>
-                <th>{{ item.carrito.usuario }}</th>
                 <th>{{ item.id }}</th>
-                <th>{{ item.carrito }}</th>
+                <th>{{ item.carrito.usuario }}</th>
+                <th>{{item.tipo_documento}}</th>
+                <th>{{item.tipo_despacho}}</th>
+                <th>{{ item.cli_apellidos|upper }} {{ item.cli_nombres|upper }}</th>
                 <th>{{ item.carrito.estatus }}</th>
                 <th>{{ item.fc }}</th>
-                <th>{{ item.fm }}</th>
                 <th>{{ item.precio }}</th>
                 <th></th>
               </tr>

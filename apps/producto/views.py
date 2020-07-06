@@ -1,6 +1,6 @@
 from apps.users.models import User
 from django.contrib import messages
-
+from django.db import transaction
 # Permisos
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponseRedirect
@@ -17,10 +17,10 @@ from django.views.generic import (
     ListView,
     UpdateView,
     View,
-)
+    FormView)
 
 # Importamos la categoria form
-from .forms import CategoriaForm, MarcaForm, ProductoForms, TipoProductoForm
+from .forms import CategoriaForm, MarcaForm, ProductoForms, TipoProductoForm, CarritoPagarForm
 
 # Importamos los modelos
 from .models import Carrito, CarritoProducto, Categoria, Marca, Producto, TipoProducto
@@ -29,6 +29,25 @@ from django.contrib import messages
 # Creamos La marca
 from ..cmp.models import venta
 
+# api valor dolar
+import json
+import requests
+import datetime
+
+class Mindicador:
+ 
+    def __init__(self, indicador, year):
+        self.indicador = indicador
+        self.year = year
+    
+    def InfoApi(self):
+        # En este caso hacemos la solicitud para el caso de consulta de un indicador en un año determinado
+        url = f'https://mindicador.cl/api/{dolar}/{datetime.now.year}'
+        response = requests.get(url)
+        data = json.loads(response.text.encode("utf-8"))
+        # Para que el json se vea ordenado, retornar pretty_json
+        pretty_json = json.dumps(data, indent=2)
+        return data
 
 class MarcaView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     permission_required = "prod.view_categoria"
@@ -160,7 +179,7 @@ class ProductoView(LoginRequiredMixin, ListView):
     login_url = "/accounts/login/"
 
 
-class ProductoNew(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+class ProductoNew( LoginRequiredMixin, CreateView):
     permission_required = "prod.view_producto"
     model = Producto
     template_name = "producto/producto_form.html"
@@ -203,27 +222,80 @@ def añadircarrito(request, idproducto):
     return redirect("prod:detallecarrito", pk=carrito.pk)
 
 
-class ListCarritoView(DetailView):
+# Vista frontEnd del carrito
+class ListCarritoView(UpdateView):
     model = Carrito
-    queryset = Carrito.objects.filter(estatus="abierto")
     template_name = "MostrarProductos/Carrito.html"
+    form_class = CarritoPagarForm
+    obj_carrito = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.obj_carrito = Carrito.objects.filter(usuario=self.request.user, estatus="open").last()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
+        return self.obj_carrito
+
+    def form_valid(self, form):
+        context = self.get_context_data()
         try:
-            return super.get_object(queryset)
-        except:
-            carrito_usuario = Carrito.objects.filter(
-                usuario=self.request.user, estatus="open"
-            )
-            if len(carrito_usuario) == 0:
-                carrito = Carrito(usuario=self.request.user)
-                carrito.save()
-                return carrito
-            else:
-                return carrito_usuario[0]
+            with transaction.atomic():
+                if form.is_valid():
+                    carrito = form.save(commit=False)
+
+                    # obtener el usuario logueado
+                    usuario = self.request.user
+                    tipo_despacho = form.data['tipo_despacho']
+                    tipo_documento = form.data['tipo_documento']
+                    cli_rut = form.data['cli_rut']
+                    cli_nombres = form.data['cli_nombres']
+                    cli_apellidos = form.data['cli_apellidos']
+                    cli_empresa = form.data['cli_empresa']
+                    direccion = form.data['direccion']
+                    ciudad = form.data['ciudad']
+                    comuna = form.data['comuna']
+
+                    # Actualizamos el carrito
+                    carrito.usuario = usuario
+                    carrito.estatus = "pagado"
+                    carrito.monto_total = carrito.get_total()
+                    carrito.save()
 
 
-list_carrito_view = ListCarritoView.as_view()
+                    # creamos la venta
+                    venta_actual = venta.objects.filter(carrito=self.obj_carrito, estado='PENDIENTE').last()
+                    if not venta_actual:
+                        venta_actual = venta()
+                    venta_actual.carrito = carrito
+                    venta_actual.direccion = direccion
+                    venta_actual.ciudad = ciudad
+                    venta_actual.comuna = comuna
+                    venta_actual.tipo_documento = tipo_documento
+                    venta_actual.tipo_despacho = tipo_despacho
+                    venta_actual.cli_nombres = cli_nombres
+                    venta_actual.cli_apellidos = cli_apellidos
+                    venta_actual.cli_rut = cli_rut
+                    venta_actual.cli_empresa = cli_empresa
+                    venta_actual.precio = carrito.monto_total
+                    venta_actual.estado = 'PAGADO'
+                    venta_actual.save()
+
+                    venta_actual.actualiza_stock()
+
+                    self.request.session["carritopk"] = None
+
+                    return super().form_valid(form)
+                else:
+                    return self.form_invalid(form)
+        except Exception as e:
+            print(e)
+            messages.warning(self.request, 'Ocurrió un error vuelva a intentarlo : {}'.format(e))
+
+    def get_success_url(self):
+        messages.success(self.request, 'Gracias por su compra')
+        return reverse('inicio', kwargs={})
+    
+
 
 # Elimina todo de un carrito
 class deletetodocarrito(View):

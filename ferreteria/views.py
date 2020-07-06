@@ -3,22 +3,31 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 
 
-
 class ListaCategorias(ListView):
     model = Categoria
     template_name = "inicio.html"
-     
 
     def get_context_data(self, **kwargs):
-        # context = super(ListarRubros, self).get_context_data(**kwargs)
-        context = {}
-        context_object_name = "cat"
-        context_object_name = "prod"
-        prod = Producto.objects.all()
-        context["prod"] = prod
-        cat = Categoria.objects.all()
-        print("inicio")
-        context["cat"] = cat
+        context = super().get_context_data(**kwargs)
+        lista_productos = Producto.objects.all()
+        lista_categorias = Categoria.objects.all()
+
+        title_page = "Inicio"
+        main_title_content = "Lista de productos"
+        main_subtitle_content = ""
+        subtitle_table = ""
+
+        context.update({
+            'CLASS_MENU_INICIO': "active",
+            'CLASS_SUBMENU_INICIO': "show",
+            'CLASS_SUBMENU_INICIO_LIST': "active",
+            'title_page': title_page,
+            'main_title_content': main_title_content,
+            'main_subtitle_content': main_subtitle_content,
+            'subtitle_table': subtitle_table,
+            'prod': lista_productos,
+            'cat': lista_categorias,
+        })
         return context
         
 

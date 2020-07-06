@@ -1,11 +1,8 @@
 from django import forms
 
 # Importamos el modelo al cual queremos acceder.
-from .models import Categoria, Marca, Producto, TipoProducto
-
+from .models import Categoria, Marca, Producto, TipoProducto, Carrito
 # Realizamos el formularios de las categorias ...
-
-
 class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
@@ -79,8 +76,7 @@ class ProductoForms(forms.ModelForm):
                 {"placeholder": " Descripcion"}
             )
             self.fields["color"].widget.attrs.update({"placeholder": "Ingrese color"})
-
-
+            self.fields["imagen"].widget.attrs.update({"id": "ImagenTxt"})
 # Realizamos el formulario de Marca
 
 
@@ -95,3 +91,15 @@ class MarcaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({"class": "form-control"})
+
+
+
+
+class CarritoPagarForm(forms.ModelForm):
+
+    sede_desc = forms.CharField(widget=forms.TextInput(), required=False)
+
+    class Meta:
+        model = Carrito
+        exclude = ['usuario', 'estatus', 'monto_total']
+

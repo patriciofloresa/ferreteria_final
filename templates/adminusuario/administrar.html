@@ -1,8 +1,9 @@
 {% extends 'base/base.html' %}
 
-{% load i18n %}
-{% load static %} 
-{% load widget_tweaks %}
+{% block title %}
+Administrar Usuarios
+{% endblock title %}
+
 
 {% block llenar %}
 <div class="col-lg-12">
@@ -21,32 +22,27 @@
                         <th>Apellido</th>
                         <th>Email</th>
                         <th>Run/Rut</th>
-                        <th>Direccion</th>
+                        <th>Cargo</th>
                         <th>¿Está Activo?</th>
-                        <th>¿Staff?</th>
-                        <th>¿Administrador?</th>
                         <th class="all">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user in usuarios %}
-                    <tr>
-                        
-                        <td>{{ user.first_name }}</td>
-                        <td>{{ user.last_name }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.rut }}</td>
-                        <td>{{ user.direccion  }}</td>
-                        <td>{{ user.is_active }}</td>
-                        <td>{{ user.is_staff }}</td>
-                        <td>{{ user.is_superuser }}</td>
-                        <td>
-                            <a href="#" class="btn btn-warning btn-circle"
-                                role="button"><i class="far fa-edit"></i></a>
-                            <a href="#" class="btn btn-warning btn-danger"
-                                role="button"><i class="far fa-trash-alt"></i></a>
-                        </td>
-                    </tr>
+                    {% for item in usuarios %}
+                        <tr>
+                            <td>{{ item.first_name }}</td>
+                            <td>{{ item.last_name }}</td>
+                            <td>{{ item.email }}</td>
+                            <td>{{ item.rut }}</td>
+                            <td>{{ item.cargo }}</td>
+                            <td>{{ item.is_active }}</td>
+                            <td>
+                                <a href="{% url 'user:editar_usuario' item.pk %}" class="btn btn-warning btn-circle"
+                                    role="button"><i class="far fa-edit"></i></a>
+                                <a href="{% url 'user:eliminar_usuario' item.pk %}" class="btn btn-warning btn-danger"
+                                    role="button"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -56,5 +52,9 @@
     
 </div>
 
-</div>
 {% endblock llenar %}
+
+{% block js_page %}
+       
+
+{% endblock js_page %}

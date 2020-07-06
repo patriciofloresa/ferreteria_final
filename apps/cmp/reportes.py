@@ -36,10 +36,6 @@ def link_callback(uri, rel):
                     )
             return path
 
-
-
-
-
 def reportes_compras(request):
         template_path="reportes/compras_print_all.html"
         from django.utils import timezone
@@ -62,6 +58,8 @@ def reportes_compras(request):
         if pisa_status.err:
             return HttpResponse('We had some errors <pre>' + html + '</pre>')
         return response
+
+
 
 
 

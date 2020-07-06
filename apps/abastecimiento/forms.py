@@ -12,9 +12,9 @@ class PedidoForm(ModelForm):
     cantidad = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': '0'}))
     subtotal = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': '0'}))
 
-    proveedores = User.objects.filter(cargo="Proveedor").order_by('username')
+    proveedores = User.objects.filter(cargo="Proveedor").order_by('first_name')
     lista_temp = [('', '-- seleccione --')]
-    lista_temp.extend([(x.id, x.username) for x in proveedores])
+    lista_temp.extend([(x.id, x.first_name) for x in proveedores])
 
     list_productos = Producto.objects.all().order_by('Nombre')
     lista_temp_productos = [('', '-- seleccione --')]

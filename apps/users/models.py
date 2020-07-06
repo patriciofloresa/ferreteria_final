@@ -26,4 +26,4 @@ class User(AbstractUser):
         return "{}{}".format(STATIC_URL, "img/empty.png")
 
     def __str__(self):
-        return "{}".format(self.username)
+        return "{}".format(self.first_name)

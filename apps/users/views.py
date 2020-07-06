@@ -13,7 +13,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 #importando modelos y forms a utilizar
-from .forms import CoreSignupForm, RegistrarEmpleado
+from .forms import CoreSignupForm, RegistrarEmpleado, EditarEmpleado
 from .models import User
 from django.views.generic import (ListView,CreateView,DeleteView,UpdateView)
 from django.contrib.auth.models import AbstractUser
@@ -26,15 +26,33 @@ class RegistroUsuario(LoginRequiredMixin,CreateView):
     model = User
     template_name = 'adminusuario/agregar.html'
     form_class = RegistrarEmpleado
-    success_url=reverse_lazy("user:agregar_usuarios")
+    success_url=reverse_lazy("user:admin_usuarios")
 
 
 class AdministrarUsuario(LoginRequiredMixin,ListView):
     model = User
     template_name = 'adminusuario/administrar.html'
     context_object_name="usuarios"
-    success_url=reverse_lazy("user:administrar")
     ordering = ["-date_joined"]
     paginate_by = 10
 
+class EliminarUsuario(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = "adminusuario/eliminar.html"
+    context_object_name = "usuarios"
+    success_url = reverse_lazy("user:admin_usuarios")
+
+class EditarUsuario(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = "adminusuario/editar.html"
+    form_class = EditarEmpleado
+    context_object_name = "usuarios"
+    success_url = reverse_lazy("user:admin_usuarios")
+    
+    
+    def form_valid(self, form):
+        clean = form.cleaned_data 
+        context = {}        
+        self.object = form.save()
+        return super(EditarUsuario, self).form_valid(form)  
     

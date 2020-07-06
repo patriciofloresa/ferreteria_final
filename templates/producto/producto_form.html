@@ -2,7 +2,7 @@
 
 
 {% block llenar %}
-<form class="p-4" role="form" method="POST" class="form-inline">
+<form class="p-4" role="form" method="POST" class="form-inline" enctype="multipart/form-data" >
     {% csrf_token %}
     <div class="card border-left-success shadow h-100 py-2">
         <div class="card-header" style="font-size: 30px;">Nuevo Producto</div>
@@ -51,7 +51,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="text-dark font-weight-bold" for="id_imagen">Imagen</label>
-                        {{ form.imagen }}
+                        {{form.imagen}}
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -83,7 +83,8 @@
                 <div class="col-md-4 " style="margin-top: 30px;">
                     <div class="form-group">
                         <button type="submit" class="btn btn-success"><span class="fa fa-save"></span>Guardar</button>
-                        <a href="{% url 'prod:producto_list' %}" class="btn btn-danger "><span class="fa fa-undo"></span>Cancelar</a>
+                        <a href="{% url 'prod:producto_list' %}" class="btn btn-danger "><span
+                                class="fa fa-undo"></span>Cancelar</a>
                     </div>
                 </div>
             </div>
@@ -93,6 +94,5 @@
     </div>
 
 </form>
-
 
 {% endblock llenar %}

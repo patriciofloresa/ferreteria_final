@@ -47,7 +47,7 @@ class Pedido(models.Model):
         item = model_to_dict(self, exclude=[])
         item['fecha'] = self.fecha.strftime("%d/%m/%Y")
         item['proveedor_name'] = self.proveedor.get_full_name()
-        item['usuario_name'] = self.usuario.username
+        item['usuario_name'] = self.usuario.first_name
         return item
 
     def confirmar_pedido(self):
@@ -66,6 +66,9 @@ class Pedido(models.Model):
         for item in self.detalles.all():
             item.producto.actualizarStock(item.cantidad)
             item.producto.save()
+
+    def __str__(self):
+        return "{}".format(self.usuario.first_name)
 
 
 class DetallePedido(models.Model):

@@ -63,3 +63,6 @@ def reportes_compras(request):
             return HttpResponse('We had some errors <pre>' + html + '</pre>')
         return response
 
+
+
+

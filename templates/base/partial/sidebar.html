@@ -11,25 +11,6 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Dashboard -->
-
-
-    <h4>{#{perms.foobar}#}</h4>
-
-
-    {% for group in request.user.groups.all %}
-        {% if group.name == 'admin' %}
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="http://127.0.0.1:8000/admin">
-                    <i class="fas fa-database"></i>
-                    <span>Base de Datos</span></a>
-            </li>
-        {% endif %}
-    {% endfor %}
-
-
-
     <li class="nav-item">
         <a class="nav-link" href="{% url 'inicio' %}">
             <i class="fas fa-store-alt"></i>
@@ -44,25 +25,33 @@
     <div class="sidebar-heading">
         <span>Opciones de Menu</span>
     </div>
+    {% if user.cargo == 'Administrador' or user.cargo == 'Empleado' or user.cargo == 'Proveedor' %}
+        <!-- Nav Item - Menu administrar usuarios-->
+        <li class="nav-item {{ CLASS_MENU_ABASTECIMIENTO }}">
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseAbastecimiento"
+            aria-expanded="true"
+            aria-controls="collapseAbastecimiento">
+                <i class="fas fa-fw fa fa-book"></i>
+                <span>Abastecimiento</span>
+            </a>
+            <div id="collapseAbastecimiento" class="collapse {{ CLASS_SUBMENU_PEDIDOS }}"
+                aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    {% if user.cargo == 'Administrador' or user.cargo == 'Empleado' %}
+                        <a class="collapse-item {{ CLASS_SUBMENU_PEDIDOS_LIST }}"
+                        href="{% url 'abastecimiento:pedido_list' %}">Pedidos</a>
+                    {% endif %}
 
-    <!-- Nav Item - Menu administrar usuarios-->
-    <li class="nav-item {{ CLASS_MENU_ABASTECIMIENTO }}">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseAbastecimiento"
-           aria-expanded="true"
-           aria-controls="collapseAbastecimiento">
-            <i class="fas fa-fw fa fa-book"></i>
-            <span>Abastecimiento</span>
-        </a>
-        <div id="collapseAbastecimiento" class="collapse {{ CLASS_SUBMENU_PEDIDOS }}"
-             aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item {{ CLASS_SUBMENU_PEDIDOS_LIST }}"
-                   href="{% url 'abastecimiento:pedido_list' %}">Pedidos</a>
-                <a class="collapse-item {{ CLASS_SUBMENU_PEDIDOS_PEND_LIST }}"
-                   href="{% url 'abastecimiento:pedido_list_pendientes' %}">Pedidos Pendientes</a>
+                    {% if user.cargo == 'Administrador' or user.cargo == 'Proveedor' %}
+                        <a class="collapse-item {{ CLASS_SUBMENU_PEDIDOS_PEND_LIST }}"
+                        href="{% url 'abastecimiento:pedido_list_pendientes' %}">Pedidos Pendientes</a>
+                    {% endif %}
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    {% endif %}
+
+    {% if user.cargo == 'Administrador' %}
     <!-- Nav Item - Menu administrar usuarios-->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -78,45 +67,54 @@
             </div>  
         </div>
     </li>
+    {% endif %}
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-           aria-expanded="true" aria-controls="collapseTwo">
-            <i class="far fa-list-alt"></i>
-            <span>Catalogos</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+    {% if   user.cargo == "Administrador" or user.cargo == "Empleado" or user.cargo == "Venta" %}
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="far fa-list-alt"></i>
+                <span>Catalogos</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    {% if not user.cargo == 'Empleado'%}
+                        <a class="collapse-item" href="{% url 'prod:categoria_list' %}">Categorias</a>
+                    {% endif %}
 
-                <a class="collapse-item" href="{% url 'prod:categoria_list' %}">Categorias</a>
+                    {% if not user.cargo == 'Empleado'%}
+                        <a class="collapse-item" href="{% url 'prod:tipoproducto_list' %}">Tipo Producto</a>
+                    {% endif %}
 
-                <a class="collapse-item" href="{% url 'prod:tipoproducto_list' %}">Tipo Producto</a>
+                    <a class="collapse-item" href="{% url 'prod:producto_list' %}"> Producto</a>
 
-                <a class="collapse-item" href="{% url 'prod:producto_list' %}"> Producto</a>
+                    {% if not user.cargo == 'Empleado'%}
+                        <a class="collapse-item" href="{% url 'prod:marca_list' %}"> Marca</a>
+                    {% endif %}
 
-                <a class="collapse-item" href="{% url 'prod:marca_list' %}"> Marca</a>
-
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    {% endif %}
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-           aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-file-invoice-dollar"></i>
-            <span>Ventas y Reportes</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="#">Facturas</a>
-                <a class="collapse-item" href="{% url 'cmp:venta_list' %}">Ventas</a>
-                <a class="collapse-item" href="#">Reporte de Ventas</a>
+    {% if user.cargo == "Administrador" or user.cargo == "Empleado" or user.cargo == "Venta" %}
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+            aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Reportes y Ventas</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <!-- <a class="collapse-item" href="{% url 'dashboard' %}">Reporte de Ventas</a> -->
+                    <a class="collapse-item" href="{% url 'cmp:venta_list' %}"> Ventas</a>
+                </div>
             </div>
-        </div>
-    </li>
-
+            
+        </li>
+    {% endif %}
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

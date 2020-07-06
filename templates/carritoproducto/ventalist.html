@@ -13,17 +13,9 @@ Lista
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"></div>
     <h1 class="h3 mb-2 text-gray-800">Listado de Ventas</h1>
     <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <div>
-                    <a class="btn btn-primary" href="{% url 'cmp:ventanew' %}"><i class="far fas fa-plus"></i> Añafir
-                        venta</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8 orde-5">
+        <div class="col-lg-4">
             <div class="form group">
-                <a class="aaa btn btn-dark" style="color:white;" class="dropdown-item" target="reportes"
+                <a class="btn primary-btn" style="color:black;" class="dropdown-item" target="reportes"
                     href="{% url 'cmp:ventas_print_all' %}"><i class="fas fa-print">
                         Reporte de ventas</i></a>
             </div>
@@ -43,12 +35,15 @@ Lista
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Tipo documento</th>
                             <th>Usuario</th>
                             <th>carrito</th>
+                            <th>Despacho</th>
+                            <th>Cliente</th>
                             <th>Precio</th>
                             <th>Estado</th>
                             <th>Fecha_Creada</th>
-                            <th>Fecha_Modificada</th>
+
                             <th class="all">Acciones</th>
                         </tr>
                     </thead>
@@ -56,20 +51,24 @@ Lista
                         {% for item in ven %}
                         <tr>
                             <td>{{ item.id }}</td>
+                            <td>{{ item.tipo_documento }}</td>
                             <td>{{ item.carrito.usuario }}</td>
                             <td>{{ item.carrito }}</td>
+                            <td>{{ item.tipo_despacho }}</td>
+                            <td>{{ item.cli_apellidos|upper }} {{ item.cli_nombres|upper }}</td>
                             <td>{{ item.precio }}</td>
                             <td>{{ item.carrito.estatus}}</td>
                             <td>{{ item.fc|date:"d/m/Y H:i:s" }}</td>
-                            <td>{{ item.fm }}</td>
+
                             <td>
                                 <!-- <a href="{% url 'prod:categoria_edit' item.id%}" class="btn btn-warning btn-circle" -->
                                 <button onclick="abrir_modal_venta('{% url 'cmp:detailventa' item.pk %}')"
                                     class="btn btn-warning btn-circle" role="button"><i
                                         class="fas fa-print"></i></button>
-                                <!-- <a href="{% url 'prod:categoria_Delete' item.id %}" class="btn btn-warning btn-danger" -->
+                                {% if item.estado == 'BORRADOR' %}
                                 <a  href="{% url 'cmp:ventadelete' item.pk %}" id="botoneliminar" class="btn btn-warning btn-danger"
                                     role="button"><i class="far fa-trash-alt"></i></a>
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}

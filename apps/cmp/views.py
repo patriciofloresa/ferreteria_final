@@ -22,12 +22,14 @@ from django.views.generic import (
 
 
 class Listarallventas(DetailView):
+
     def post(self, request, *args, **kwargs):
         todocarrito = CarritoProducto.objects.filter(
             carrito__usuario=self.request.user.id)
         for i in todocarrito:
             i.save()
         return HttpResponseRedirect(reverse("cmp:venta_list"))
+    
 
 
 class ventaNew(LoginRequiredMixin, FormView):
@@ -48,19 +50,17 @@ class ventaNew(LoginRequiredMixin, FormView):
         carrito_producto = CarritoProducto.objects.filter(
             carrito__usuario=self.request.user.id
         )
-        formulario = form.save(commit=False)
-        # formulario.carrito = Carrito.objects.get(usuario_id=self.request.user.id)
-        formulario.estado = "orden completada"
+        venta_aux = form.save(commit=False)
+
         suma_temp = 0
-        for x in formulario.carrito.detalles.all():
+        for x in venta_aux.carrito.detalles.all():
             suma_temp += x.producto.precio * x.cantidad
-            print("Sotck ", x.producto.stock)
             x.producto.actualizarStock(x.cantidad*-1)
             x.producto.save()
-            print("Nuevo : ", x.producto.stock)
-        print(suma_temp)
-        formulario.precio = suma_temp
-        formulario.save()
+
+        venta_aux.precio = suma_temp
+        venta_aux.estado = "orden completada"
+        venta_aux.save()
         return super().form_valid(form)
 
 
@@ -71,6 +71,10 @@ class ventaView(LoginRequiredMixin, ListView):
     context_object_name = "ven"
     login_url = "/accounts/login/"
 
+    ordering = ["-fc"]
+    paginate_by = 10
+
+
 
 class DespachoView(TemplateView):
     template_name = "carritoproducto/despacho.html"
@@ -78,7 +82,6 @@ class DespachoView(TemplateView):
 
 class deletetodoventas(View):
     def post(self, request, *args, **kwargs):
-        #
         venta.objects.all().delete()
         return HttpResponseRedirect(reverse("cmp:venta_list"))
 
@@ -91,11 +94,11 @@ class ventaDelete(LoginRequiredMixin, DeleteView):
     login_url = "/accounts/login/"
 
 
-class detailventa(LoginRequiredMixin,DeleteView):
+class detailventa(LoginRequiredMixin, DeleteView):
     template_name = "carritoproducto/venta.html"
     model = venta,CarritoProducto
     context_object_name = 'ventadetalle'
     queryset = venta.objects.all()
-    print(queryset)
+
 
 

@@ -43,3 +43,4 @@
 .border_div { border: 1px solid #d3d9df; padding: 5px;}
 .hide { display: none; }
 .bloqueado {background-color: #5c5f63; color: #3d3e47;}
+span.required {font-size: 1.1em !important; color: red !important;}

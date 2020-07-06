@@ -14,6 +14,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         title_page = "Inicio | Dashboard"
         main_title_content = "Dashboard"
+        title="Usuarios del sistema"
         main_subtitle_content = ""
         subtitle_table = ""
 
@@ -23,17 +24,97 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             'CLASS_SUBMENU_DASHBOARD_LIST': "active",
             'title_page': title_page,
             'main_title_content': main_title_content,
+            'title':title,
             'main_subtitle_content': main_subtitle_content,
             'subtitle_table': subtitle_table,
             'monto_total_ventas': self.busca_monto_total_ventas(),
             'cant_total_ventas': self.busca_cant_total_ventas(),
             'cant_total_ventas': self.busca_cant_total_ventas(),
+            'cantidad_cliente': self.cantidadcliente(),
+            'cantidad_proveedor':self.cantidadproveedor(),
+            'cantidad_empleado':self.cantidadempleado(),
+            'cantidad_vendedor':self.cantidadvendedores(),
+            'cantidad_administrador':self.cantidadadministrador(),
+            'producto_mas_vendidos':self.producto_mas_vendidos(),
             'precio_maximo': self.busca_precio_maximo(),
             'precio_minimo': self.busca_precio_minimo(),
             'evolucion_ventas': self.busca_evolucion_ventas(),
             'cant_item_x_categorias': self.busca_cant_item_x_categorias(),
         })
         return context
+
+    # Se cuenta la cantidad de Clientes en el sistema    
+    def cantidadcliente(self):
+        try:
+            cursor= connection.cursor()
+            cursor.execute(
+                """
+                select count(*) from users_user 
+                where cargo ="Cliente";
+                """
+            )
+            row = cursor.fetchone()
+            return row[0]
+        except Exception as e:
+            print("Error: {}".format(e))
+
+    # Se Cuenta la cantidad de proveedores que hay en el sistema        
+    def cantidadproveedor(self):
+        try:
+            cursor= connection.cursor()
+            cursor.execute(
+                """
+                select count(*) from users_user 
+                where cargo ="Proveedor";
+                """
+            )
+            row = cursor.fetchone()
+            return row[0]
+        except Exception as e:
+            print("Error: {}".format(e))
+    # Se cuenta la cantidad total de empleados que hay en el sistema
+
+    def cantidadempleado(self):
+        try:
+            cursor= connection.cursor()
+            cursor.execute(
+                """
+                select count(*) from users_user 
+                where cargo ="Empleado";
+                """
+            )
+            row = cursor.fetchone()
+            return row[0]
+        except Exception as e:
+            print("Error: {}".format(e))
+    # Se cuenta la cantidad total de vendedores en el sistema.
+    def cantidadvendedores(self):
+        try:
+            cursor= connection.cursor()
+            cursor.execute(
+                """
+                select count(*) from users_user 
+                where cargo ="Venta";
+                """
+            )
+            row = cursor.fetchone()
+            return row[0]
+        except Exception as e:
+            print("Error: {}".format(e))
+    #Se cuenta la cantidad total de admininistradores del sistema.
+    def cantidadadministrador(self):
+        try:
+            cursor= connection.cursor()
+            cursor.execute(
+                """
+                select count(*) from users_user 
+                where cargo ="Administrador";
+                """
+            )
+            row = cursor.fetchone()
+            return row[0]
+        except Exception as e:
+            print("Error: {}".format(e))
 
     def busca_monto_total_ventas(self):
         try:
@@ -125,14 +206,45 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             cursor = connection.cursor()
             cursor.execute(
                 """
-                select pc.Nombre as "categoria", count(*) as cantidad
-                from producto_producto as p
-                inner join producto_categoria pc on p.Categoria_id = pc.id
-                group by p.Categoria_id;
+                select pc.Nombre ,sum(producto_carritoproducto.cantidad) 
+                from 
+                cmp_venta,producto_carritoproducto,producto_producto, producto_categoria pc
+                where  cmp_venta.carrito_id =producto_carritoproducto.carrito_id 
+                and producto_producto.codigo = producto_carritoproducto.producto_id
+                and pc.id = producto_producto.Categoria_id 
+                group by producto_producto.Nombre  
+                order by sum(producto_carritoproducto.cantidad) desc
+                limit 3
+                ;
+                
                 """
             )
             for row in cursor.fetchall():
                 dict_categorias.update({row[0]: row[1]})
             return json.dumps(dict_categorias)
+        except Exception as e:
+            print("Error: {}".format(e))
+    
+    
+    def producto_mas_vendidos(self):
+        dict_producto = {}
+        try:
+            cursor= connection.cursor()
+            cursor.execute(
+                """
+                select producto_producto.Nombre,sum(producto_carritoproducto.cantidad) 
+                from 
+                cmp_venta,producto_carritoproducto,producto_producto
+                where  cmp_venta.carrito_id =producto_carritoproducto.carrito_id 
+                and producto_producto.codigo = producto_carritoproducto.producto_id 
+                group by producto_producto.Nombre  
+                order by sum(producto_carritoproducto.cantidad) desc
+                limit 3
+                ;
+                """
+            )
+            for row in cursor.fetchall():
+                dict_producto.update({row[0]: row[1]})
+            return json.dumps(dict_producto) 
         except Exception as e:
             print("Error: {}".format(e))

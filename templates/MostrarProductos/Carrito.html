@@ -3,96 +3,238 @@
 {% block titulo %} Detalle carrito {% endblock titulo %}
 {% block cuerpo %}
 
-{% include 'includes/header.html' %}
+    {% include 'includes/header.html' %}
+    {% include 'base/partial/div_errores_presentados_en_formulario.html' %}
 
 
-<h1 class="container" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Carrito de compras
-</h1>
-
-<table class="table table-dark mt-3 container">
-    <thead>
-        <tr>
-            <th scope="col">Usuario</th>
-            <th scope="col">imagen</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Acciones</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        {%  for det in carrito.detalles.all %}
-        <tr>
-            <td>{{request.user}}</td>
-            <td><img src="{{det.producto.imagen.url}}" width="50" height="50" alt=""></td>
-            <td>{{det.producto.Nombre}}</td>
-            <td>{{det.producto.precio}}</td>
-            <td>{{det.cantidad}}</td>
-            <td>
-                <form action="{% url 'prod:removercarrito' det.pk %}" method="POST">
-                    {% csrf_token %}
-                    <button class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></button>
+    <div class="container">
+        <h1 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+            Carrito de compras
+        </h1>
+        <table class="table table-dark mt-3 container">
+            <thead>
+            <tr>
+                <th scope="col">Usuario</th>
+                <th scope="col">imagen</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th>Total</th>
+                <th scope="col">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for det in carrito.detalles.all %}
+                <tr>
+                    <td>{{ request.user }}</td>
+                    <td>
+                        {% if det.producto.imagen %}
+                            <img src="{{ det.producto.imagen.url|default_if_none:'' }}" width="50" height="50" alt="">
+                        {% else %}
+                            <img src="{% static 'img/1.png' %}" class="imagen-responsive" height="50" alt="Sin imagen">
+                        {% endif %}
+                    </td>
+                    <td>{{ det.producto.Nombre }}</td>
+                    <td>{{ det.producto.precio }}</td>
+                    <td>{{ det.cantidad }}</td>
+                    <td><span class="label label-info text-right">{{ det.get_precio_parcial }}</span></td>
+                    <td>
+                        <form action="{% url 'prod:removercarrito' det.pk %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7">
+                        <div style="margin-top: 50px;">
+                            <h1 class="text-center ">No tienes Productos en el carrito <i
+                                    class="movimiento fas fa-shopping-cart fa-4x container  "
+                                    style="color: #D3D3D3;"> </i></h1>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% for det in carrito.detalles.all %}
+        <div class="form-row">
+            <div class="col-md-3 offset-9">
+                <form action="{% url 'prod:deleteall' %}" method="POST">{% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="far fa-trash-alt"></i>
+                        <span>Limpiar Todo</span>
+                    </button>
                 </form>
-            </td>
-            <td><button class="btn btn-warning">{{det.get_precio_parcial}}</button></td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="7">
-                <div style="margin-top: 50px;">
-                    <h1 class="text-center ">No tienes Productos en el carrito <i
-                            class="movimiento fas fa-shopping-cart fa-4x container  " style="color: #D3D3D3;"> </i></h1>
+            </div>
+        </div>
+        
+        <form class="form" action="" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-md-3">
+                <h5><b>Tipo de despacho:</b></h5>
+            </div>
+            <div class="col-md-4">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="despacho_tienda" name="tipo_despacho" class="custom-control-input" value="TIENDA" checked="checked" >
+                    <label class="custom-control-label" for="despacho_tienda">Recojo en tienda</label>
                 </div>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-    
-<div class="row justify-content-between" >
-    <div class="col-4 container" >
-        <form  action="{% url 'prod:deleteall' %}" method="POST">{% csrf_token %}
-            <button type="submit" class="btn btn-danger">
-                <i class="far fa-trash-alt"></i>
-                <span>Limpiar Todo</span>
-            </button>
-        </form>
-    </div>
-    <div class="col-4">
-        <form action="{% url 'prod:updatecarrito' carrito.pk %} " method="POST">
-            {% csrf_token %}
-
-            <select name="estatus" style="display: none;">
-                <option value="pendiente" selected>pendiente</option>
-            </select>
-
-            <input type="hidden" name="estatus" value="pagado">
-            <div class="pagocarro" class="card" style="width: 15rem; height: 12rem; margin-right: 180px;  float: right;">
-                <div class="card-body ">
-                    <h2 class="card-title text-dark" style="text-decoration: underline;">Total a Pagar</h2>
-                    <h3 class="card-subtitle mb-2 text-muted">${{carrito.get_total}}</h3>
-                    <button class="btn btn-block btn-primary" type="submit"><i
-                        class="giro fas fa-money-bill-wave fa-2x"></i></button> 
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="despacho_domicilio" name="tipo_despacho" class="custom-control-input" value="DOMICILIO">
+                    <label class="custom-control-label" for="despacho_domicilio">Despacho a domicilio</label>
                 </div>
             </div>
+
+
+        </div>
+        <hr>
+        <h4 >Datos personales</h4>
+        <div class="form-row">
+            <div class="col-md-3 mb-3">
+                <label for="state">Tipo de documento</label>
+                <select class="custom-select d-block w-100" id="tipo_documento" name="tipo_documento" required>
+                  <option value="BOLETA">BOLETA</option>
+                  <option value="FACTURA">FACTURA</option>
+                </select>
+              </div>
+            <div class="col-md-3 mb-3">
+                <label for="id_cli_rut">RUT</label> <span class="required">*</span>
+                <input type="text" class="form-control" id="id_cli_rut" name="cli_rut" value="{{ user.rut }}" autocomplete="off">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="id_cli_nombres" id="txt_nombres">Nombres</label> <span class="required">*</span>
+                <input type="text" class="form-control" id="id_cli_nombres" name="cli_nombres" value="{{ user.first_name }}" autocomplete="off">
+            </div>
+            <div class="col-md-3 mb-3" id="datos_apellidos">
+                <label for="id_cli_apellidos">Apellidos</label> <span class="required">*</span>
+                <input type="text" class="form-control" id="id_cli_apellidos" name="cli_apellidos" value="{{ user.last_name }}" autocomplete="off">
+            </div>
+        </div>
+        <div class="form-row" id="div_datos_empresa">
+            <div class="col-md-12 mb-3">
+                <label for="id_cli_empresa">Empresa</label> <span class="required">*</span>
+                <input type="text" class="form-control" id="id_cli_empresa" name="cli_empresa" value="" autocomplete="off">
+            </div>
+        </div>
+        <h4 id="titulo_despacho_domicilio">Dirección del despacho</h4>
+        <div class="form-row" id="div_datos_despacho">
+            <div class="col-md-12 mb-3">
+                <label for="id_direccion">Direccion</label> <span class="required">*</span>
+                <input type="text" class="form-control" id="id_direccion" name="direccion" value="" autocomplete="off">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="id_ciudad">Ciudad</label> <span class="required">*</span>
+                <input type="text" class="form-control" id="id_ciudad" name="ciudad" value="" autocomplete="off">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="id_comuna">Comuna</label> <span class="required">*</span>
+                <input type="text" class="form-control" id="id_comuna" name="comuna" value="" autocomplete="off">
+            </div>
+        </div>
+
+        <hr>
+            <div class="form-row">
+                <div class="col-md-4 offset-8">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (USD)</span>
+                        <strong>$ {{ carrito.get_total }}</strong>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4 offset-8">
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Pagar</button>
+                </div>
+            </div>
+        
         </form>
+        {% endfor %}
+
+        <div class="clearfix"></div>
     </div>
- 
-</div>
- 
-<div class="clearfix"></div>
-
-{% if messages  %}
-{% for message in messages %}
-
-{% endfor %}
-{% endif %}
 
 
-
-
-
-{% include 'includes/footer.html' %}
+    {% include 'includes/footer.html' %}
 {% endblock cuerpo %}
+
+{% block custom_js %}
+    <script>
+        $(document).ready(function() {
+            inicializarCampos();
+            $("input[name='tipo_despacho']").on("click", function (e) {
+                let opcSeleccionada = $(this).val();
+                if (opcSeleccionada == 'TIENDA'){
+                    ocultarDespachoDomicilio();
+                    retirarCamposDespachoRequeridos();
+                }else{
+                    mostrarDespachoDomicilio();
+                    agregarCamposDespachoRequeridos();
+                }
+            });
+
+            $("#tipo_documento").on("change", function (e) {
+                let opcSeleccionada = $(this).val();
+                if (opcSeleccionada == 'FACTURA'){
+                    mostrarDatosEmpresa();
+                }else{
+                    ocultarDatosEmpresa();
+                }
+            });
+
+
+        });
+
+        function inicializarCampos() {
+            camposRequeridosInicialmente();
+            ocultarDespachoDomicilio();
+            retirarCamposDespachoRequeridos();
+            ocultarDatosEmpresa();
+        }
+
+        function camposRequeridosInicialmente() {
+            $("#tipo_documento").attr("required", "required");
+            $("#id_cli_rut").attr("required", "required");
+            $("#id_cli_nombres").attr("required", "required");
+            $("#id_cli_apellidos").attr("required", "required");
+        }
+
+        function ocultarDespachoDomicilio() {
+            $("#titulo_despacho_domicilio").addClass('hide');
+            $("#div_datos_despacho").addClass('hide');
+        }
+        function mostrarDespachoDomicilio() {
+            $("#titulo_despacho_domicilio").removeClass('hide');
+            $("#div_datos_despacho").removeClass('hide');
+        }
+
+        function agregarCamposDespachoRequeridos() {
+            $("#id_direccion").attr("required", "required");
+            $("#id_ciudad").attr("required", "required");
+            $("#id_comuna").attr("required", "required");
+        }
+        function retirarCamposDespachoRequeridos() {
+            $("#id_direccion").removeAttr("required");
+            $("#id_ciudad").removeAttr("required");
+            $("#id_comuna").removeAttr("required");
+        }
+
+        function ocultarDatosEmpresa() {
+            $("#div_datos_empresa").addClass('hide');
+            $("#datos_apellidos").removeClass('hide');
+            $("#id_cli_apellidos").attr("required", "required");
+            $("#txt_nombres").html("Nombres");
+        }
+        function mostrarDatosEmpresa() {
+            $("#div_datos_empresa").removeClass('hide');
+            $("#datos_apellidos").addClass('hide');
+            $("#id_cli_apellidos").removeAttr("required");
+            $("#txt_nombres").html("Razon social");
+        }
+
+    </script>
+
+{% endblock %}

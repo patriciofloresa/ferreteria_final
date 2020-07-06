@@ -17,7 +17,6 @@ Lista
         </div>
     </div>
 
-    <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             {% if not product %}
@@ -26,12 +25,11 @@ Lista
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="15">
                     <thead>
                         <tr>
                             <th>Codigo</th>
-                            <th>Nombre</th>  
-                            <th>Categoria</th>
+                            <th>Nombre</th>
                             <th>Tipo_Producto</th>
                             <th>Id_proveedor</th>
                             <th>Stock</th>
@@ -39,8 +37,6 @@ Lista
                             <th>Descripcion</th>
                             <th>Marca</th>
                             <th>Color</th>
-                            <th>Imagen</th>
-                            <th>Fecha_Creada</th>
                             <th>Fecha_Modificada</th>
                             <th class="all">Acciones</th>
                         </tr>
@@ -50,7 +46,6 @@ Lista
                         <tr>
                             <td>{{ item.codigo }}</td>
                             <td>{{ item.Nombre }}</td>
-                            <td>{{ item.Categoria }}</td>
                             <td>{{ item.TipoProducto }}</td>
                             <td>{{ item.id_proveedor }}</td>
                             <td>{{ item.stock }}</td>
@@ -58,8 +53,6 @@ Lista
                             <td>{{ item.descripcion }}</td>
                             <td>{{ item.marca }}</td>
                             <td>{{ item.color}}</td>
-                            <td>{{ item.imagen }}</td>
-                            <td>{{ item.fc|date:"d/m/Y H:i:s" }}</td>
                             <td>{{ item.fm|date:"d/m/Y H:i:s" }}</td>
                             <td>
                                 <a href="{% url 'prod:Producto_edit' item.pk %}" class="btn btn-warning btn-circle"

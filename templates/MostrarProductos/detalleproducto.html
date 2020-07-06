@@ -41,17 +41,20 @@
             <h4 class="font-weight-normal" style="text-decoration:underline;">Color</h4>
             {{object.Nombre}}
         </p>
+        {% if user.is.authenticated %}
         <div class="row">
             <form class="ml-3" action="/prod/añadircarrito/{{object.pk}}/" method="post"> {% csrf_token %}
                     <label  for="">cantidad</label>
                     <input type="number" name="cantidad" value="1" >   
                     <button class="btn btn-warning" type="submit">Añadir carrito</button>
                     <i class="fas fa-shopping-cart fa-3x text-warning"></i>
-            </form>
-          
-        
+            </form>       
         </div>
-        
+        {% else %}
+        <div class="row">
+            <p>Debes <a href="http://127.0.0.1:8000/accounts/login/">iniciar sesión</a> para comprar en nuestro sitio web</p> 
+        </div>
+        {% endif %}
     </div>
 </div>
 

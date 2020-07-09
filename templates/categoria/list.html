@@ -14,7 +14,7 @@ Lista
     <h1 class="h3 mb-2 text-gray-800">Listado de Categorias</h1>
     <div class="row">
         <div class="col-4">
-            <a class="btn btn-primary" href="{% url 'prod:categoria_new' %}"><i class="far fas fa-plus"></i> Nueva Categoria</a>
+            <a class="btn btn-primary" href="{% url 'prod:categoria_new' %}"><i class="far fas fa-plus"></i>Nueva Categoría</a>
         </div>
     </div>
 
@@ -24,7 +24,7 @@ Lista
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             {% if not categoria %}
-            <div class="alert alert-info"> No Hay Categorias</div>
+            <div class="alert alert-info">No hay categorías que mostrar</div>
             {% else %}
         </div>
         <div class="card-body">
@@ -34,8 +34,8 @@ Lista
                         <tr>
                             <th>Id</th>
                             <th>Nombre</th>
-                            <th>Fecha_Creada</th>
-                            <th>Fecha_Modificada</th>
+                            <th>Fecha de Creación</th>
+                            <th>Fecha de Modificación</th>
                             <th class="all">Acciones</th>
                         </tr>
                     </thead>
@@ -60,7 +60,7 @@ Lista
                     <form  action="{% url 'prod:deletetodocategoria' %}" method="POST">{% csrf_token %}
                         <button type="submit" class="btn btn-danger">
                             <i class="far fa-trash-alt"></i>
-                            <span>Limpiar Todo</span>
+                            <span>Limpiar todo</span>
                         </button>
                     </form>
                 </div>

@@ -68,8 +68,10 @@
                 {% endif %}
 
                 {% block body %}
+
                 {% endblock %}
             </div>
+            
 
         </div>
         <!-- End of Main Content -->
@@ -99,11 +101,19 @@
 <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 <script src="{% static 'js/funciones_base_proyecto.js' %}"></script>
 
+<!-- Graficos highcharts -->
+<script src="{% static '/Highcharts/highcharts.js' %}"></script>
+<script src="{% static '/Highcharts/modules/exporting.js' %}"></script>
+<script src="{% static '/Highcharts/modules/export-data.js' %}"></script>
+<script src="{% static '/Highcharts/modules/accessibility.js' %}"></script>
+
 <!-- Page level plugins -->
 {% block links_js_by_page %}
+
 {% endblock %}
 
 {% block js_page %}
+    
 {% endblock js_page %}
 
 </body>

@@ -5,6 +5,7 @@ from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, reverse
+from django.core.mail import send_mail
 
 # Redireccionar al sitio
 from django.urls import reverse_lazy
@@ -29,25 +30,6 @@ from django.contrib import messages
 # Creamos La marca
 from ..cmp.models import venta
 
-# api valor dolar
-import json
-import requests
-import datetime
-
-class Mindicador:
- 
-    def __init__(self, indicador, year):
-        self.indicador = indicador
-        self.year = year
-    
-    def InfoApi(self):
-        # En este caso hacemos la solicitud para el caso de consulta de un indicador en un año determinado
-        url = f'https://mindicador.cl/api/{dolar}/{datetime.now.year}'
-        response = requests.get(url)
-        data = json.loads(response.text.encode("utf-8"))
-        # Para que el json se vea ordenado, retornar pretty_json
-        pretty_json = json.dumps(data, indent=2)
-        return data
 
 class MarcaView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     permission_required = "prod.view_categoria"
@@ -179,7 +161,7 @@ class ProductoView(LoginRequiredMixin, ListView):
     login_url = "/accounts/login/"
 
 
-class ProductoNew( LoginRequiredMixin, CreateView):
+class ProductoNew(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     permission_required = "prod.view_producto"
     model = Producto
     template_name = "producto/producto_form.html"
@@ -250,7 +232,6 @@ class ListCarritoView(UpdateView):
                     cli_rut = form.data['cli_rut']
                     cli_nombres = form.data['cli_nombres']
                     cli_apellidos = form.data['cli_apellidos']
-                    cli_empresa = form.data['cli_empresa']
                     direccion = form.data['direccion']
                     ciudad = form.data['ciudad']
                     comuna = form.data['comuna']
@@ -275,15 +256,21 @@ class ListCarritoView(UpdateView):
                     venta_actual.cli_nombres = cli_nombres
                     venta_actual.cli_apellidos = cli_apellidos
                     venta_actual.cli_rut = cli_rut
-                    venta_actual.cli_empresa = cli_empresa
                     venta_actual.precio = carrito.monto_total
                     venta_actual.estado = 'PAGADO'
                     venta_actual.save()
-
-                    venta_actual.actualiza_stock()
-
                     self.request.session["carritopk"] = None
-
+                    obj_products=[{i.producto.Nombre:i.get_precio_parcial()} 
+                        for i in CarritoProducto.objects.filter(carrito=self.obj_carrito)]
+                    print(obj_products)
+                    texto = ''
+                    for obj in obj_products:
+                        for k, v in obj.items():
+                            texto += f"producto: %s  - "%k
+                            texto += f"precio: %s \n"%str(v)
+                    texto += "\n Total: "+ str(carrito.get_total())
+                    print(texto)
+                    send_mail(f"Compra Exitosa en ferreteria ferme ","Detalles de compra: \n"+texto, "efrenoscar6@gmail.com",[usuario.email], fail_silently=True)
                     return super().form_valid(form)
                 else:
                     return self.form_invalid(form)
@@ -294,7 +281,6 @@ class ListCarritoView(UpdateView):
     def get_success_url(self):
         messages.success(self.request, 'Gracias por su compra')
         return reverse('inicio', kwargs={})
-    
 
 
 # Elimina todo de un carrito

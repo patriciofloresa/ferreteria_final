@@ -4,8 +4,9 @@
 {% block llenar %}
 <form class="p-4" role="form" method="POST" class="form-inline">
   {% csrf_token %}
+  {% include 'base/partial/erroreditar.html' %}
     <div class="card border-left-success shadow h-100 py-2">
-      <div class="card-header" style="font-size: 30px;">Nueva Marca</div>
+      <div class="card-header" style="font-size: 30px;">Nueva marca</div>
       <div class="card-body">
           <div class="row">
               <div class="col-md-3">
@@ -13,6 +14,11 @@
                     <label class="text-dark font-weight-bold" for="id_nombre">Nombre</label>
                     <input type="text" name="nombre" maxlength="50" class="form-control" required id="id_nombre" placeholder="Nombre Marca"
                     value="">
+                    {% if form.nombre.errors %}
+                    {% for error in form.nombre.errors %}
+                    <span class="font-bold col-red text-danger" style="font-size: 12px;">{{ error|escape }}</span>
+                    {% endfor %}
+                    {% endif %}
                   </div>
               </div>
               <div class="col-md-3 " style="margin-top: 30px;">
@@ -25,6 +31,8 @@
       </div>
   </div>
 </form>
-
+{% block js_page %}
+{% include 'base/partial/script.html' %}
+{% endblock js_page %}
 {% endblock llenar %}
     

@@ -158,6 +158,9 @@ STATIC_URL = "/static/"
 # directorio de donde van a estar alojados los archivos estaticos y donde buscarlos
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
+# Trabajar en miles
+USE_THOUSAND_SEPARATOR = False
+
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = "/media/"
 

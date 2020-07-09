@@ -38,20 +38,20 @@
           <div class="col-lg-7">
             <div class="p-5">
               <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">¡Registro de Cliente!</h1>
+                <h1 class="h4 text-gray-900 mb-4">Registro de Cliente</h1>
               </div>
               <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
                 {% csrf_token %}
                 <div class="form-group">
 
 
-                  {% render_field form.rut type="text" name="rut" class="form-control form-control-user" placeholder="Ingrese su RUT"  %}
+                  {% render_field form.rut type="text" name="rut" class="form-control form-control-user" placeholder="Ingrese su Rut"  %}
 
                 </div>
 
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    {% render_field form.first_name type="text" name="first_name" class="form-control form-control-user" placeholder="Ingrese su Nombre"  %}
+                    {% render_field form.first_name type="text" name="first_name" class="form-control form-control-user" placeholder="Ingrese su nombre"  %}
                   </div>
                   <div class="col-sm-6">
                     {% render_field form.last_name type="text" name="last_name" class="form-control form-control-user" placeholder="Ingrese sus apellidos"  %}
@@ -59,15 +59,15 @@
                 </div>
 
                 <div class="form-group">
-                  {% render_field form.celular type="number" name="celular" maxlength="150" class="form-control form-control-user" placeholder="Ingrese su celular..."  %}
+                  {% render_field form.celular type="number" name="celular" maxlength="150" class="form-control form-control-user" placeholder="Ingrese su celular"  %}
                 </div>
 
                 <div class="form-group">
-                  {% render_field form.email type="email" name="email" maxlength="150" class="form-control form-control-user" placeholder="Ingrese su Email..."  %}
+                  {% render_field form.email type="email" name="email" maxlength="150" class="form-control form-control-user" placeholder="Ingrese su E-mail"  %}
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    {% render_field form.password1 class="form-control form-control-user" type="password" name="password1"  placeholder="Ingrese su contraseña..." %}
+                    {% render_field form.password1 class="form-control form-control-user" type="password" name="password1"  placeholder="Ingrese su contraseña" %}
                   </div>
                   <div class="col-sm-6">
                     {% render_field form.password2 class="form-control form-control-user" type="password" name="password2"  placeholder="Repita su contraseña" %}
@@ -120,7 +120,7 @@
                 <a class="small" href="{% url 'account_reset_password' %}">¿Perdiste tu contraseña?</a>
               </div>
               <div class="text-center">
-                <a class="small" href="{% url 'account_login' %}">Regresar al inicio de sesión!</a>
+                <a class="small" href="{% url 'account_login' %}">Regresar al inicio de sesión</a>
               </div>
             </div>
           </div>

@@ -48,9 +48,6 @@ class TipoProducto(ClaseModelo):
     )
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     Nombre = models.CharField(max_length=50, help_text="Nombre de la categoria")
-    Descripcion = models.CharField(
-        max_length=100, help_text="Descripcion de la categoria", unique=True
-    )
     Um = models.CharField("unidad de medida", max_length=1, choices=UNIT_CHOICES,)
 
     def __str__(self):
@@ -81,7 +78,7 @@ class Marca(ClaseModelo):
 
 
 class Producto(ClaseModelo):
-    Nombre = models.CharField(max_length=40, blank=False, help_text="Nombre de producto")
+    Nombre = models.CharField(max_length=40, blank=False, help_text="Nombre de producto" )
     codigo = models.IntegerField(primary_key=True)
     precio = models.FloatField(default=0)
     descripcion = models.CharField(max_length=100, help_text="Descripcion de productos", default="descripcion")

@@ -6,6 +6,7 @@
 
 
 <form class="p-4" role="form" method="POST" class="form-inline">{% csrf_token %}
+    {% include 'base/partial/erroreditar.html' %}
     <div class="card border-left-primary shadow h-100 py-2">
         <div class="card-header" style="font-size: 30px;">Editar usuario</div>
         <div class="card-body ">
@@ -107,4 +108,7 @@
     </div>
 {% endif %}
 
+{% block js_page %}
+{% include 'base/partial/script.html' %}
+{% endblock js_page %}
 {% endblock llenar %}   

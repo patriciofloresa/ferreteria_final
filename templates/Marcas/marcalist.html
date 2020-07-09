@@ -24,7 +24,7 @@ Lista
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             {% if not marca %}
-            <div class="alert alert-info"> No Hay Marcas</div>
+            <div class="alert alert-info"> No hay marcas que mostrar</div>
             {% else %}
         </div>
         <div class="card-body">
@@ -34,8 +34,8 @@ Lista
                         <tr>
                             <th>Id</th>
                             <th>Nombre</th>
-                            <th>Fecha_Creada</th>
-                            <th>Fecha_Modificada</th>
+                            <th>Fecha de Creación</th>
+                            <th>Fecha de Modificación</th>
                             <th class="all">Acciones</th>
                         </tr>
                     </thead>
@@ -60,7 +60,7 @@ Lista
                     <form  action="{% url 'prod:deletetodomarca' %}" method="POST">{% csrf_token %}
                         <button type="submit" class="btn btn-danger">
                             <i class="far fa-trash-alt"></i>
-                            <span>Limpiar Todo</span>
+                            <span>Limpiar todo</span>
                         </button>
                     </form>
                 </div>

@@ -14,13 +14,21 @@ class CategoriaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({"class": "form-control"})
+    
+    #Validacion del Nombre
+    def clean_Nombre(self):
+        Nombre= self.cleaned_data['Nombre']
+        if not Nombre.isalpha():
+            print('Nombre',Nombre)
+            raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
+        return Nombre
 
 
 # Definimos El forms De tipo de Producto
 class TipoProductoForm(forms.ModelForm):
     class Meta:
         model = TipoProducto
-        fields = ["categoria", "Nombre", "Descripcion", "Um"]
+        fields = ["categoria", "Nombre", "Um"]
         labels = {"nombre": "Nombre de producto"}
         widget = {"Nombre": forms.TextInput}
 
@@ -32,12 +40,25 @@ class TipoProductoForm(forms.ModelForm):
         self.fields["Nombre"].widget.attrs.update(
             {"placeholder": " Nombre del tipo de Producto"}
         )
-        self.fields["Descripcion"].widget.attrs.update(
-            {"placeholder": " Descripcion Producto"}
-        )
         self.fields["Um"].widget.attrs.update(
             {"placeholder": " Ingrese Unidad de medida"}
         )
+
+    #Validacion de categoria
+    def clean_categoria(self):
+        categoria =self.cleaned_data['categoria']
+        if categoria == '':
+            raise forms.ValidationError("No puede estar el campo Vacio")
+        return categoria
+
+    def clean_Nombre(self):
+        Nombre =self.cleaned_data['Nombre']
+        if not Nombre.isalpha():
+            print('Nombre',Nombre)
+            raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
+        return Nombre
+#Validamos el tipo de producto
+
 
 
 # Definimos El forms de producto
@@ -59,7 +80,6 @@ class ProductoForms(forms.ModelForm):
             "Categoria",
             "TipoProducto",
         ]
-        widget = {"Nombre": forms.TextInput()}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -77,9 +97,57 @@ class ProductoForms(forms.ModelForm):
             )
             self.fields["color"].widget.attrs.update({"placeholder": "Ingrese color"})
             self.fields["imagen"].widget.attrs.update({"id": "ImagenTxt"})
+
+#Validacion de codigo
+    def clean_codigo(self):
+            codigo =self.cleaned_data['codigo']
+            if codigo <= 0:
+                raise forms.ValidationError("No puede ingresar un valor igual o inferior a 0")
+                return codigo
+            else:
+                return codigo
+      
+#Validacion del stock
+    def clean_stock(self):
+        stock =self.cleaned_data['stock']
+        if stock <= 0:
+            raise forms.ValidationError("No puede ingresar un valor igual o inferior a 0")
+            return stock
+        else:
+            return stock
+
+#Validacion del precio
+    def clean_precio(self):
+        precio =self.cleaned_data['precio']
+        if precio <= 0:
+            raise forms.ValidationError("No puede ingresar un valor igual o inferior a 0")
+            return precio
+        else:
+            return precio
+
+#Validacion de Nombre 
+    def clean_Nombre(self):
+        Nombre =self.cleaned_data['Nombre']
+        if not Nombre.isalpha():
+            raise forms.ValidationError("No se puede ingresar un dato de valor Numerico")
+        return Nombre
+
+#Validacion de color
+    def clean_color(self):
+        color=self.cleaned_data['color']
+        if not color.isalpha():
+            raise forms.ValidationError("No se puede ingresar un dato de valor Numerico")
+        return color
+    
+#Validacion de descripcion
+    def clean_descripcion(self):
+        descripcion=self.cleaned_data['descripcion']
+        if not descripcion.isalpha():
+            raise forms.ValidationError("No se puede ingresar un dato de valor Numerico")
+        return descripcion
+
+
 # Realizamos el formulario de Marca
-
-
 class MarcaForm(forms.ModelForm):
     class Meta:
         model = Marca
@@ -91,6 +159,14 @@ class MarcaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({"class": "form-control"})
+            
+    def clean_nombre(self):
+        nombre= self.cleaned_data['nombre']
+        if not nombre.isalpha():
+            raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
+        return nombre
+    
+    
 
 
 

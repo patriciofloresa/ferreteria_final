@@ -47,7 +47,7 @@
                   </div>
                   <form class="login" method="POST" action="{% url 'account_login' %}">{% csrf_token %}            
                     <div class="form-group">
-                      {% render_field form.login type="text" aria-describedby="emailHelp" maxlength="150" class="form-control form-control-user" placeholder="Ingrese su Email..."  %}
+                      {% render_field form.login type="text" aria-describedby="emailHelp" maxlength="150" class="form-control form-control-user" placeholder="Ingrese su Email"  %}
                     </div>
 
                     <div class="form-group">
@@ -78,21 +78,21 @@
                     <hr>
 
                     <a href="{% provider_login_url 'google' %}" class="btn btn-google btn-user btn-block">
-                      <i class="fab fa-google fa-fw"></i> Iniciar Sesión Google
+                      <i class="fab fa-google fa-fw"></i> Iniciar Sesión con Google
                     </a>
 
 
                     <a href="{% provider_login_url 'facebook' %}" method="oauth2"
                       class="btn btn-facebook btn-user btn-block">
-                      <i class="fab fa-facebook-f fa-fw"></i> Iniciar Sesión Facebook
+                      <i class="fab fa-facebook-f fa-fw"></i> Iniciar Sesión con Facebook
                     </a>
                   </form>
                   <hr>
                   <div class="text-center">
-                    <a class="" href="{% url 'account_reset_password' %}"> Perdio su contraseña?</a>
+                    <a class="" href="{% url 'account_reset_password' %}">¿Perdió su contraseña?</a>
                   </div>
                   <div class="text-center">
-                    <a class="" href="{% url 'account_signup' %}">Registrate!</a>
+                    <a class="" href="{% url 'account_signup' %}">Registrate</a>
                   </div>
 
                 </div>

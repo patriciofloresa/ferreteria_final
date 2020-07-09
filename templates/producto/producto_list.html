@@ -10,17 +10,17 @@ Lista
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"></div>
-    <h1 class="h3 mb-2 text-gray-800">Listado de Productos</h1>
+    <h1 class="h3 mb-2 text-gray-800">Listado de productos</h1>
     <div class="row">
         <div class="col-4">
-            <a class="btn btn-primary" href="{% url 'prod:producto_new' %}"><i class="far fa-calendar-plus"></i> Nuevo Producto</a>
+            <a class="btn btn-primary" href="{% url 'prod:producto_new' %}"><i class="far fa-calendar-plus"></i> Nuevo producto</a>
         </div>
     </div>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             {% if not product %}
-            <div class="alert alert-info"> No Hay Productos</div>
+            <div class="alert alert-info"> No hay productos que mostrar</div>
             {% else %}
         </div>
         <div class="card-body">
@@ -28,13 +28,13 @@ Lista
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="15">
                     <thead>
                         <tr>
-                            <th>Codigo</th>
+                            <th>Código</th>
                             <th>Nombre</th>
                             <th>Tipo_Producto</th>
                             <th>Id_proveedor</th>
                             <th>Stock</th>
                             <th>Precio</th>
-                            <th>Descripcion</th>
+                            <th>Descripción</th>
                             <th>Marca</th>
                             <th>Color</th>
                             <th>Fecha_Modificada</th>
@@ -68,7 +68,7 @@ Lista
                     <form  action="{% url 'prod:productodeletetodo' %}" method="POST">{% csrf_token %}
                         <button type="submit" class="btn btn-danger">
                             <i class="far fa-trash-alt"></i>
-                            <span>Limpiar Todo</span>
+                            <span>Limpiar todo</span>
                         </button>
                     </form>
                 </div>

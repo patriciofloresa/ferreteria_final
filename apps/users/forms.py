@@ -70,6 +70,20 @@ class RegistrarEmpleado(UserCreationForm):
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({"class": "form-control"})
 
+#Validacion de Nombre
+    def clean_first_name(self):
+        first_name= self.cleaned_data['first_name']
+        if not first_name.isalpha():
+            raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
+        return first_name
+
+#Validacion De apellido
+    def clean_last_name(self):
+        last_name= self.cleaned_data['last_name']
+        if not last_name.isalpha():
+            raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
+        return last_name
+
 class EditarEmpleado(forms.ModelForm):
 
     class Meta:

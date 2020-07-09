@@ -10,10 +10,10 @@ Tipo Producto
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Listado de TipoProducto</h1>
+    <h1 class="h3 mb-2 text-gray-800">Listado de Tipos de Producto</h1>
     <div class="row">
         <div class="col-4">
-            <a class="btn btn-primary" href="{% url 'prod:tipoproducto_new' %}"><i class="fas fa-plus"></i>Nuevo Tipo Producto</a>
+            <a class="btn btn-primary" href="{% url 'prod:tipoproducto_new' %}"><i class="fas fa-plus"></i>Nuevo Tipo de Producto</a>
         </div>
  
     </div>
@@ -22,7 +22,7 @@ Tipo Producto
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             {% if not obj %}
-            <div class="alert alert-info"> No hay TipoProducto</div>
+            <div class="alert alert-info"> No hay Tipos de Producto que mostrar</div>
             {% else %}
         </div>
         <div class="card-body">
@@ -30,12 +30,11 @@ Tipo Producto
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Categoria</th>
+                            <th>Categoría</th>
                             <th>Nombre</th>
-                            <th>Descipcion</th>
-                            <th>Fecha_Creada</th>
-                            <th>Fecha_Modificada</th>
-                            <th>Unidad_de_Medida</th>
+                            <th>Fecha de creación</th>
+                            <th>Fecha de modificación</th>
+                            <th>Unidad de Medida</th>
                             <th class="all">Acciones</th>
                         </tr>
                     </thead>
@@ -44,7 +43,6 @@ Tipo Producto
                         <tr>
                             <td>{{ item.categoria }}</td>
                             <td>{{ item.Nombre }}</td>
-                            <td>{{ item.Descripcion }}</td>
                             <td>{{ item.fc|date:"d/m/Y H:i:s" }}</td>
                             <td>{{ item.fm|date:"d/m/Y H:i:s" }}</td>
                             <td>{{ item.Um }}</td>
@@ -62,7 +60,7 @@ Tipo Producto
                     <form  action="{% url 'prod:deletetodotipoproducto' %}" method="POST">{% csrf_token %}
                         <button type="submit" class="btn btn-danger">
                             <i class="far fa-trash-alt"></i>
-                            <span>Limpiar Todo</span>
+                            <span>Limpiar todo</span>
                         </button>
                     </form>
                 </div>

@@ -4,6 +4,7 @@
 {% block llenar %}
 <form class="p-4" role="form" method="POST" class="form-inline">
   {% csrf_token %}
+  {% include 'base/partial/error.html' %}
   <div class="card border-left-success shadow h-100 py-2">
     <div class="card-header" style="font-size: 30px;">Nueva Categoria</div>
     <div class="card-body">
@@ -13,6 +14,11 @@
             <label class="text-dark font-weight-bold" for="id_nombre">Nombre</label>
             <input type="text" name="Nombre" maxlength="50" class="form-control" required id="id_nombre"
               placeholder="Nombre Categoria" value="">
+              {% if form.Nombre.errors %}
+              {% for error in form.Nombre.errors %}
+              <span class="font-bold col-red text-danger" style="font-size: 12px;">{{ error|escape }}</span>
+              {% endfor %}
+              {% endif %}
           </div>
         </div>
         <div class="col-md-3 " style="margin-top: 30px;">
@@ -26,4 +32,7 @@
     </div>
   </div>
 </form>
+{% block js_page %}
+{% include 'base/partial/script.html' %}
+{% endblock js_page %}
 {% endblock llenar %}

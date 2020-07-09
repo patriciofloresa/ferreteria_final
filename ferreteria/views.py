@@ -1,6 +1,9 @@
 from apps.producto.models import Categoria, Producto
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
+from django.shortcuts import render
+
+
 
 
 class ListaCategorias(ListView):
@@ -59,3 +62,5 @@ class DetailViewProducto(DetailView):
         categoryall = Categoria.objects.all()
         context["cat"] = categoryall
         return context
+
+

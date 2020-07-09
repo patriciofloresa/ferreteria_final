@@ -17,7 +17,7 @@ Including another URLconf
 from apps.users.views import *
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
+from django.contrib import admin    
 from django.urls import include, path
 from django.views.generic import TemplateView
 from ferreteria.views import DetailViewProducto, ListaCategorias, ListarCategorias
@@ -37,6 +37,7 @@ urlpatterns = [
     path("", ListaCategorias.as_view(), name="inicio"),
     path("ListarCategoria/edit/<int:pk>", ListarCategorias.as_view(), name="Listar_categorias"),
     path("Detalleproducto/<int:pk>", DetailViewProducto.as_view(), name="Detalle_Producto"),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -4,29 +4,29 @@
 {% block llenar %}
 
 <form class="p-4" role="form" method="POST" class="form-inline">{% csrf_token %}
+  {% include 'base/partial/erroreditar.html' %}
   <div class="card border-left-warning shadow h-100 py-2">
-    <div class="card-header" style="font-size: 30px;">Editar Tipo Producto</div>
+    <div class="card-header" style="font-size: 30px;">Editar tipo de producto</div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
-            <label class="text-dark font-weight-bold"> Categoria</label>
+            <label class="text-dark font-weight-bold"> Categoría</label>
             {{ form.categoria}}
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
             <label class="text-dark font-weight-bold">Nombre</label>
             {{ form.Nombre}}
+            {% if form.Nombre.errors %}
+            {% for error in form.Nombre.errors %}
+            <span class="font-bold col-red text-danger" style="font-size: 12px;">{{ error|escape }}</span>
+            {% endfor %}
+            {% endif %}
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="text-dark font-weight-bold">Descripcion</label>
-            {{ form.Descripcion}}
-          </div>
-        </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
             <label class="text-dark font-weight-bold">Unidad de Medida</label>
             {{ form.Um}}
@@ -44,4 +44,7 @@
     </div>
   </div>
 </form>
+{% block js_page %}
+{% include 'base/partial/script.html' %}
+{% endblock js_page %}
 {% endblock llenar %}

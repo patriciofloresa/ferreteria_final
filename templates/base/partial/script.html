@@ -1,0 +1,15 @@
+<script>
+    {% if form.errors %}
+    var errors = '';
+    {% for field in form %}
+    {% for error in field.errors %}
+    errors += '{{error}}\n';
+    {% endfor %}
+    {% endfor %}
+    Swal.fire(
+        'ERROR!',
+        'Verificar los datos ingresados',
+        'error'
+    )
+    {% endif %}
+</script>

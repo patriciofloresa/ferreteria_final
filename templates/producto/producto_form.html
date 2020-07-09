@@ -2,27 +2,38 @@
 
 
 {% block llenar %}
-<form class="p-4" role="form" method="POST" class="form-inline" enctype="multipart/form-data" >
+<form class="p-4" role="form" method="POST" class="form-inline" enctype="multipart/form-data">
     {% csrf_token %}
+    {% include 'base/partial/error.html' %}
     <div class="card border-left-success shadow h-100 py-2">
-        <div class="card-header" style="font-size: 30px;">Nuevo Producto</div>
+        <div class="card-header" style="font-size: 30px;">Nuevo producto</div>
         <div class="card-body ">
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="text-dark font-weight-bold" for="id_nombre">Nombre</label>
                         {{ form.Nombre }}
+                        {% if form.Nombre.errors %}
+                        {% for error in form.Nombre.errors %}
+                        <span class="font-bold col-red text-danger" style="font-size: 12px;">{{ error|escape }}</span>
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="text-dark font-weight-bold" for="id_codigo">Codigo</label>
+                        <label class="text-dark font-weight-bold" for="id_codigo">Código</label>
                         {{ form.codigo }}
+                        {% if form.codigo.errors %}
+                        {% for error in form.codigo.errors %}
+                        <span class="font-bold col-red text-danger" style="font-size: 12px;">{{ error|escape }}</span>
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="text-dark font-weight-bold" for="id_categoria">Categoria</label>
+                        <label class="text-dark font-weight-bold" for="id_categoria">Categoría</label>
                         {{ form.Categoria }}
                     </div>
                 </div>
@@ -30,7 +41,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="text-dark font-weight-bold" for="id_tipoproducto">Tipo Producto</label>
+                        <label class="text-dark font-weight-bold" for="id_tipoproducto">Tipo de producto</label>
                         {{ form.TipoProducto }}
                     </div>
                 </div>
@@ -44,6 +55,11 @@
                     <div class="form-group">
                         <label class="text-dark font-weight-bold" for="id_precio">Precio</label>
                         {{ form.precio }}
+                        {% if form.precio.errors %}
+                        {% for error in form.precio.errors %}
+                        <span class="font-bold col-red text-danger" style="font-size: 12px;">{{ error|escape }}</span>
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -58,6 +74,11 @@
                     <div class="form-group">
                         <label class="text-dark font-weight-bold" for="id_stock">Stock</label>
                         {{ form.stock }}
+                        {% if form.stock.errors %}
+                        {% for error in form.stock.errors %}
+                        <span class="font-bold col-red text-danger" style="font-size: 12px;">{{ error|escape }}</span>
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -70,14 +91,25 @@
                     <div class="form-group">
                         <label class="text-dark font-weight-bold" for="id_color">Color</label>
                         {{ form.color }}
+                        {% if form.color.errors %}
+                        {% for error in form.color.errors %}
+                        <span class="font-bold col-red text-danger" style="font-size: 12px;">{{ error|escape }}</span>
+                        {% endfor %}
+                        {% endif %}
+                            
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="text-dark font-weight-bold" for="id_descripcion">Descripcion</label>
+                        <label class="text-dark font-weight-bold" for="id_descripcion">Descripción</label>
                         {{form.descripcion}}
+                        {% if form.descripcion.errors %}
+                        {% for error in form.descripcion.errors %}
+                        <span class="font-bold col-red text-danger" style="font-size: 12px;">{{ error|escape }}</span>
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-4 " style="margin-top: 30px;">
@@ -95,4 +127,10 @@
 
 </form>
 
+{% block js_page %}
+{% include 'base/partial/script.html' %}
+<script>
+    
+</script>
+{% endblock js_page %}
 {% endblock llenar %}

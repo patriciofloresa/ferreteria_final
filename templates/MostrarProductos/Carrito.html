@@ -15,7 +15,7 @@
             <thead>
             <tr>
                 <th scope="col">Usuario</th>
-                <th scope="col">imagen</th>
+                <th scope="col">Imagen</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Precio</th>
                 <th scope="col">Cantidad</th>
@@ -50,7 +50,7 @@
                 <tr>
                     <td colspan="7">
                         <div style="margin-top: 50px;">
-                            <h1 class="text-center ">No tienes Productos en el carrito <i
+                            <h1 class="text-center ">No tienes productos en el carro de compra <i
                                     class="movimiento fas fa-shopping-cart fa-4x container  "
                                     style="color: #D3D3D3;"> </i></h1>
                         </div>
@@ -59,106 +59,107 @@
             {% endfor %}
             </tbody>
         </table>
-        {% for det in carrito.detalles.all %}
-        <div class="form-row">
-            <div class="col-md-3 offset-9">
-                <form action="{% url 'prod:deleteall' %}" method="POST">{% csrf_token %}
-                    <button type="submit" class="btn btn-danger">
-                        <i class="far fa-trash-alt"></i>
-                        <span>Limpiar Todo</span>
-                    </button>
-                </form>
-            </div>
-        </div>
-        
-        <form class="form" action="" method="POST">
-        {% csrf_token %}
-        <div class="form-row">
-            <div class="col-md-3">
-                <h5><b>Tipo de despacho:</b></h5>
-            </div>
-            <div class="col-md-4">
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="despacho_tienda" name="tipo_despacho" class="custom-control-input" value="TIENDA" checked="checked" >
-                    <label class="custom-control-label" for="despacho_tienda">Recojo en tienda</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="despacho_domicilio" name="tipo_despacho" class="custom-control-input" value="DOMICILIO">
-                    <label class="custom-control-label" for="despacho_domicilio">Despacho a domicilio</label>
-                </div>
-            </div>
 
-
-        </div>
-        <hr>
-        <h4 >Datos personales</h4>
-        <div class="form-row">
-            <div class="col-md-3 mb-3">
-                <label for="state">Tipo de documento</label>
-                <select class="custom-select d-block w-100" id="tipo_documento" name="tipo_documento" required>
-                  <option value="BOLETA">BOLETA</option>
-                  <option value="FACTURA">FACTURA</option>
-                </select>
-              </div>
-            <div class="col-md-3 mb-3">
-                <label for="id_cli_rut">RUT</label> <span class="required">*</span>
-                <input type="text" class="form-control" id="id_cli_rut" name="cli_rut" value="{{ user.rut }}" autocomplete="off">
-            </div>
-            <div class="col-md-3 mb-3">
-                <label for="id_cli_nombres" id="txt_nombres">Nombres</label> <span class="required">*</span>
-                <input type="text" class="form-control" id="id_cli_nombres" name="cli_nombres" value="{{ user.first_name }}" autocomplete="off">
-            </div>
-            <div class="col-md-3 mb-3" id="datos_apellidos">
-                <label for="id_cli_apellidos">Apellidos</label> <span class="required">*</span>
-                <input type="text" class="form-control" id="id_cli_apellidos" name="cli_apellidos" value="{{ user.last_name }}" autocomplete="off">
-            </div>
-        </div>
-        <div class="form-row" id="div_datos_empresa">
-            <div class="col-md-12 mb-3">
-                <label for="id_cli_empresa">Empresa</label> <span class="required">*</span>
-                <input type="text" class="form-control" id="id_cli_empresa" name="cli_empresa" value="" autocomplete="off">
-            </div>
-        </div>
-        <h4 id="titulo_despacho_domicilio">Dirección del despacho</h4>
-        <div class="form-row" id="div_datos_despacho">
-            <div class="col-md-12 mb-3">
-                <label for="id_direccion">Direccion</label> <span class="required">*</span>
-                <input type="text" class="form-control" id="id_direccion" name="direccion" value="" autocomplete="off">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label for="id_ciudad">Ciudad</label> <span class="required">*</span>
-                <input type="text" class="form-control" id="id_ciudad" name="ciudad" value="" autocomplete="off">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label for="id_comuna">Comuna</label> <span class="required">*</span>
-                <input type="text" class="form-control" id="id_comuna" name="comuna" value="" autocomplete="off">
-            </div>
-        </div>
-
-        <hr>
+        {% if carrito.detalles.all %}
             <div class="form-row">
-                <div class="col-md-4 offset-8">
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (USD)</span>
-                        <strong>$ {{ carrito.get_total }}</strong>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-4 offset-8">
-                    <hr class="mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Pagar</button>
+                <div class="col-md-3 offset-9">
+                    <form action="{% url 'prod:deleteall' %}" method="POST">{% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="far fa-trash-alt"></i>
+                            <span>Limpiar Carrito</span>
+                        </button>
+                    </form>
                 </div>
             </div>
-        
-        </form>
-        {% endfor %}
+            
+            <form class="form" action="" method="POST">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-3">
+                    <h5><b>Tipo de despacho:</b></h5>
+                </div>
+                <div class="col-md-4">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="despacho_tienda" name="tipo_despacho" class="custom-control-input" value="TIENDA" checked="checked" >
+                        <label class="custom-control-label" for="despacho_tienda">Recojo en tienda</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="despacho_domicilio" name="tipo_despacho" class="custom-control-input" value="DOMICILIO">
+                        <label class="custom-control-label" for="despacho_domicilio">Despacho a domicilio</label>
+                    </div>
+                </div>
+
+
+            </div>
+            <hr>
+            <h4 >Datos personales</h4>
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label for="state">Tipo de documento</label>
+                    <select class="custom-select d-block w-100" id="tipo_documento" name="tipo_documento" required>
+                        <option value="BOLETA">Boleta</option>
+                        <option value="FACTURA">Factura</option>
+                    </select>
+                    </div>
+                <div class="col-md-3 mb-3">
+                    <label for="id_cli_rut">Rut</label> <span class="required">*</span>
+                    <input type="text" class="form-control" id="id_cli_rut" name="cli_rut" value="{{ user.rut }}" autocomplete="off">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="id_cli_nombres" id="txt_nombres">Nombres</label> <span class="required">*</span>
+                    <input type="text" class="form-control" id="id_cli_nombres" name="cli_nombres" value="{{ user.first_name }}" autocomplete="off">
+                </div>
+                <div class="col-md-3 mb-3" id="datos_apellidos">
+                    <label for="id_cli_apellidos">Apellidos</label> <span class="required">*</span>
+                    <input type="text" class="form-control" id="id_cli_apellidos" name="cli_apellidos" value="{{ user.last_name }}" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-row" id="div_datos_empresa">
+                <div class="col-md-12 mb-3">
+                    <label for="id_cli_empresa">Empresa</label> <span class="required">*</span>
+                    <input type="text" class="form-control" id="id_cli_empresa" name="cli_empresa" value="" autocomplete="off">
+                </div>
+            </div>
+            <h4 id="titulo_despacho_domicilio">Dirección del despacho</h4>
+            <div class="form-row" id="div_datos_despacho">
+                <div class="col-md-12 mb-3">
+                    <label for="id_direccion">Dirección</label> <span class="required">*</span>
+                    <input type="text" class="form-control" id="id_direccion" name="direccion" value="" autocomplete="off">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="id_ciudad">Ciudad</label> <span class="required">*</span>
+                    <input type="text" class="form-control" id="id_ciudad" name="ciudad" value="" autocomplete="off">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="id_comuna">Comuna</label> <span class="required">*</span>
+                    <input type="text" class="form-control" id="id_comuna" name="comuna" value="" autocomplete="off">
+                </div>
+            </div>
+
+            <hr>
+                <div class="form-row">
+                    <div class="col-md-4 offset-8">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between">
+                            <span>Total (USD)</span>
+                            <strong>$ {{ carrito.get_total }}</strong>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 offset-8">
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Pagar</button>
+                    </div>
+                </div>
+            
+            </form>
+        {% endif %}
 
         <div class="clearfix"></div>
     </div>
 
 
-    {% include 'includes/footer.html' %}
+    
 {% endblock cuerpo %}
 
 {% block custom_js %}
@@ -237,4 +238,5 @@
 
     </script>
 
+{% include 'includes/footer.html' %}
 {% endblock %}

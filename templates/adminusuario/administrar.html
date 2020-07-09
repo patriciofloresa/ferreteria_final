@@ -9,9 +9,11 @@ Administrar Usuarios
 <div class="col-lg-12">
     <div class="card-header py-3">
         {% if not usuarios %}
-        <div class="alert alert-info"> No Hay Usuarios</div>
+        <div class="alert alert-info">No hay usuarios</div>
         {% else %}
-        <h5 class="font-weight-bold">Usuarios Actualmente Registrados</h5>
+        <h5 class="font-weight-bold">Usuarios actualmente registrados</h5>
+        
+    
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -36,11 +38,11 @@ Administrar Usuarios
                             <td>{{ item.rut }}</td>
                             <td>{{ item.cargo }}</td>
                             <td>{{ item.is_active }}</td>
-                            <td>
-                                <a href="{% url 'user:editar_usuario' item.pk %}" class="btn btn-warning btn-circle"
+                            <td class="align-item-center">
+                                
+                                    <a href="{% url 'user:editar_usuario' item.pk %}" class="btn btn-warning btn-circle"
                                     role="button"><i class="far fa-edit"></i></a>
-                                <a href="{% url 'user:eliminar_usuario' item.pk %}" class="btn btn-warning btn-danger"
-                                    role="button"><i class="far fa-trash-alt"></i></a>
+                                                             
                             </td>
                         </tr>
                     {% endfor %}

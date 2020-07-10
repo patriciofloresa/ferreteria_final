@@ -114,12 +114,12 @@ WSGI_APPLICATION = "ferreteria.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "development.sqlite3",
-        "USER": "",
-        "PASSWORD": "",
-        "HOST": "",
-        "PORT": "",
+        "ENGINE": "django.db.backends.oracle",
+        "NAME": "orcl",
+        "USER": "it3",
+        "PASSWORD": "it3",
+        "HOST": "localhost",
+        "PORT": "1521",
     },
 }
 

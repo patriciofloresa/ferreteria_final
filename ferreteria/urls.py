@@ -24,19 +24,19 @@ from ferreteria.views import DetailViewProducto, ListaCategorias, ListarCategori
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("home/", include("apps.dashboard.urls")),
-    path("home/abastecimiento/", include("apps.abastecimiento.urls")),
+    # path("home/", include("apps.dashboard.urls")),
+    # path("home/abastecimiento/", include("apps.abastecimiento.urls")),
 
-    path("accounts/", include("allauth.urls")),
-    path("prod/", include("apps.producto.urls")),
-    path("user/", include("apps.users.urls")),
-    path("cmp/", include("apps.cmp.urls")),
+    # path("accounts/", include("allauth.urls")),
+    # path("prod/", include("apps.producto.urls")),
+    # path("user/", include("apps.users.urls")),
+    # path("cmp/", include("apps.cmp.urls")),
 
-    path("redireccion/", TemplateView.as_view(template_name="redireccion.html"), name="redirect"),
+    # path("redireccion/", TemplateView.as_view(template_name="redireccion.html"), name="redirect"),
 
-    path("", ListaCategorias.as_view(), name="inicio"),
-    path("ListarCategoria/edit/<int:pk>", ListarCategorias.as_view(), name="Listar_categorias"),
-    path("Detalleproducto/<int:pk>", DetailViewProducto.as_view(), name="Detalle_Producto"),
+    # path("", ListaCategorias.as_view(), name="inicio"),
+    # path("ListarCategoria/edit/<int:pk>", ListarCategorias.as_view(), name="Listar_categorias"),
+    # path("Detalleproducto/<int:pk>", DetailViewProducto.as_view(), name="Detalle_Producto"),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -80,7 +80,7 @@ class Marca(ClaseModelo):
 class Producto(ClaseModelo):
     Nombre = models.CharField(max_length=40, blank=False, help_text="Nombre de producto" )
     codigo = models.IntegerField(primary_key=True)
-    precio = models.IntegerField(default=0)
+    precio = models.FloatField(default=0)
     descripcion = models.CharField(max_length=100, help_text="Descripcion de productos", default="descripcion")
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     color = models.CharField(max_length=20, help_text="Color del producto", null=True, blank=True)
@@ -112,15 +112,15 @@ class Producto(ClaseModelo):
             except Exception as e:
                 print("Error : {}".format(str(e)))
 
-    def limit_stock(self):
-        item=self.stock
-        item=int(item)
-        if (item <= 25):
-            return 1
-        if (item <= 60):
-            return 2
-        if (item >= 61 ):
-            return 3
+    # def limit_stock(self):
+    #     item=self.stock
+    #     item=int(item)
+    #     if (item <= 25):
+    #         return 1
+    #     if (item <= 60):
+    #         return 2
+    #     if (item >= 61 ):   
+    #         return 3
 
 
 class Carrito(models.Model):

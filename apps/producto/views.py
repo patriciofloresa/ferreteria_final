@@ -264,6 +264,7 @@ class ListCarritoView(UpdateView):
                     venta_actual.precio = carrito.monto_total
                     venta_actual.estado = 'PAGADO'
                     venta_actual.save()
+                    venta_actual.actualiza_stock()
                     self.request.session["carritopk"] = None
                     obj_products=[{i.producto.Nombre:i.get_precio_parcial()} 
                         for i in CarritoProducto.objects.filter(carrito=self.obj_carrito)]
@@ -275,7 +276,7 @@ class ListCarritoView(UpdateView):
                             texto += f"precio: %s \n"%str(v)
                     texto += "\n Total: "+ str(carrito.get_total())
                     print(texto)
-                    send_mail(f"Compra Exitosa en ferreteria ferme ","Detalles de compra: \n"+texto, "efrenoscar6@gmail.com",[usuario.email], fail_silently=True)
+                    send_mail(f"Compra Exitosa en ferreteria ferme ","Gracias por preferirnos, a continuación se mostrará su detalles de compra: \n"+texto, "efrenoscar6@gmail.com",[usuario.email], fail_silently=True)
                     return super().form_valid(form)
                 else:
                     return self.form_invalid(form)
@@ -284,7 +285,7 @@ class ListCarritoView(UpdateView):
             messages.warning(self.request, 'Ocurrió un error vuelva a intentarlo : {}'.format(e))
 
     def get_success_url(self):
-        messages.success(self.request, 'Gracias por su compra. Un comprobante ha sido enviado a su correo')
+        messages.success(self.request, 'Gracias por su compra')
         return reverse('inicio', kwargs={})
 
 

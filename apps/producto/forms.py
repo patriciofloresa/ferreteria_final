@@ -16,12 +16,12 @@ class CategoriaForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({"class": "form-control"})
     
     #Validacion del Nombre
-    def clean_Nombre(self):
-        Nombre= self.cleaned_data['Nombre']
-        if not Nombre.isalpha():
-            print('Nombre',Nombre)
-            raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
-        return Nombre
+    # def clean_Nombre(self):
+    #     Nombre= self.cleaned_data['Nombre']
+    #     if not Nombre.isalpha():
+    #         print('Nombre',Nombre)
+    #         raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
+    #     return Nombre
 
 
 # Definimos El forms De tipo de Producto
@@ -51,12 +51,12 @@ class TipoProductoForm(forms.ModelForm):
             raise forms.ValidationError("No puede estar el campo Vacio")
         return categoria
 
-    def clean_Nombre(self):
-        Nombre =self.cleaned_data['Nombre']
-        if not Nombre.isalpha():
-            print('Nombre',Nombre)
-            raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
-        return Nombre
+    # def clean_Nombre(self):
+    #     Nombre =self.cleaned_data['Nombre']
+    #     if not Nombre.isalpha():
+    #         print('Nombre',Nombre)
+    #         raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
+    #     return Nombre
 #Validamos el tipo de producto
 
 
@@ -126,25 +126,25 @@ class ProductoForms(forms.ModelForm):
             return precio
 
 #Validacion de Nombre 
-    def clean_Nombre(self):
-        Nombre =self.cleaned_data['Nombre']
-        if not Nombre.isalpha():
-            raise forms.ValidationError("No se puede ingresar un dato de valor Numerico")
-        return Nombre
+    # def clean_Nombre(self):
+    #     Nombre =self.cleaned_data['Nombre']
+    #     if not Nombre.isalpha():
+    #         raise forms.ValidationError("No se puede ingresar un dato de valor Numerico")
+    #     return Nombre
 
 #Validacion de color
-    def clean_color(self):
-        color=self.cleaned_data['color']
-        if not color.isalpha():
-            raise forms.ValidationError("No se puede ingresar un dato de valor Numerico")
-        return color
+    # def clean_color(self):
+    #     color=self.cleaned_data['color']
+    #     if not color.isalpha():
+    #         raise forms.ValidationError("No se puede ingresar un dato de valor Numerico")
+    #     return color
     
 #Validacion de descripcion
-    def clean_descripcion(self):
-        descripcion=self.cleaned_data['descripcion']
-        if not descripcion.isalpha():
-            raise forms.ValidationError("No se puede ingresar un dato de valor Numerico")
-        return descripcion
+    # def clean_descripcion(self):
+    #     descripcion=self.cleaned_data['descripcion']
+    #     if not descripcion.isalpha():
+    #         raise forms.ValidationError("No se puede ingresar un dato de valor Numerico")
+    #     return descripcion
 
 
 # Realizamos el formulario de Marca
@@ -160,11 +160,11 @@ class MarcaForm(forms.ModelForm):
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({"class": "form-control"})
             
-    def clean_nombre(self):
-        nombre= self.cleaned_data['nombre']
-        if not nombre.isalpha():
-            raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
-        return nombre
+    # def clean_nombre(self):
+    #     nombre= self.cleaned_data['nombre']
+    #     if not nombre.isalpha():
+    #         raise forms.ValidationError("No se puede ingresar un tipo de valor Numerico")
+    #     return nombre
     
     
 

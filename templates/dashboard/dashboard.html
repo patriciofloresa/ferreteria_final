@@ -62,7 +62,7 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Precio maximmo
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Venta máximma
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ precio_maximo }}</div>
                     </div>
@@ -73,7 +73,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Pending Requests Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-warning shadow h-100 py-2">
@@ -81,7 +81,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            Precio minimo
+                            Venta mínima
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ precio_minimo }}</div>
                     </div>
@@ -94,8 +94,11 @@
     </div>
 </div>
 
-<div class="col-lg-12" id="container">
-</div>
+<div class="col-lg-12 mr-2" id="container"></div>
+<br>
+<div class="col-lg-12 mr-2" id="porcentaje_container"></div>
+
+
 {% block js_page %}
 <script>    
     Highcharts.chart('container', {
@@ -104,6 +107,13 @@
     },
     title: {
         text: 'Ventas Anuales'
+    },
+    plotOptions: {
+        series: {
+            animation: {
+                duration: 2000
+            }
+        }
     },
     xAxis: {
         categories: [
@@ -131,7 +141,7 @@
     tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f}$</b></td></tr>',
+            '<td style="padding:0"><b>{point.y}$</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true
@@ -145,10 +155,81 @@
     series: [{
         name: 'Total de ventas por mes',
         data: {{ reporte_ventas_mensual|safe }}
-    }]
-});
+    },{
+        name: 'Venta Mínima',
+        data: {{ reporte_venta_minima_mensual|safe }},
+        visible: false
+    },{
+        name: 'Venta Máxima',
+        data: {{ reporte_venta_maxima_mensual|safe }},
+        visible: false
+    }
+    
+    ]    
+    });
+</script>
 
-  </script>  
+<script>    
+    Highcharts.chart('porcentaje_container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Ventas Anuales'
+        },
+        xAxis: {
+            categories: [
+                'Enero', 
+                'Febrero',
+                'Marzo',
+                'Abril',
+                'Mayo',
+                'Junio',
+                'Julio',
+                'Agosto',
+                'Septiembre',
+                'Octubre',
+                'Noviembre',
+                'Diciembre'
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Cantidad Objetos'
+            }
+        },
+         plotOptions: {
+        series: {
+            animation: {
+                duration: 2000
+                }
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}$</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+        name: {{ nombre_categoria }},
+        data: [54]        
+        }
+    ]
+    
+    });
+</script>  
+
 {% endblock js_page %}
 
 {% endblock %}

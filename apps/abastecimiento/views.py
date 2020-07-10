@@ -130,11 +130,11 @@ class PedidoAddView(CreateView):
                               'subtotal': lista_subtotal[index],
                             })
                         index += 1
-
+        
                     # guardamos la cabecera
                     form.instance.usuario = usuario
                     form.save()
-
+                    
                     # guardamos detalles
                     self.crear_detalles_pedido(form.instance, list_items)
 

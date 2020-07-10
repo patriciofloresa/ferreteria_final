@@ -4,6 +4,7 @@ from django.db.models import Q, Sum, Count, Max, Min
 from django.db.models.functions import Coalesce 
 from django.db import connection
 from apps.cmp.models import venta
+from apps.producto.models import Categoria
 from django.shortcuts import render
 #datetime para conesuir el año actual
 from datetime import datetime
@@ -26,16 +27,43 @@ class DashboardView(LoginRequiredMixin, TemplateView):
              data = [0]
         return data
 
-    #Obtenemos el reporte de ventas 
-    def get_reporte_porcentaje_por_categoria(self):
-        data = []
+    def get_reporte_venta_minima_mensual(self):
+        data = []   
         try:
-            year = datetime.now().year
+            year = datetime.now().year               
             for m in range(1,13):
-                cant_objeto = venta.objects.filter(fc__year = year, fc__month = m, ) 
+                total = venta.objects.filter(fc__year = year, fc__month = m).aggregate(r=Coalesce(Min('precio'),0)).get('r')
                 data.append(total)
-        except: 
-            pass
+        except:
+             data = [0]
+        return data    
+
+    def get_reporte_venta_maxima_mensual(self):
+        data = []   
+        try:
+            year = datetime.now().year               
+            for m in range(1,13):
+                total = venta.objects.filter(fc__year = year, fc__month = m).aggregate(r=Coalesce(Max('precio'),0)).get('r')
+                data.append(total)
+        except:
+             data = [0]
+        return data
+    #Obtenemos el reporte de ventas y comparamos su valor en %
+    def get_cantidad_por_categoria(self):
+        data = [1]
+        # try:
+        #     item = venta.objects.all()
+        #     for item in venta
+        #         total= 
+        # except: 
+        #     pass
+        return data
+    
+    def get_nombre_categoria(self):
+        data = []
+        for nombre in Categoria.objects.values_list('Nombre'):
+            categoria = Categoria.objects.values('Nombre').aggregate()
+            data.append(categoria)
         return data
 
     #Obtenemos valor total de las ventas en el mes con el framework de django
@@ -81,8 +109,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['reporte_ventas_mensual'] = self.get_reporte_ventas_mensual()
-        context['reporte_porcentaje_por_categoria'] = self.get_reporte_porcentaje_por_categoria()
-        context.update({            
+        context['cantidad_por_categoria'] = self.get_cantidad_por_categoria()
+        context['nombre_categoria'] = self.get_nombre_categoria()
+        context.update({  
+            'reporte_venta_minima_mensual': self.get_reporte_venta_minima_mensual(),
+            'reporte_venta_maxima_mensual': self.get_reporte_venta_maxima_mensual(),         
             'monto_total_ventas': self.busca_monto_total_ventas(),
             'cant_total_ventas': self.busca_cant_total_ventas(),
             'precio_maximo': self.busca_precio_maximo(),

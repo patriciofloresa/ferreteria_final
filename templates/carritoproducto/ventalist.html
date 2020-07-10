@@ -64,7 +64,7 @@ Lista
                                 <!-- <a href="{% url 'prod:categoria_edit' item.id%}" class="btn btn-warning btn-circle" -->
                                 <button onclick="abrir_modal_venta('{% url 'cmp:detailventa' item.pk %}')"
                                     class="btn btn-warning btn-circle" role="button"><i
-                                        class="fas fa-print"></i></button>
+                                        class="fas fa-eye"></i></button>
                                 {% if item.estado == 'BORRADOR' %}
                                 <a  href="{% url 'cmp:ventadelete' item.pk %}" id="botoneliminar" class="btn btn-warning btn-danger"
                                     role="button"><i class="far fa-trash-alt"></i></a>

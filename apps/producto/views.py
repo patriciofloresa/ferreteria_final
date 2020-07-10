@@ -159,6 +159,8 @@ class ProductoView(LoginRequiredMixin, ListView):
     template_name = "producto/producto_list.html"
     context_object_name = "product"
     login_url = "/accounts/login/"
+        
+
 
 
 class ProductoNew(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
@@ -168,6 +170,9 @@ class ProductoNew(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     form_class = ProductoForms
     success_url = reverse_lazy("prod:producto_list")
     login_url = "/accounts/login/"
+
+    
+
 
 
 class ProductoEditar(LoginRequiredMixin, UpdateView):
@@ -279,7 +284,7 @@ class ListCarritoView(UpdateView):
             messages.warning(self.request, 'Ocurrió un error vuelva a intentarlo : {}'.format(e))
 
     def get_success_url(self):
-        messages.success(self.request, 'Gracias por su compra')
+        messages.success(self.request, 'Gracias por su compra. Un comprobante ha sido enviado a su correo')
         return reverse('inicio', kwargs={})
 
 

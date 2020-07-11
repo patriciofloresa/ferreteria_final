@@ -58,9 +58,9 @@ urlpatterns = [
     path("Producto/Delete/<str:pk>", ProductoDelete.as_view(), name="Producto_delete"),
     path("Productodeletetodo", deletetodoProducto.as_view(), name="productodeletetodo"),
     # Urls Carrito
-    path("update/<int:pk>/", update_carrito, name="updatecarrito"),
-    path("añadircarrito/<int:idproducto>/", views.añadircarrito, name="carrito"),
-    path("detallecarrito/<int:pk>/", ListCarritoView.as_view(), name="detallecarrito"),
-    path("removercarrito/<int:pk>/", delete_cart_shopping, name="removercarrito"),
+    path("update/<str:pk>/", update_carrito, name="updatecarrito"),
+    path("añadircarrito/<str:idproducto>/", views.añadircarrito, name="carrito"),
+    path("detallecarrito/<str:pk>/", ListCarritoView.as_view(), name="detallecarrito"),
+    path("removercarrito/<str:pk>/", delete_cart_shopping, name="removercarrito"),
     path("deleteall/", deletetodocarrito.as_view(), name="deleteall"),
 ]

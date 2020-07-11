@@ -35,8 +35,8 @@ urlpatterns = [
     path("redireccion/", TemplateView.as_view(template_name="redireccion.html"), name="redirect"),
 
     path("", ListaCategorias.as_view(), name="inicio"),
-    path("ListarCategoria/edit/<int:pk>", ListarCategorias.as_view(), name="Listar_categorias"),
-    path("Detalleproducto/<int:pk>", DetailViewProducto.as_view(), name="Detalle_Producto"),
+    path("ListarCategoria/edit/<str:pk>", ListarCategorias.as_view(), name="Listar_categorias"),
+    path("Detalleproducto/<str:pk>", DetailViewProducto.as_view(), name="Detalle_Producto"),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

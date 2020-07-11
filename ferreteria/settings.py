@@ -116,8 +116,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.oracle",
         "NAME": "orcl",
-        "USER": "it3",
-        "PASSWORD": "it3",
+        "USER": "it",
+        "PASSWORD": "it",
         "HOST": "localhost",
         "PORT": "1521",
     },

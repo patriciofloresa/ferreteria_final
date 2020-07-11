@@ -98,14 +98,14 @@ class ProductoForms(forms.ModelForm):
             self.fields["color"].widget.attrs.update({"placeholder": "Ingrese color"})
             self.fields["imagen"].widget.attrs.update({"id": "ImagenTxt"})
 
-#Validacion de codigo
-    def clean_codigo(self):
-            codigo =self.cleaned_data['codigo']
-            if codigo <= 0:
-                raise forms.ValidationError("No puede ingresar un valor igual o inferior a 0")
-                return codigo
-            else:
-                return codigo
+# #Validacion de codigo
+#     def clean_codigo(self):
+#             codigo =self.cleaned_data['codigo']
+#             if codigo <= 0:
+#                 raise forms.ValidationError("No puede ingresar un valor igual o inferior a 0")
+#                 return codigo
+#             else:
+#                 return codigo
       
 #Validacion del stock
     def clean_stock(self):

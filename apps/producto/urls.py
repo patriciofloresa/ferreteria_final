@@ -54,8 +54,8 @@ urlpatterns = [
     # Urls Productos.
     path("Producto/list", ProductoView.as_view(), name="producto_list"),
     path("Producto/new", ProductoNew.as_view(), name="producto_new"),
-    path("Producto/edit/<int:pk>", ProductoEditar.as_view(), name="Producto_edit"),
-    path("Producto/Delete/<int:pk>", ProductoDelete.as_view(), name="Producto_delete"),
+    path("Producto/edit/<str:pk>", ProductoEditar.as_view(), name="Producto_edit"),
+    path("Producto/Delete/<str:pk>", ProductoDelete.as_view(), name="Producto_delete"),
     path("Productodeletetodo", deletetodoProducto.as_view(), name="productodeletetodo"),
     # Urls Carrito
     path("update/<int:pk>/", update_carrito, name="updatecarrito"),

@@ -93,9 +93,7 @@
         </div>
     </div>
 </div>
-<div> {{ nombre_max_mensual|safe }} nombre aca </div>
-<div> {{ mes_max_mensual|safe }} mes aca </div>
-<div> {{ cant_max_mensual|safe }} cant aca </div>
+<div> {{ datos }} datos</div>
 <div class="col-lg-12" id="container">
 </div>
 <br>
@@ -105,6 +103,22 @@
 <div class="col-lg-12" id="grafico3">
 </div>
 {% block js_page %}
+
+<script>
+
+    dats = JSON.parse({{ datos }})
+    var n = [];
+    var m = [];
+    for (var key in dats) {
+    if (dats.hasOwnProperty(key)) {
+      n.push(dats[key]);
+      m.push(dats[key])
+      console.log(n);
+      console.log(m);
+    }
+}
+</script>
+
 <script>    
     Highcharts.chart('container', {
     chart: {
@@ -236,41 +250,29 @@
     });
 </script>  
 
-</div>
-
 <script>
 
-    nombres = JSON.parse('{{ nombre_max_mensual|safe }}');
-    var nombre_it = [];
-    for (var i in nombres){
-        nombre_it.push(nombres[i]);
-    }
-    datos = JSON.parse('{{ cant_max_mensual|safe }}');
-    var valor_it = [];
-    for (var i in datos){
-        valor_it.push(datos[i]);
-    }
     Highcharts.chart('grafico3', {
     chart: {
         type: 'column'
     },
     title: {
-        text: 'Venta Maxima por mes y diferencia del mes anterior'
+        text: 'Productos más vendidos en el mes'
     },
     xAxis: {
-        categories: nombre_it,
+        categories: ['nombre aca'],
         crosshair: true
     },
     yAxis: {
         min: 0,
         title: {
-            text: 'Valor de Ventas en $'
+            text: 'Cantidad de productos mas vendidos'
         }
     },
     tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y}$</b></td></tr>',
+            '<td style="padding:0"><b>{point.y}</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true
@@ -289,8 +291,8 @@
     series: 
     [
         {
-            name: ['Maximo Vendido'],
-            data: valor_it
+            name: ['cantidad'],
+            data: [1]
         }
     ]
     });

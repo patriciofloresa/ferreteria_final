@@ -159,8 +159,6 @@ class ProductoView(LoginRequiredMixin, ListView):
     template_name = "producto/producto_list.html"
     context_object_name = "product"
     login_url = "/accounts/login/"
-        
-
 
 
 class ProductoNew(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
@@ -170,9 +168,6 @@ class ProductoNew(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     form_class = ProductoForms
     success_url = reverse_lazy("prod:producto_list")
     login_url = "/accounts/login/"
-
-    
-
 
 
 class ProductoEditar(LoginRequiredMixin, UpdateView):
@@ -195,13 +190,26 @@ class ProductoDelete(LoginRequiredMixin, DeleteView):
 def añadircarrito(request, idproducto):
     cantidad = int(request.POST["cantidad"])
     try:
+        obj_producto = Producto.objects.get(pk=idproducto)
+    except Exception as e:
+        print(e)
+        messages.warning(request, 'Ocurrió un error al buscar el producto : {}'.format(e))
+        return redirect("inicio")
+
+    stock_actual = obj_producto.stock
+    if cantidad < 1 or cantidad > stock_actual:
+        messages.warning(request, 'Ocurrió un problema con la cantidad ingresada del producto')
+        return redirect("Detalle_Producto", pk=idproducto)
+
+    try:
         carrito = Carrito.objects.get(usuario=request.user, estatus="open")
-    except:
+    except Exception as e:
+        print(e)
         carrito = Carrito.objects.create(usuario=request.user)
         request.session["carritopk"] = carrito.pk
 
     carrito_producto, creado = CarritoProducto.objects.get_or_create(
-        producto=Producto.objects.get(pk=idproducto), carrito=carrito
+        producto=obj_producto, carrito=carrito
     )
     carrito_producto.cantidad = carrito_producto.cantidad + cantidad
     carrito_producto.save()
@@ -230,6 +238,21 @@ class ListCarritoView(UpdateView):
                 if form.is_valid():
                     carrito = form.save(commit=False)
 
+                    texto_detalle_compra = ''
+
+                    # validamos el stock disponible
+                    for car in CarritoProducto.objects.filter(carrito=self.obj_carrito):
+                        stock_actual = car.producto.stock
+                        cant_pedida = car.cantidad
+                        if cant_pedida > stock_actual:
+                            desc_prod = car.producto.Nombre
+                            msj = "Stock INSUFICIENTE - Producto: {} | stock disponible: {}".format(
+                                desc_prod, stock_actual)
+                            messages.warning(self.request, msj)
+                            return self.form_invalid(form)
+                        texto_detalle_compra += '\nProducto: {} | '.format(car.producto.Nombre)
+                        texto_detalle_compra += 'Precio: {}'.format(car.get_precio_parcial())
+
                     # obtener el usuario logueado
                     usuario = self.request.user
                     tipo_despacho = form.data['tipo_despacho']
@@ -246,7 +269,6 @@ class ListCarritoView(UpdateView):
                     carrito.estatus = "pagado"
                     carrito.monto_total = carrito.get_total()
                     carrito.save()
-
 
                     # creamos la venta
                     venta_actual = venta.objects.filter(carrito=self.obj_carrito, estado='PENDIENTE').last()
@@ -266,17 +288,10 @@ class ListCarritoView(UpdateView):
                     venta_actual.save()
                     venta_actual.actualiza_stock()
                     self.request.session["carritopk"] = None
-                    obj_products=[{i.producto.Nombre:i.get_precio_parcial()} 
-                        for i in CarritoProducto.objects.filter(carrito=self.obj_carrito)]
-                    print(obj_products)
-                    texto = ''
-                    for obj in obj_products:
-                        for k, v in obj.items():
-                            texto += f"producto: %s  - "%k
-                            texto += f"precio: %s \n"%str(v)
-                    texto += "\n Total: "+ str(carrito.get_total())
-                    print(texto)
-                    send_mail(f"Compra Exitosa en ferreteria ferme ","Gracias por preferirnos, a continuación se mostrará su detalles de compra: \n"+texto, "efrenoscar6@gmail.com",[usuario.email], fail_silently=True)
+
+                    # envio del email
+                    texto_detalle_compra += "\n Total: " + str(carrito.get_total())
+                    self.envio_email_al_usuario(usuario, texto_detalle_compra)
                     return super().form_valid(form)
                 else:
                     return self.form_invalid(form)
@@ -287,6 +302,20 @@ class ListCarritoView(UpdateView):
     def get_success_url(self):
         messages.success(self.request, 'Gracias por su compra')
         return reverse('inicio', kwargs={})
+
+    def envio_email_al_usuario(self, usuario, texto_detalle_compra):
+        subject = "Compra Exitosa en ferreteria ferme "
+        mensaje = "Gracias por preferirnos, a continuación se mostrará su detalles de compra: \n"
+        mensaje += texto_detalle_compra
+        email_origen = "efrenoscar6@gmail.com"
+        email_destino = [usuario.email]
+        send_mail(
+            subject,
+            mensaje,
+            email_origen,
+            email_destino,
+            fail_silently=True
+        )
 
 
 # Elimina todo de un carrito
@@ -346,8 +375,6 @@ class UpdateCarrito(UpdateView):
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.form_invalid(form)
-    
 
-    
 
 update_carrito = UpdateCarrito.as_view()

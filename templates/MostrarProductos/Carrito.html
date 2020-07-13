@@ -103,7 +103,7 @@
                     </div>
                 <div class="col-md-3 mb-3">
                     <label for="id_cli_rut">Rut</label> <span class="required">*</span>
-                    <input type="text" class="form-control" id="id_cli_rut" name="cli_rut" value="{{ user.rut }}" autocomplete="off">
+                    <input type="text" class="form-control" id="id_cli_rut" name="cli_rut" value="{{ user.rut|default_if_none:'' }}" autocomplete="off">
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="id_cli_nombres" id="txt_nombres">Nombres</label> <span class="required">*</span>
@@ -126,13 +126,13 @@
                     <label for="id_direccion">Dirección</label> <span class="required">*</span>
                     <input type="text" class="form-control" id="id_direccion" name="direccion" value="" autocomplete="off">
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="id_ciudad">Ciudad</label> <span class="required">*</span>
-                    <input type="text" class="form-control" id="id_ciudad" name="ciudad" value="" autocomplete="off">
+                    <select id="id_ciudad"  name="ciudad" class="form-control"></select>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="id_comuna">Comuna</label> <span class="required">*</span>
-                    <input type="text" class="form-control" id="id_comuna" name="comuna" value="" autocomplete="off">
+                    <select id="id_comuna" name="comuna" class="form-control"></select>
                 </div>
             </div>
 
@@ -163,6 +163,7 @@
 {% endblock cuerpo %}
 
 {% block custom_js %}
+    <script src="{% static 'js/detalle_producto.js' %}"></script>
     <script>
         $(document).ready(function() {
             inicializarCampos();
@@ -171,6 +172,8 @@
                 if (opcSeleccionada == 'TIENDA'){
                     ocultarDespachoDomicilio();
                     retirarCamposDespachoRequeridos();
+                    $("#id_ciudad").prop("selectedIndex",0);
+                    $("#id_comuna").prop("selectedIndex",0);
                 }else{
                     mostrarDespachoDomicilio();
                     agregarCamposDespachoRequeridos();

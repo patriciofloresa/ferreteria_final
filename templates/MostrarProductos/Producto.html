@@ -13,35 +13,42 @@
         <div class="col" >              
             <div class="card " style="width: 18rem;"  >
                 {% if p.imagen %}
-                <img src="{{p.imagen.url}}" class="card-img-top" alt="imagen">
+                    <img src="{{p.imagen.url}}" class="card-img-top" alt="imagen">
                 {% else %}
-               <img src="{% static 'img/1.png' %}" class="card-img-top" height="290"  alt="Sin imagen">
+                    <img src="{% static 'img/1.png' %}" class="img-thumbnail" height="255"  alt="Sin imagen">
                 {% endif %}
-                <div class="card-body bg-dark">
+                <div class="card-body bg-dark bg_action_item">
                     <div class="row">
                         <div class="col-12">
-                            <h1 class="card-title text-white text-center">{{p.Nombre}}</h1>
+                            <h4 class="card-title text-white text-center">{{p.Nombre}}</h4>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h6 class="text-white">Precio</h6>
-                            <p class="card-text text-white">{{p.precio}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <h6 class="text-white">Stock</h6>
-                        </div>
-                        <div class="col-5">
-                            <p class="card-text text-white ">{{p.stock}}</p>
-                        </div>
-                    </div>
-                    <div class="row mt-8">
+
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                          <div>
+                            <h6 class="my-0">Precio</h6>
+                          </div>
+                          <span class="text-muted">$ {{p.precio}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-light">
+                          <div>
+                            <h6 class="my-0">Stock</h6>
+                          </div>
+                          <span class="text-muted">{{ p.stock }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    {% if p.stock > 0 %}
                         <div class="col-12 mt-3">
                             <a href="{% url 'Detalle_Producto' p.pk %}" class="btn btn-primary">Ver detalle</a>
                         </div>
-                    </div>
+                    {% else %}
+                        <div class="alert alert-danger" role="alert">
+                            <p class="text-center text-danger  font-weight-bold" style="margin-bottom: 0px;">AGOTADO</p>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

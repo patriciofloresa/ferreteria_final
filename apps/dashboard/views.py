@@ -25,6 +25,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['cant_max_mensual'] = self.get_cant_max_mensual()
         context['nombre_max_mensual'] = self.get_nombre_max_mensual()
         context['mes_max_mensual'] = self.get_mes_max_mensual()
+        context['datos'] = self.get_datos()
         # context['nombre_categoria']    = self.get_nombre_categoria()
         context['monto_total_ventas'] = self.busca_monto_total_ventas()
         context.update({  
@@ -109,19 +110,19 @@ class DashboardView(LoginRequiredMixin, TemplateView):
      
     def get_cant_max_mensual(self):
         qs = """
-            select  venta_maxima from (       
-                    select extract(month from cmp_venta.fc)as mes,producto_producto.nombre as nombre, max(producto_carritoproducto.cantidad) as venta_maxima
+            select venta_maxima from (       
+                    select cmp_venta.fc as mes,producto_producto.nombre as nombre, max(producto_carritoproducto.cantidad) as venta_maxima
                     from 
                     cmp_venta,producto_carritoproducto,producto_producto, producto_categoria pc
                     where  cmp_venta.carrito_id =producto_carritoproducto.carrito_id 
                     and producto_producto.codigo = producto_carritoproducto.producto_id
                     and pc.id = producto_producto.Categoria_id 
-                    group by extract(month from cmp_venta.fc), producto_producto.nombre
+                    group by cmp_venta.fc, producto_producto.nombre
                     order by sum(producto_carritoproducto.cantidad) desc
                     )
             where rownum <13
-            group by nombre, venta_maxima, mes
-            order by mes desc,venta_maxima desc
+            and extract(month from mes) = extract(month from sysdate)
+            order by venta_maxima desc
             """
         cursor.execute(qs)
         item = cursor.fetchall()
@@ -129,20 +130,19 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_nombre_max_mensual(self):
         qs = """
-        
             select  nombre from (       
-                    select extract(month from cmp_venta.fc)as mes,producto_producto.nombre as nombre, max(producto_carritoproducto.cantidad) as venta_maxima
+                    select cmp_venta.fc as mes,producto_producto.nombre as nombre, max(producto_carritoproducto.cantidad) as venta_maxima
                     from 
                     cmp_venta,producto_carritoproducto,producto_producto, producto_categoria pc
                     where  cmp_venta.carrito_id =producto_carritoproducto.carrito_id 
                     and producto_producto.codigo = producto_carritoproducto.producto_id
                     and pc.id = producto_producto.Categoria_id 
-                    group by extract(month from cmp_venta.fc), producto_producto.nombre
+                    group by cmp_venta.fc, producto_producto.nombre
                     order by sum(producto_carritoproducto.cantidad) desc
                     )
             where rownum <13
-            group by nombre, venta_maxima, mes
-            order by mes desc,venta_maxima desc
+            and extract(month from mes) = extract(month from sysdate)
+            order by venta_maxima desc
             """
         cursor.execute(qs)
         item = cursor.fetchall()
@@ -186,20 +186,38 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     
     def get_mes_max_mensual(self):
         qs = """
-            select  mes from (       
-                    select extract(month from cmp_venta.fc)as mes,producto_producto.nombre as nombre, max(producto_carritoproducto.cantidad) as venta_maxima
+            select  to_char(mes,'dd-mm-yyyy')as mes from (       
+                    select cmp_venta.fc as mes,producto_producto.nombre as nombre, max(producto_carritoproducto.cantidad) as venta_maxima
                     from 
                     cmp_venta,producto_carritoproducto,producto_producto, producto_categoria pc
                     where  cmp_venta.carrito_id =producto_carritoproducto.carrito_id 
                     and producto_producto.codigo = producto_carritoproducto.producto_id
                     and pc.id = producto_producto.Categoria_id 
-                    group by extract(month from cmp_venta.fc), producto_producto.nombre
+                    group by cmp_venta.fc, producto_producto.nombre
                     order by sum(producto_carritoproducto.cantidad) desc
                     )
             where rownum <13
-            group by nombre, venta_maxima, mes
-            order by mes desc,venta_maxima desc
-            """
+            and extract(month from mes) = extract(month from sysdate)
+            order by venta_maxima desc
+            """ 
+        cursor.execute(qs)
+        item = cursor.fetchall()
+        return json.dumps(item)
+
+    def get_datos(self):
+        qs = """
+            select distinct nombre, max(cant)from ( select p.nombre nombre, p.codigo codigo, max(producto_carritoproducto.cantidad) cant,TO_CHAR(cmp_venta.fc, 'mm/yyyy') mes
+                    from 
+                    cmp_venta,producto_carritoproducto,producto_producto p, producto_categoria pc
+                    where  cmp_venta.carrito_id =producto_carritoproducto.carrito_id 
+                    and p.codigo = producto_carritoproducto.producto_id
+                    and pc.id = p.Categoria_id
+                    group by p.codigo, cmp_venta.fc, p.nombre
+                    having extract (month from cmp_venta.fc) = extract(month from sysdate) and extract (year from cmp_venta.fc) = extract(year from sysdate)
+                    order by sum(producto_carritoproducto.cantidad) desc
+                    )
+                    group by codigo, nombre, mes
+            """ 
         cursor.execute(qs)
         item = cursor.fetchall()
         return json.dumps(item)    

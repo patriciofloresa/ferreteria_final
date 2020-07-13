@@ -8,11 +8,11 @@
 <div class="row mt-5 detalle ">  
     {% if object.imagen %}
     <div class="col-6 ">
-        <img  src="{{object.imagen.url}}" width="500" height="600" class="mx-auto d-block ">
+        <img  src="{{object.imagen.url}}" class="img-thumbnail rounded img-fluid" style=" display:block; margin:auto; margin-top: 2%;">
     </div>
     {% else %}
     <div class="col-6">
-        <img src="{% static 'img/1.png' %}" width="500" height="600" class="mx-auto d-block" alt="Sin imagen">
+        <img src="{% static 'img/1.png' %}" width="500" height="600" class="mx-auto d-block" alt="Sin imagen" >
     </div>
     {% endif %}   
     <div class="col-5 bg-white "  >
@@ -37,19 +37,19 @@
             <h4 class="font-weight-normal" style="text-decoration:underline;">Color</h4>
             {{object.color}}
         </p>
-        <p>
-            <h4 class="font-weight-normal" style="text-decoration:underline;">Color</h4>
-            {{object.Nombre}}
-        </p>
-        {% if request.user.is_authenticated %}
+        {% if request.user.is_authenticated  %}
+            {% if object.stock > 0   %}
+                
         <div class="row">
-            <form class="ml-3" action="/prod/añadircarrito/{{object.pk}}/" method="post"> {% csrf_token %}
-                    <label  for="">cantidad</label>
-                    <input type="number" name="cantidad" value="1" >   
-                    <button class="btn btn-warning" type="submit">Añadir carrito</button>
-                    <i class="fas fa-shopping-cart fa-3x text-warning"></i>
+            <form class="ml-3" action="/prod/añadircarrito/{{object.pk}}/" method="post" id="formulario">
+                {% csrf_token %}
+                <label  for="">cantidad</label>
+                <input type="number" name="cantidad" id="id_cantidad" value="1" >
+                <button class="btn btn-warning" type="submit" id="btn_enviar">Añadir carrito</button>
+                <i class="fas fa-shopping-cart fa-3x text-warning"></i>
             </form>       
         </div>
+           {% endif %}
         {% else %}
         <div class="row">
             <p>Debes <a href="http://127.0.0.1:8000/accounts/login/">iniciar sesión</a> para comprar en nuestro sitio web</p> 
@@ -58,10 +58,44 @@
     </div>
 </div>
 
-
-
-
-
-
 {% include 'includes/footer.html' %}
 {% endblock cuerpo %}
+
+
+{% block custom_js %}
+    <script>
+        let stockActual = parseInt({{ object.stock }});
+        let $btnEnviar = $("#btn_enviar");
+        let $campoCantidad = $("#id_cantidad");
+
+        $(document).ready(function () {
+            $("#formulario").on('change', '#id_cantidad', function (e) {
+                let cantIngresada = $campoCantidad.val();
+                validarCantidadStock(stockActual, cantIngresada);
+            });
+
+        });
+
+        function inicializarCampos() {
+            $btnEnviar.addClass("hide");
+        }
+
+        function validarCantidadStock(stockActual, cantIngresada) {
+            if (cantIngresada <= 0){
+                $campoCantidad.val("0");
+                $btnEnviar.addClass("hide");
+                Swal.fire("La cantidad ingresada debe ser mayor de cero");
+            }
+            else if (cantIngresada > stockActual){
+                $campoCantidad.val("0");
+                $btnEnviar.addClass("hide");
+                Swal.fire("La cantidad ingresada es mayor al stock disponible");
+            }else {
+                $btnEnviar.removeClass("hide");
+            }
+        }
+
+    </script>
+
+
+{% endblock %}

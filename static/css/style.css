@@ -44,3 +44,4 @@
 .hide { display: none; }
 .bloqueado {background-color: #5c5f63; color: #3d3e47;}
 span.required {font-size: 1.1em !important; color: red !important;}
+.bg_action_item { background-color: #6c757d !important; }

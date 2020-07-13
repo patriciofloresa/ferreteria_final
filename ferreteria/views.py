@@ -45,7 +45,7 @@ class ListarCategorias(ListView):
         return cate
 
     def get_context_data(self, **kwargs):
-        context = super(ListarCategorias, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context_object_name = "cat"
         categoryall = Categoria.objects.all()
         context["cat"] = categoryall

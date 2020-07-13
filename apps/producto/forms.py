@@ -119,7 +119,7 @@ class ProductoForms(forms.ModelForm):
 #Validacion del precio
     def clean_precio(self):
         precio =self.cleaned_data['precio']
-        if precio <= 0:
+        if precio <= 0 or precio == "":
             raise forms.ValidationError("No puede ingresar un valor igual o inferior a 0")
             return precio
         else:

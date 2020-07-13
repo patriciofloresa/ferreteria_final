@@ -7,21 +7,6 @@ from django.db import models
 import json
 import requests
  
-class Mindicador:
- 
-    def __init__(self, indicador, year):
-        self.indicador = indicador
-        self.year = year
-    
-    def InfoApi(self):
-        # En este caso hacemos la solicitud para el caso de consulta de un indicador en un año determinado
-        url = f'https://mindicador.cl/api/{uf}/{2020}'
-        response = requests.get(url)
-        data = json.loads(response.text.encode("utf-8"))
-        # Para que el json se vea ordenado, retornar pretty_json
-        pretty_json = json.dumps(data, indent=2)
-        return data
-
 # Creamos la clase categoria
 class Categoria(ClaseModelo):
     Nombre = models.CharField(
@@ -112,15 +97,15 @@ class Producto(ClaseModelo):
             except Exception as e:
                 print("Error : {}".format(str(e)))
 
-    # def limit_stock(self):
-    #     item=self.stock
-    #     item=int(item)
-    #     if (item <= 25):
-    #         return 1
-    #     if (item <= 60):
-    #         return 2
-    #     if (item >= 61 ):   
-    #         return 3
+    def limit_stock(self):
+        item=self.stock
+        item=int(item)
+        if (item <= 25):
+            return 1
+        if (item <= 60):
+            return 2
+        if (item >= 61 ):   
+            return 3
 
 
 class Carrito(models.Model):

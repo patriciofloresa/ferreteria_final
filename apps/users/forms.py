@@ -21,8 +21,6 @@ class CoreSignupForm(SignupForm):
         user.celular = self.cleaned_data["celular"]
         user.cargo = "Cliente"
         user.save()
-        group = Group.objects.get(name="Cliente")
-        user.groups.add(group)
         return user
 
     def clean_rut(self):
